@@ -1,11 +1,13 @@
 package dominos.controller;
 
+import dominos.exceptions.BadRequestException;
 import dominos.model.dto.EditRequestUserDTO;
 import dominos.model.dto.EditResponseUserDTO;
 import dominos.model.dto.LoginUserDTO;
 import dominos.model.dto.RegisterRequestUserDTO;
 import dominos.model.dto.RegisterResponseUserDTO;
 import dominos.model.dto.UserWithoutPasswordDTO;
+import dominos.model.pojo.User;
 import dominos.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,6 +20,9 @@ public class UserController extends AbstractController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private SessionManager sessionManager;
 
     @PutMapping("/users")
     public RegisterResponseUserDTO register(@RequestBody RegisterRequestUserDTO userDTO) {
@@ -32,7 +37,12 @@ public class UserController extends AbstractController {
     }
 
     @PostMapping("/users/{id}")
-    public EditResponseUserDTO edit (@RequestBody EditRequestUserDTO userDTO, @PathVariable int id){
-       return userService.editUser(userDTO, id);
+    public EditResponseUserDTO edit (@RequestBody EditRequestUserDTO userDTO, HttpSession session, @PathVariable int id){
+        User loggedUser = sessionManager.getLoggedUser(session);
+        if(loggedUser.getId() != id){
+            throw new BadRequestException("You cannot edit the profile of another user!");
+        }
+
+        return userService.editUser(userDTO, id);
     }
 }

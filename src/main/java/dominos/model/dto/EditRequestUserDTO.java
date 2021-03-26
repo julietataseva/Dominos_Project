@@ -10,7 +10,6 @@ import org.springframework.stereotype.Component;
 @NoArgsConstructor
 @Component
 public class EditRequestUserDTO {
-    private int id;
     private String firstName;
     private String lastName;
     private String email;
