@@ -1,5 +1,6 @@
 package dominos.service;
 
+import dominos.model.dto.EditResponseUserDTO;
 import dominos.exceptions.AuthenticationException;
 import dominos.model.dto.LoginUserDTO;
 import dominos.model.dto.RegisterRequestUserDTO;
@@ -41,7 +42,11 @@ public class UserService {
         RegisterResponseUserDTO responseUserDTO = new RegisterResponseUserDTO(user);
         return responseUserDTO;
     }
-<<<<<<< HEAD
+
+    public EditResponseUserDTO editUser(int id) {
+        //todo
+        return null;
+    }
 
     public UserWithoutPasswordDTO login(LoginUserDTO loginUserDTO) {
         User user = userRepository.findByEmail(loginUserDTO.getEmail());
@@ -56,66 +61,4 @@ public class UserService {
             }
         }
     }
-
-    /*
-    public List<UserWithoutPassDTO> getAllUsers() {
-        List<User> users = userRepository.findAll();
-        List<UserWithoutPassDTO> returnUsers = new ArrayList<>();
-        for(User u : users){
-            returnUsers.add(new UserWithoutPassDTO(u));
-        }
-        return returnUsers;
-    }
-
-    public UserWithoutPassDTO getUserById(int id) {
-        Optional<User> schrodingerUser = userRepository.findById(id);
-        if(schrodingerUser.isPresent()){
-            return new UserWithoutPassDTO(schrodingerUser.get());
-        }
-        else{
-            throw new NotFoundException("User not found");
-        }
-    }
-
-    public UserWithoutPassDTO login(LoginUserDto dto) {
-        User user = userRepository.findByUsername(dto.getUsername());
-        if(user == null){
-            throw new AuthenticationException("Wrong credentials");
-        }
-        else{
-            PasswordEncoder encoder = new BCryptPasswordEncoder();
-            if(encoder.matches(dto.getPassword(), user.getPassword())){
-                return new UserWithoutPassDTO(user);
-            }
-            else{
-                throw new AuthenticationException("Wrong credentials");
-            }
-        }
-    }
-
-    @Transactional
-    public UserWithoutPassDTO buyCar(int userId, int carId) {
-        Optional<User> sUser = userRepository.findById(userId);
-        Optional<Car> sCar = carRepository.findById(carId);
-        if(!sUser.isPresent()){
-            throw new NotFoundException("User not found");
-        }
-        if(!sCar.isPresent()){
-            throw new NotFoundException("Car not found");
-        }
-        Car car = sCar.get();
-        User user = sUser.get();
-        if(car.getOwner() != null){
-            throw new BadRequestException("Car already bought");
-        }
-        car.setOwner(user);
-        carRepository.save(car);//update cars set owner_id = 15 where id = 1
-        return new UserWithoutPassDTO(userRepository.findById(userId).get());
-    }
-
-     */
-
 }
-=======
-}
->>>>>>> 31a7173 (added register functionality)
