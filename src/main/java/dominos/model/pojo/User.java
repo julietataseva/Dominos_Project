@@ -1,5 +1,6 @@
 package dominos.model.pojo;
 
+import dominos.dto.RegisterRequestUserDTO;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -20,4 +21,11 @@ public class User {
     private String lastName;
     private String email;
     private String password;
+
+    public User(RegisterRequestUserDTO userDTO){
+        this.firstName = userDTO.getFirstName();
+        this.lastName = userDTO.getLastName();
+        password = userDTO.getPassword();
+        email = userDTO.getEmail();
+    }
 }
