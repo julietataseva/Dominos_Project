@@ -19,6 +19,9 @@ public class UserController extends AbstractController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private SessionManager sessionManager;
+
     @PutMapping("/users")
     public RegisterResponseUserDTO register(@RequestBody RegisterRequestUserDTO userDTO) {
         return userService.addUser(userDTO);
@@ -27,12 +30,12 @@ public class UserController extends AbstractController {
     @PostMapping("/users/login")
     public UserWithoutPasswordDTO login(@RequestBody LoginUserDTO loginUserDTO, HttpSession session) {
         UserWithoutPasswordDTO userWithoutPasswordDTO = userService.login(loginUserDTO);
-        session.setAttribute("LoggedUser", userWithoutPasswordDTO.getId());
+        sessionManager.loginUser(session, userWithoutPasswordDTO.getId());
         return userWithoutPasswordDTO;
     }
 
     @PostMapping("/users/{id}")
-    public EditResponseUserDTO edit (@RequestBody EditRequestUserDTO userDTO, @PathVariable int id){
-       return userService.editUser(id);
+    public EditResponseUserDTO edit(@RequestBody EditRequestUserDTO userDTO, @PathVariable int id) {
+        return userService.editUser(id);
     }
 }

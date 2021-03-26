@@ -7,6 +7,9 @@ import dominos.model.repository.AdditionalProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 @Service
 public class AdditionalProductService {
@@ -21,5 +24,14 @@ public class AdditionalProductService {
         }
 
         return new AdditionalProductDTO(additionalProduct);
+    }
+
+    public List<AdditionalProductDTO> getAdditionalProductMenu() {
+        List<AdditionalProduct> products = additionalProductRepository.findAll();
+        List<AdditionalProductDTO> returnProducts = new ArrayList<>();
+        for (AdditionalProduct product : products) {
+            returnProducts.add(new AdditionalProductDTO(product));
+        }
+        return returnProducts;
     }
 }
