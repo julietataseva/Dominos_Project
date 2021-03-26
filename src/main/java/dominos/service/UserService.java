@@ -1,8 +1,11 @@
 package dominos.service;
 
+import dominos.exceptions.AuthenticationException;
+import dominos.model.dto.LoginUserDTO;
 import dominos.model.dto.RegisterRequestUserDTO;
 import dominos.model.dto.RegisterResponseUserDTO;
 import dominos.exceptions.BadRequestException;
+import dominos.model.dto.UserWithoutPasswordDTO;
 import dominos.model.pojo.User;
 import dominos.model.repository.UserRepository;
 import org.springframework.stereotype.Service;
@@ -10,6 +13,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -35,6 +40,20 @@ public class UserService {
         user = userRepository.save(user);
         RegisterResponseUserDTO responseUserDTO = new RegisterResponseUserDTO(user);
         return responseUserDTO;
+    }
+
+    public UserWithoutPasswordDTO login(LoginUserDTO loginUserDTO) {
+        User user = userRepository.findByEmail(loginUserDTO.getEmail());
+        if (user == null){
+            throw new AuthenticationException("Wrong credentials");
+        }else {
+            PasswordEncoder encoder = new BCryptPasswordEncoder();
+            if (encoder.matches(loginUserDTO.getPassword(),user.getPassword())){
+                return new UserWithoutPasswordDTO(user);
+            }else {
+                throw new AuthenticationException("Wrong credentials");
+            }
+        }
     }
 
     /*
