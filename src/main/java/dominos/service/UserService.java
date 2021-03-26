@@ -1,5 +1,7 @@
 package dominos.service;
 
+import dominos.exceptions.NotFoundException;
+import dominos.model.dto.EditRequestUserDTO;
 import dominos.model.dto.EditResponseUserDTO;
 import dominos.model.dto.RegisterRequestUserDTO;
 import dominos.model.dto.RegisterResponseUserDTO;
@@ -38,8 +40,13 @@ public class UserService {
         return responseUserDTO;
     }
 
-    public EditResponseUserDTO editUser(int id) {
-        //todo
-        return null;
+    public EditResponseUserDTO editUser(EditRequestUserDTO userDTO, int id) {
+        //todo check if the passed id is the same as the logged user's id
+        User user = userRepository.findById(id);
+        if(user == null){
+            throw new NotFoundException("User with id " + id + " not found.");
+        }
+
+
     }
 }

@@ -21,6 +21,6 @@ public class UserController extends AbstractController {
 
     @PostMapping("/users/{id}")
     public EditResponseUserDTO edit (@RequestBody EditRequestUserDTO userDTO, @PathVariable int id){
-       return userService.editUser(id);
+       return userService.editUser(userDTO, id);
     }
 }
