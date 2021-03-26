@@ -22,7 +22,7 @@ public class SessionManager {
         }
         else{
             int userId = (int) session.getAttribute(LOGGED_USER_ID);
-            return repository.findById(userId);
+            return repository.findById(userId).get();
         }
     }
 

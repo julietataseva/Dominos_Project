@@ -99,7 +99,8 @@ public class UserService {
                 throw new BadRequestException("Passwords don't match");
             }
 
-            user.setPassword(newPassword);
+            String encodedPassword = passwordEncoder.encode(newPassword);
+            user.setPassword(encodedPassword);
         }
 
         userRepository.save(user);
