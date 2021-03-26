@@ -1,7 +1,11 @@
 package dominos.service;
 
+<<<<<<< HEAD
 import dominos.exceptions.AuthenticationException;
 import dominos.model.dto.LoginUserDTO;
+=======
+import dominos.model.dto.EditResponseUserDTO;
+>>>>>>> 0fe2a1c0067b162193dcdc020e02510c0e30b8fa
 import dominos.model.dto.RegisterRequestUserDTO;
 import dominos.model.dto.RegisterResponseUserDTO;
 import dominos.exceptions.BadRequestException;
@@ -23,25 +27,26 @@ public class UserService {
     private UserRepository userRepository;
 
     public RegisterResponseUserDTO addUser(RegisterRequestUserDTO userDTO){
-        //check if email exists
         if(userRepository.findByEmail(userDTO.getEmail()) != null){
             throw new BadRequestException("Email already exists");
         }
 
-        /*
-        if(userRepository.findByUsername(userDTO.getUsername() != null)){
-            throw new BadRequestException("Username already exists");
+        PasswordEncoder encoder = new BCryptPasswordEncoder();
+        String initialPassword = userDTO.getPassword();
+        String confirmPassword = userDTO.getConfirmPassword();
+        if(!initialPassword.equals(confirmPassword)){
+            throw new BadRequestException("Passwords don't match");
         }
 
-         */
-        PasswordEncoder encoder = new BCryptPasswordEncoder();
-        userDTO.setPassword(encoder.encode(userDTO.getPassword()));
+        String encodedPassword = encoder.encode(userDTO.getPassword());
+        userDTO.setPassword(encodedPassword);
         User user = new User(userDTO);
         user = userRepository.save(user);
         RegisterResponseUserDTO responseUserDTO = new RegisterResponseUserDTO(user);
         return responseUserDTO;
     }
 
+<<<<<<< HEAD
     public UserWithoutPasswordDTO login(LoginUserDTO loginUserDTO) {
         User user = userRepository.findByEmail(loginUserDTO.getEmail());
         if (user == null){
@@ -90,28 +95,10 @@ public class UserService {
                 throw new AuthenticationException("Wrong credentials");
             }
         }
+=======
+    public EditResponseUserDTO editUser(int id) {
+        //todo
+        return null;
+>>>>>>> 0fe2a1c0067b162193dcdc020e02510c0e30b8fa
     }
-
-    @Transactional
-    public UserWithoutPassDTO buyCar(int userId, int carId) {
-        Optional<User> sUser = userRepository.findById(userId);
-        Optional<Car> sCar = carRepository.findById(carId);
-        if(!sUser.isPresent()){
-            throw new NotFoundException("User not found");
-        }
-        if(!sCar.isPresent()){
-            throw new NotFoundException("Car not found");
-        }
-        Car car = sCar.get();
-        User user = sUser.get();
-        if(car.getOwner() != null){
-            throw new BadRequestException("Car already bought");
-        }
-        car.setOwner(user);
-        carRepository.save(car);//update cars set owner_id = 15 where id = 1
-        return new UserWithoutPassDTO(userRepository.findById(userId).get());
-    }
-
-     */
-
 }

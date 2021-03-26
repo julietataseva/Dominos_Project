@@ -9,10 +9,12 @@ import org.springframework.stereotype.Component;
 @Getter
 @NoArgsConstructor
 @Component
-public class RegisterRequestUserDTO {
+public class EditRequestUserDTO {
+    private int id;
     private String firstName;
     private String lastName;
     private String email;
-    private String password;
+    private String currentPassword;
+    private String newPassword;
     private String confirmPassword;
 }
