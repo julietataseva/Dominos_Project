@@ -32,11 +32,12 @@ public class UserController extends AbstractController {
     @PostMapping("/users/login")
     public UserWithoutPasswordDTO login(@RequestBody LoginUserDTO loginUserDTO, HttpSession session) {
         UserWithoutPasswordDTO userWithoutPasswordDTO = userService.login(loginUserDTO);
-        session.setAttribute("LoggedUser", userWithoutPasswordDTO.getId());
+        sessionManager.loginUser(session, userWithoutPasswordDTO.getId());
         return userWithoutPasswordDTO;
     }
 
     @PostMapping("/users/{id}")
+<<<<<<< HEAD
     public EditResponseUserDTO edit (@RequestBody EditRequestUserDTO userDTO, HttpSession session, @PathVariable int id){
         User loggedUser = sessionManager.getLoggedUser(session);
         if(loggedUser.getId() != id){
@@ -44,5 +45,9 @@ public class UserController extends AbstractController {
         }
 
         return userService.editUser(userDTO, id);
+=======
+    public EditResponseUserDTO edit(@RequestBody EditRequestUserDTO userDTO, @PathVariable int id) {
+        return userService.editUser(userDTO, id);
+>>>>>>> 590b870b1e7b9e7b9611ed1a2253a3955efe7f24
     }
 }
