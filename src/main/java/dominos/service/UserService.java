@@ -1,7 +1,7 @@
 package dominos.service;
 
-import dominos.dto.RegisterRequestUserDTO;
-import dominos.dto.RegisterResponseUserDTO;
+import dominos.model.dto.RegisterRequestUserDTO;
+import dominos.model.dto.RegisterResponseUserDTO;
 import dominos.exceptions.BadRequestException;
 import dominos.model.pojo.User;
 import dominos.model.repository.UserRepository;
@@ -10,12 +10,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
-
-import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 
 @Service
 public class UserService {

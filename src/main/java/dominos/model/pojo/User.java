@@ -1,13 +1,12 @@
 package dominos.model.pojo;
 
-import dominos.dto.RegisterRequestUserDTO;
+import dominos.model.dto.RegisterRequestUserDTO;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.List;
 
 @NoArgsConstructor
 @Getter
@@ -16,11 +15,14 @@ import javax.persistence.Table;
 @Table(name = "users")
 public class User {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String firstName;
     private String lastName;
     private String email;
     private String password;
+    @OneToMany(mappedBy = "user")
+    private List<Address> addresses;
 
     public User(RegisterRequestUserDTO userDTO){
         this.firstName = userDTO.getFirstName();

@@ -1,4 +1,4 @@
-package dominos.dto;
+package dominos.model.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
