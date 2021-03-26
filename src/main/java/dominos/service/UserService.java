@@ -1,5 +1,6 @@
 package dominos.service;
 
+import dominos.model.dto.EditResponseUserDTO;
 import dominos.model.dto.RegisterRequestUserDTO;
 import dominos.model.dto.RegisterResponseUserDTO;
 import dominos.exceptions.BadRequestException;
@@ -35,5 +36,10 @@ public class UserService {
         user = userRepository.save(user);
         RegisterResponseUserDTO responseUserDTO = new RegisterResponseUserDTO(user);
         return responseUserDTO;
+    }
+
+    public EditResponseUserDTO editUser(int id) {
+        //todo
+        return null;
     }
 }
