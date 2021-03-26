@@ -1,8 +1,8 @@
 package dominos.exceptions;
 
-public class AuthenticationException extends RuntimeException{
+public class AuthenticationException extends RuntimeException {
 
-    public AuthenticationException(String msg){
+    public AuthenticationException(String msg) {
         super(msg);
     }
 }
