@@ -36,6 +36,11 @@ public class UserController extends AbstractController {
         return userWithoutPasswordDTO;
     }
 
+    @PostMapping("/users/logout")
+    public void logout(HttpSession session){
+        sessionManager.logoutUser(session);
+    }
+
     @PostMapping("/users/{id}")
     public EditResponseUserDTO edit(@RequestBody EditRequestUserDTO userDTO, HttpSession session, @PathVariable int id) {
         User loggedUser = sessionManager.getLoggedUser(session);
