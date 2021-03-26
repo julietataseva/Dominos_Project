@@ -10,13 +10,9 @@ import org.springframework.stereotype.Component;
 @NoArgsConstructor
 @Component
 public class RegisterRequestUserDTO {
-
-    //private String username;
     private String firstName;
     private String lastName;
     private String email;
     private String password;
     private String confirmPassword;
-    //private int age;
-    //private String address;
 }

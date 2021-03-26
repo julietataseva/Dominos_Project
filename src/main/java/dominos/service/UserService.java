@@ -23,24 +23,25 @@ public class UserService {
     private UserRepository userRepository;
 
     public RegisterResponseUserDTO addUser(RegisterRequestUserDTO userDTO){
-        //check if email exists
         if(userRepository.findByEmail(userDTO.getEmail()) != null){
             throw new BadRequestException("Email already exists");
         }
 
-        /*
-        if(userRepository.findByUsername(userDTO.getUsername() != null)){
-            throw new BadRequestException("Username already exists");
+        PasswordEncoder encoder = new BCryptPasswordEncoder();
+        String initialPassword = userDTO.getPassword();
+        String confirmPassword = userDTO.getConfirmPassword();
+        if(!initialPassword.equals(confirmPassword)){
+            throw new BadRequestException("Passwords don't match");
         }
 
-         */
-        PasswordEncoder encoder = new BCryptPasswordEncoder();
-        userDTO.setPassword(encoder.encode(userDTO.getPassword()));
+        String encodedPassword = encoder.encode(userDTO.getPassword());
+        userDTO.setPassword(encodedPassword);
         User user = new User(userDTO);
         user = userRepository.save(user);
         RegisterResponseUserDTO responseUserDTO = new RegisterResponseUserDTO(user);
         return responseUserDTO;
     }
+<<<<<<< HEAD
 
     public UserWithoutPasswordDTO login(LoginUserDTO loginUserDTO) {
         User user = userRepository.findByEmail(loginUserDTO.getEmail());
@@ -115,3 +116,6 @@ public class UserService {
      */
 
 }
+=======
+}
+>>>>>>> 31a7173 (added register functionality)
