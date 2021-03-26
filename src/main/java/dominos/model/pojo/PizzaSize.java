@@ -12,6 +12,6 @@ public class PizzaSize {
     private Size size;
 
     public enum Size{
-        MEDIUM, BIG, JUMBO
+        MEDIUM, LARGE, JUMBO
     }
 }

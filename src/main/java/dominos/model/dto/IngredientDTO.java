@@ -1,6 +1,6 @@
 package dominos.model.dto;
 
-import lombok.AllArgsConstructor;
+import dominos.model.pojo.Ingredient;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -10,9 +10,10 @@ import org.springframework.stereotype.Component;
 @Getter
 @Setter
 @Component
-@AllArgsConstructor
-public class ErrorDTO {
+public class IngredientDTO {
+    private String name;
 
-    private String msg;
-
+    public IngredientDTO(Ingredient i) {
+        this.name = i.getName();
+    }
 }

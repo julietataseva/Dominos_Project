@@ -1,6 +1,6 @@
 package dominos.controller;
 
-import dominos.dto.ErrorDTO;
+import dominos.model.dto.ErrorDTO;
 import dominos.exceptions.AuthenticationException;
 import dominos.exceptions.BadRequestException;
 import dominos.exceptions.NotFoundException;
