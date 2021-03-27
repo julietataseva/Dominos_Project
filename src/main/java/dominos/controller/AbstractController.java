@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import java.sql.SQLException;
+
 public class AbstractController {
 
     @ExceptionHandler(BadRequestException.class)
@@ -26,6 +28,11 @@ public class AbstractController {
     @ExceptionHandler(AuthenticationException.class)
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     public ErrorDTO handleNotAuthorized(AuthenticationException e){
+        return new ErrorDTO(e.getMessage());
+    }
+
+    @ExceptionHandler(SQLException.class)
+    public ErrorDTO handleSQLException(SQLException e){
         return new ErrorDTO(e.getMessage());
     }
 }

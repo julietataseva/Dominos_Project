@@ -10,7 +10,6 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Getter
 @Setter
-@Component
 public class Pizza {
     private int id;
     private String name;
