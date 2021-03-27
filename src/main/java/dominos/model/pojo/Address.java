@@ -1,5 +1,6 @@
 package dominos.model.pojo;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -17,6 +18,7 @@ public class Address {
     private int id;
     @ManyToOne
     @JoinColumn(name="user_id", nullable = false)
+    @JsonBackReference
     private User user;
     private String phoneNumber;
     private double longitude;
