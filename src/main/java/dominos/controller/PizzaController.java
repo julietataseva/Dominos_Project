@@ -3,8 +3,10 @@ package dominos.controller;
 import dominos.exceptions.AuthenticationException;
 import dominos.model.dao.PizzaDAO;
 import dominos.model.dto.PizzaResponseDTO;
+import dominos.model.dto.PizzaResponseDetailedDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpSession;
@@ -27,5 +29,14 @@ public class PizzaController extends AbstractController{
         }
 
         return pizzaDAO.getMenu();
+    }
+
+    @GetMapping("menu/pizzas/{name}")
+    public PizzaResponseDetailedDTO getPizzaByName(@PathVariable String name, HttpSession session){
+        if(!sessionManager.validateLogged(session)){
+            throw new AuthenticationException("You have to log in to see the menu.");
+        }
+
+
     }
 }

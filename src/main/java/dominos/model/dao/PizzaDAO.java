@@ -2,6 +2,7 @@ package dominos.model.dao;
 
 import dominos.model.dto.IngredientDTO;
 import dominos.model.dto.PizzaResponseDTO;
+import dominos.model.dto.PizzaResponseDetailedDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
@@ -51,18 +52,10 @@ public class PizzaDAO {
             }
         }
 
-        /*
-
-        try(Connection connection = jdbcTemplate.getDataSource().getConnection();
-            PreparedStatement ps = connection.prepareStatement(getAllPizzas);){
-
-
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-
-         */
-
         return allPizzas;
+    }
+
+    public PizzaResponseDetailedDTO getPizzaByName(){
+
     }
 }
