@@ -17,7 +17,7 @@ public class SessionManager {
     private UserRepository repository;
 
     public User getLoggedUser(HttpSession session) {
-        if (session.getAttribute(LOGGED_USER_ID) == null) {
+        if (!validateLogged(session)) {
             throw new AuthenticationException("You have to log in!");
         } else {
             int userId = (int) session.getAttribute(LOGGED_USER_ID);
