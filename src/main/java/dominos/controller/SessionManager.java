@@ -16,11 +16,10 @@ public class SessionManager {
     @Autowired
     private UserRepository repository;
 
-    public User getLoggedUser(HttpSession session){
-        if(session.getAttribute(LOGGED_USER_ID) == null){
+    public User getLoggedUser(HttpSession session) {
+        if (session.getAttribute(LOGGED_USER_ID) == null) {
             throw new AuthenticationException("You have to log in!");
-        }
-        else{
+        } else {
             int userId = (int) session.getAttribute(LOGGED_USER_ID);
             return repository.findById(userId).get();
         }
@@ -32,5 +31,13 @@ public class SessionManager {
 
     public void logoutUser(HttpSession ses) {
         ses.invalidate();
+    }
+
+    public static boolean validateLogged(HttpSession session) {
+        if (session.isNew() || session.getAttribute(LOGGED_USER_ID) == null) {
+            return false;
+        } else {
+            return true;
+        }
     }
 }
