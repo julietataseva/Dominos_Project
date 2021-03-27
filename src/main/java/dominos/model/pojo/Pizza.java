@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.List;
 
 @NoArgsConstructor
 @Getter
@@ -16,10 +17,11 @@ public class Pizza {
     private int id;
     private String name;
     private double price;
-    @ManyToOne
-    @JoinColumn(name = "size_id", nullable = false)
-    private PizzaSize size;
-    @ManyToOne
-    @JoinColumn(name = "dough_type_id", nullable = false)
-    private Dough dough;
+    @ManyToMany
+    @JoinTable(
+            name = "pizzas_have_ingredients",
+            joinColumns = @JoinColumn(name = "pizza_id"),
+            inverseJoinColumns = @JoinColumn(name = "ingredient_id")
+    )
+    private List<Ingredient> ingredients;
 }

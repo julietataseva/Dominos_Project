@@ -1,5 +1,6 @@
 package dominos.model.pojo;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import dominos.model.dto.RegisterRequestUserDTO;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,6 +24,8 @@ public class User {
     private String password;
     @OneToMany(mappedBy = "user")
     private List<Address> addresses;
+    @OneToMany(mappedBy = "owner")
+    private List<Order> orders;
 
     public User(RegisterRequestUserDTO userDTO){
         this.firstName = userDTO.getFirstName();
