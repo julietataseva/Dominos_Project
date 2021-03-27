@@ -16,7 +16,7 @@ public class PizzaDAO {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    public List<PizzaResponseDTO> getMenu(){
+    public List<PizzaResponseDTO> getMenu() throws SQLException {
         List<PizzaResponseDTO> allPizzas = new ArrayList<>();
         String getAllPizzaIds = "SELECT id FROM pizzas";
         String getAllPizzas = "SELECT p.name AS pizza, i.name AS ingredient " +
@@ -49,8 +49,6 @@ public class PizzaDAO {
                 }
                 allPizzas.add(pizza);
             }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
         }
 
         /*
