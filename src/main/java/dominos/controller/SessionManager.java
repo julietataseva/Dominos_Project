@@ -33,7 +33,7 @@ public class SessionManager {
         ses.invalidate();
     }
 
-    public static boolean validateLogged(HttpSession session) {
+    public boolean validateLogged(HttpSession session) {
         if (session.isNew() || session.getAttribute(LOGGED_USER_ID) == null) {
             return false;
         } else {
