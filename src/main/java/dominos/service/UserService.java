@@ -33,12 +33,17 @@ public class UserService {
 
         PasswordEncoder encoder = new BCryptPasswordEncoder();
         String initialPassword = userDTO.getPassword();
-        String confirmPassword = userDTO.getConfirmPassword();
-        if(!initialPassword.equals(confirmPassword)){
-            throw new BadRequestException("Passwords don't match");
+        if(initialPassword == null || initialPassword.equals("")){
+            throw new BadRequestException("Invalid password!");
         }
 
-        String encodedPassword = encoder.encode(userDTO.getPassword());
+        String confirmPassword = userDTO.getConfirmPassword();
+        if(confirmPassword == null || confirmPassword.equals("") ||
+                !initialPassword.equals(confirmPassword)){
+            throw new BadRequestException("Passwords don't match!");
+        }
+
+        String encodedPassword = encoder.encode(initialPassword);
         userDTO.setPassword(encodedPassword);
         User user = new User(userDTO);
         user = userRepository.save(user);
