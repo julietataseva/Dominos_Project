@@ -33,12 +33,17 @@ public class UserService {
 
         PasswordEncoder encoder = new BCryptPasswordEncoder();
         String initialPassword = userDTO.getPassword();
-        String confirmPassword = userDTO.getConfirmPassword();
-        if(!initialPassword.equals(confirmPassword)){
-            throw new BadRequestException("Passwords don't match");
+        if(initialPassword == null || initialPassword.equals("")){
+            throw new BadRequestException("Invalid password!");
         }
 
-        String encodedPassword = encoder.encode(userDTO.getPassword());
+        String confirmPassword = userDTO.getConfirmPassword();
+        if(confirmPassword == null || confirmPassword.equals("") ||
+                !initialPassword.equals(confirmPassword)){
+            throw new BadRequestException("Passwords don't match!");
+        }
+
+        String encodedPassword = encoder.encode(initialPassword);
         userDTO.setPassword(encodedPassword);
         User user = new User(userDTO);
         user = userRepository.save(user);
@@ -48,38 +53,58 @@ public class UserService {
 
 
     public EditResponseUserDTO editUser(EditRequestUserDTO userDTO, int id) {
-        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         Optional<User> u = userRepository.findById(id);
         if(!u.isPresent()){
             throw new NotFoundException("User with id " + id + " not found.");
         }
 
         User user = u.get();
-        String firstName = userDTO.getFirstName();
-        if(firstName != null){
-            if(firstName.equals("")){
-                throw new BadRequestException("First name should not be empty!");
-            }
-            user.setFirstName(firstName);
-        }
+        String newFirstName = userDTO.getFirstName();
+        this.validateNewFirstName(user, newFirstName);
 
-        String lastName = userDTO.getLastName();
-        if(lastName != null){
-            if(lastName.equals("")){
-                throw new BadRequestException("Last name should not be empty!");
-            }
-            user.setLastName(lastName);
-        }
+        String newLastName = userDTO.getLastName();
+        this.validateNewLastName(user, newLastName);
 
-        String email = userDTO.getEmail();
-        if(email != null){
-            if(email.equals("")){
-                throw new BadRequestException("Email should not be empty!");
-            }
-            user.setEmail(email);
-        }
+        String newEmail = userDTO.getEmail();
+        this.validateNewEmail(user, newEmail);
 
         String currentPassword = userDTO.getCurrentPassword();
+        this.validateCurrentAndNewPassword(user, currentPassword, userDTO);
+
+        userRepository.save(user);
+        user = userRepository.findById(id).get();
+        return new EditResponseUserDTO(user);
+    }
+
+    private void validateNewFirstName(User user, String newFirstName){
+        if(newFirstName != null){
+            if(newFirstName.equals("")){
+                throw new BadRequestException("First name should not be empty!");
+            }
+            user.setFirstName(newFirstName);
+        }
+    }
+
+    private void validateNewLastName(User user, String newLastName) {
+        if(newLastName != null){
+            if(newLastName.equals("")){
+                throw new BadRequestException("Last name should not be empty!");
+            }
+            user.setLastName(newLastName);
+        }
+    }
+
+    private void validateNewEmail(User user, String newEmail) {
+        if(newEmail != null){
+            if(newEmail.equals("")){
+                throw new BadRequestException("Email should not be empty!");
+            }
+            user.setEmail(newEmail);
+        }
+    }
+
+    private void validateCurrentAndNewPassword(User user, String currentPassword, EditRequestUserDTO userDTO) {
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         if(currentPassword != null){
             if(!passwordEncoder.matches(currentPassword, user.getPassword())){
                 throw new AuthenticationException("Wrong credentials!");
@@ -102,10 +127,6 @@ public class UserService {
             String encodedPassword = passwordEncoder.encode(newPassword);
             user.setPassword(encodedPassword);
         }
-
-        userRepository.save(user);
-        user = userRepository.findById(id).get();
-        return new EditResponseUserDTO(user);
     }
 
     public LoginResponseUserDTO login(LoginUserDTO loginUserDTO) {
