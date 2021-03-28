@@ -121,4 +121,9 @@ public class UserService {
             }
         }
     }
+
+    public String deleteUser(int id) {
+        userRepository.deleteById(id);
+        return "You have successfully deleted your account";
+    }
 }
