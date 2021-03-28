@@ -1,6 +1,6 @@
 package dominos.model.pojo;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import dominos.model.dto.AddressRequestDTO;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -17,10 +17,17 @@ public class Address {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @ManyToOne
-    @JoinColumn(name="user_id", nullable = false)
+    @JoinColumn(name="user_id")
     private User user;
     private String phoneNumber;
-    private double longitude;
-    private double latitude;
+    private String latitude;
+    private String longitude;
     private String description;
+
+    public Address(AddressRequestDTO addressRequestDTO){
+        this.phoneNumber = addressRequestDTO.getPhoneNumber();
+        this.latitude = addressRequestDTO.getLatitude();
+        this.longitude = addressRequestDTO.getLongitude();
+        this.description = addressRequestDTO.getDescription();
+    }
 }

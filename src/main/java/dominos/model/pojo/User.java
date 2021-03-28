@@ -1,6 +1,5 @@
 package dominos.model.pojo;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import dominos.model.dto.RegisterRequestUserDTO;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
