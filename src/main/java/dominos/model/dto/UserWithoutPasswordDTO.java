@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @NoArgsConstructor
@@ -23,6 +24,7 @@ public class UserWithoutPasswordDTO {
         this.firstName = user.getFirstName();
         this.lastName = user.getLastName();
         this.email = user.getEmail();
+        this.addresses = new ArrayList<>();
         for (Address address : user.getAddresses()) {
             addresses.add(new AddressWithoutUserDTO(address));
         }

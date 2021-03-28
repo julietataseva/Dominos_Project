@@ -13,15 +13,15 @@ import org.springframework.stereotype.Component;
 public class AddressWithoutUserDTO {
     private int id;
     private String phoneNumber;
-    private double longitude;
-    private double latitude;
+    private String latitude;
+    private String longitude;
     private String description;
 
     public AddressWithoutUserDTO(Address address) {
         this.id = address.getId();
         this.phoneNumber = address.getPhoneNumber();
-        this.longitude = address.getLongitude();
         this.latitude = address.getLatitude();
+        this.longitude = address.getLongitude();
         this.description = address.getDescription();
     }
 }
