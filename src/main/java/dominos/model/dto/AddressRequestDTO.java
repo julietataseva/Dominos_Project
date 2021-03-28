@@ -10,7 +10,6 @@ import org.springframework.stereotype.Component;
 @Setter
 @Component
 public class AddressRequestDTO {
-    private int userId;
     private String phoneNumber;
     private String latitude;
     private String longitude;
