@@ -28,6 +28,10 @@ public class OrderController extends AbstractController {
             throw new AuthenticationException("You have to log in!");
         }
 
+        if (sessionManager.getLoggedUser(session).getId() != id) {
+            throw new AuthenticationException("You have to be logged in your account");
+        }
+
         Map<Integer, Map<LocalDate, List<String>>> orders = orderDAO.getAllMadeOrdersByUserId(id);
         return orders;
     }
