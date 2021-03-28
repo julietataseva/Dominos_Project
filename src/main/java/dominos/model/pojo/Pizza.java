@@ -24,4 +24,7 @@ public class Pizza {
             inverseJoinColumns = @JoinColumn(name = "ingredient_id")
     )
     private List<Ingredient> ingredients;
+
+    @OneToMany(mappedBy = "pizza")
+    private List<PizzaOrder> pizzaOrders;
 }

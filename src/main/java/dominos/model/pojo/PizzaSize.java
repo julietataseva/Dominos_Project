@@ -17,7 +17,7 @@ public class PizzaSize {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private Size size;
-    @OneToMany(mappedBy = "size_id")
+    @OneToMany(mappedBy = "size")
     private List<PizzaOrder> pizzaOrders;
 
     public enum Size{
