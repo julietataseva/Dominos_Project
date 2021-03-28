@@ -18,7 +18,6 @@ public class Address {
     private int id;
     @ManyToOne
     @JoinColumn(name="user_id", nullable = false)
-    @JsonBackReference
     private User user;
     private String phoneNumber;
     private double longitude;
