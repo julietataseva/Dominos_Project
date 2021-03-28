@@ -54,12 +54,7 @@ public class AddressController extends AbstractController{
             throw new BadRequestException("You cannot edit address of another user!");
         }
 
-        Address address = addressRepository.findById(addressId).get();
-        if(address == null){
-            throw new BadRequestException("Address with id " + addressId + " doesn't exits!");
-        }
-
-        
+        return addressService.editAddress(addressRequestDTO, userId, addressId);
     }
 
 }
