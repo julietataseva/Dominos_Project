@@ -1,13 +1,14 @@
 package dominos.model.pojo;
 
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
-@NoArgsConstructor
+@Component
 @Getter
 @Setter
 @Entity
@@ -26,4 +27,9 @@ public class Pizza {
     private List<Ingredient> ingredients;
     @OneToMany(mappedBy = "pizza")
     private List<PizzaOrder> pizzaOrders;
+
+    public Pizza(){
+        this.ingredients = new ArrayList<>();
+        this.pizzaOrders = new ArrayList<>();
+    }
 }
