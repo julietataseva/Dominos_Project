@@ -14,10 +14,12 @@ import java.util.List;
 @Setter
 @Component
 public class PizzaResponseDTO {
+    private int id;
     private String name;
     private List<IngredientDTO> ingredients;
 
     public PizzaResponseDTO(Pizza pizza){
+        this.id = pizza.getId();
         this.name = pizza.getName();
         this.ingredients = new ArrayList<>();
         for(Ingredient ingredient : pizza.getIngredients()){

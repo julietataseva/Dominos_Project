@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface PizzaRepository extends JpaRepository<Pizza, Integer> {
+    Pizza getByName(String name);
 }

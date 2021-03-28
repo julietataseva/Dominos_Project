@@ -23,20 +23,20 @@ public class PizzaController extends AbstractController{
     private SessionManager sessionManager;
 
     @GetMapping("/menu/pizzas")
-    public List<PizzaResponseDTO> getMenu(HttpSession session) throws SQLException {
+    public List<PizzaResponseDTO> getMenu(HttpSession session){
         if(!sessionManager.validateLogged(session)){
             throw new AuthenticationException("You have to log in to see the menu.");
         }
 
-        return pizzaService.getMenu(); //pizzaDAO.getMenu();
+        return pizzaService.getMenu();
     }
 
     @GetMapping("menu/pizzas/{name}")
     public PizzaResponseDetailedDTO getPizzaByName(@PathVariable String name, HttpSession session){
         if(!sessionManager.validateLogged(session)){
-            throw new AuthenticationException("You have to log in to see the menu.");
+            throw new AuthenticationException("You have to log in to see the pizza.");
         }
 
-        return null;//todo
+        return pizzaService.getByName(name);
     }
 }
