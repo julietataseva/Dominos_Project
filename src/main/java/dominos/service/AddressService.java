@@ -1,6 +1,8 @@
 package dominos.service;
 
 import dominos.exceptions.BadRequestException;
+import dominos.exceptions.NoContentException;
+import dominos.exceptions.NotFoundException;
 import dominos.model.dto.AddressRequestDTO;
 import dominos.model.dto.AddressWithoutUserDTO;
 import dominos.model.pojo.Address;
@@ -9,6 +11,9 @@ import dominos.model.repository.AddressRepository;
 import dominos.model.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class AddressService {
@@ -46,5 +51,20 @@ public class AddressService {
         address.setUser(user);
         address = addressRepository.save(address);
         return new AddressWithoutUserDTO(address);
+    }
+
+    public List<AddressWithoutUserDTO> getAllAddressesByUserId(int id) throws NoContentException{
+        User user = userRepository.findById(id).get();
+        List<Address> addresses = user.getAddresses();
+        if(addresses.size() == 0) {
+            throw new NoContentException("You don't have any addresses added.");
+        }
+
+        List<AddressWithoutUserDTO> returnAddresses = new ArrayList<>();
+        for(Address address : addresses){
+            returnAddresses.add(new AddressWithoutUserDTO(address));
+        }
+
+        return returnAddresses;
     }
 }

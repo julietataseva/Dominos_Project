@@ -6,12 +6,10 @@ import dominos.model.dto.AddressWithoutUserDTO;
 import dominos.model.pojo.User;
 import dominos.service.AddressService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 @RestController
 public class AddressController extends AbstractController{
@@ -30,5 +28,15 @@ public class AddressController extends AbstractController{
         }
 
         return addressService.addAddress(addressRequestDTO, id);
+    }
+
+    @GetMapping("/users/{id}/addresses")
+    public List<AddressWithoutUserDTO> getAllAddressesByUserId(@PathVariable int id, HttpSession session){
+        User loggedUser = sessionManager.getLoggedUser(session);
+        if (loggedUser.getId() != id) {
+            throw new BadRequestException("You cannot see addresses of another user!");
+        }
+
+        return addressService.getAllAddressesByUserId(id);
     }
 }

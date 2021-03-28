@@ -1,5 +1,6 @@
 package dominos.controller;
 
+import dominos.exceptions.NoContentException;
 import dominos.model.dto.ErrorDTO;
 import dominos.exceptions.AuthenticationException;
 import dominos.exceptions.BadRequestException;
@@ -33,6 +34,12 @@ public class AbstractController {
 
     @ExceptionHandler(SQLException.class)
     public ErrorDTO handleSQLException(SQLException e){
+        return new ErrorDTO(e.getMessage());
+    }
+
+    @ExceptionHandler(NoContentException.class)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public ErrorDTO handleNoContent(NoContentException e){
         return new ErrorDTO(e.getMessage());
     }
 }
