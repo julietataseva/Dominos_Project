@@ -1,5 +1,7 @@
 package dominos.model.dto;
 
+import dominos.model.pojo.Ingredient;
+import dominos.model.pojo.Pizza;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -15,7 +17,11 @@ public class PizzaResponseDTO {
     private String name;
     private List<IngredientDTO> ingredients;
 
-    public PizzaResponseDTO(){
+    public PizzaResponseDTO(Pizza pizza){
+        this.name = pizza.getName();
         this.ingredients = new ArrayList<>();
+        for(Ingredient ingredient : pizza.getIngredients()){
+            this.ingredients.add(new IngredientDTO(ingredient));
+        }
     }
 }
