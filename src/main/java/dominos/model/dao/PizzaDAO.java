@@ -55,7 +55,10 @@ public class PizzaDAO {
         return allPizzas;
     }
 
+    /*
     public PizzaResponseDetailedDTO getPizzaByName(){
 
     }
+
+     */
 }

@@ -22,7 +22,8 @@ public class Order {
     @JsonBackReference
     private User owner;
     private LocalDate createdAt;
-    @OneToOne
+    @ManyToOne
+    @JoinColumn(name = "address_id")
     private Address address;
     private String comment;
     @OneToMany(mappedBy = "order")

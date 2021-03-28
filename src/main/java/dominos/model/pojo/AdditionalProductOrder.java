@@ -15,8 +15,10 @@ public class AdditionalProductOrder {
     @Id
     private int id;
     @ManyToOne
+    @JoinColumn(name="order_id")
     private Order order;
     @ManyToOne
+    @JoinColumn(name="additional_product_id")
     private AdditionalProduct additionalProduct;
     private double price;
     private int quantity;

@@ -18,6 +18,6 @@ public class AdditionalProduct {
     private int id;
     private String name;
     private double price;
-    @OneToMany
+    @OneToMany(mappedBy = "additionalProduct")
     private List<AdditionalProductOrder> additionalProductOrders;
 }
