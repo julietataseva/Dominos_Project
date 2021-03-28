@@ -6,11 +6,10 @@ import dominos.model.dto.EditResponseUserDTO;
 import dominos.model.dto.LoginUserDTO;
 import dominos.model.dto.RegisterRequestUserDTO;
 import dominos.model.dto.RegisterResponseUserDTO;
-import dominos.model.dto.UserWithoutPasswordDTO;
+import dominos.model.dto.LoginResponseUserDTO;
 import dominos.model.pojo.User;
 import dominos.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,10 +30,10 @@ public class UserController extends AbstractController {
     }
 
     @PostMapping("/users/login")
-    public UserWithoutPasswordDTO login(@RequestBody LoginUserDTO loginUserDTO, HttpSession session) {
-        UserWithoutPasswordDTO userWithoutPasswordDTO = userService.login(loginUserDTO);
-        sessionManager.loginUser(session, userWithoutPasswordDTO.getId());
-        return userWithoutPasswordDTO;
+    public LoginResponseUserDTO login(@RequestBody LoginUserDTO loginUserDTO, HttpSession session) {
+        LoginResponseUserDTO loginResponseUserDTO = userService.login(loginUserDTO);
+        sessionManager.loginUser(session, loginResponseUserDTO.getId());
+        return loginResponseUserDTO;
     }
 
     @PostMapping("/users/logout")

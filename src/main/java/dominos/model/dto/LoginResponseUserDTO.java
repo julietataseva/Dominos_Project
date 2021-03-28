@@ -12,16 +12,14 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
-public class UserWithoutPasswordAndAddressDTO {
+public class LoginResponseUserDTO {
     private int id;
     private String firstName;
     private String lastName;
-    private String email;
 
-    public UserWithoutPasswordAndAddressDTO(User user) {
+    public LoginResponseUserDTO(User user) {
         this.id = user.getId();
         this.firstName = user.getFirstName();
         this.lastName = user.getLastName();
-        this.email = user.getEmail();
     }
 }
