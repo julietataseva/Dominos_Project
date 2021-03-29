@@ -10,7 +10,7 @@ import java.util.List;
 @Getter
 @Component
 public class RequestPizzaOrderDTO{
-    private int doughTypeId;
-    private int pizzaSizeId;
+    private Integer doughTypeId;
+    private Integer pizzaSizeId;
     private List<Integer> additionalIngredientsIds;
 }

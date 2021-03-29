@@ -1,4 +1,5 @@
 package dominos.controller;
+
 import dominos.exceptions.BadRequestException;
 import dominos.exceptions.AuthenticationException;
 import dominos.exceptions.NotFoundException;
@@ -17,7 +18,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-public class CartController extends AbstractController{
+public class CartController extends AbstractController {
     @Autowired
     private CartService cartService;
 
@@ -25,8 +26,8 @@ public class CartController extends AbstractController{
     private SessionManager sessionManager;
 
 
-    @PutMapping("/menu/products/{id}")
-    public ResponseEntity<String> addAdditionalProductToCart(@PathVariable int id, HttpSession session) {
+    @PutMapping("/menu/products/{productId}")
+    public ResponseEntity<String> addAdditionalProductToCart(@PathVariable int productId, HttpSession session) {
         if (!sessionManager.validateLogged(session)) {
             return new ResponseEntity<>("Invalid session, you have to log in", HttpStatus.UNAUTHORIZED);
         }
@@ -34,7 +35,23 @@ public class CartController extends AbstractController{
         Map<IProduct, Integer> cart = sessionManager.getCartAttribute(session);
 
         try {
-            String response = cartService.addAdditionalProductToCart(id, cart);
+            String response = cartService.addAdditionalProductToCart(productId, cart);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (NotFoundException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @DeleteMapping("/cart/{productId}")
+    public ResponseEntity<String> deleteAdditionalProductFromCart(@PathVariable int productId, HttpSession session) {
+        if (!sessionManager.validateLogged(session)) {
+            return new ResponseEntity<>("Invalid session, you have to log in", HttpStatus.UNAUTHORIZED);
+        }
+
+        Map<IProduct, Integer> cart = sessionManager.getCartAttribute(session);
+
+        try {
+            String response = cartService.deleteAdditionalProductFromCart(productId, cart);
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (NotFoundException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);

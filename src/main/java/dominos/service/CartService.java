@@ -1,17 +1,10 @@
 package dominos.service;
-
 import dominos.exceptions.BadRequestException;
+import dominos.exceptions.AuthenticationException;
 import dominos.exceptions.NotFoundException;
-import dominos.model.dto.AdditionalProductDTO;
-import dominos.model.dto.CartResponseDTO;
-import dominos.model.dto.RequestPizzaOrderDTO;
-import dominos.model.pojo.AdditionalProduct;
-import dominos.model.pojo.Dough;
-import dominos.model.pojo.IProduct;
-import dominos.model.pojo.Pizza;
-import dominos.model.repository.AdditionalProductRepository;
-import dominos.model.repository.DoughRepository;
-import dominos.model.repository.PizzaRepository;
+import dominos.model.dto.*;
+import dominos.model.pojo.*;
+import dominos.model.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,6 +24,12 @@ public class CartService {
     @Autowired
     private DoughRepository doughRepository;
 
+    @Autowired
+    private PizzaSizeRepository pizzaSizeRepository;
+
+    @Autowired
+    IngredientRepository ingredientRepository;
+
 
     public String addAdditionalProductToCart(int productID, Map<IProduct, Integer> cart) {
         Optional<AdditionalProduct> additionalProduct = additionalProductRepository.findById(productID);
@@ -49,9 +48,34 @@ public class CartService {
         return "Product added successfully";
     }
 
+    public String deleteAdditionalProductFromCart(int productId, Map<IProduct, Integer> cart) {
+        if (cart.isEmpty()) {
+            throw new AuthenticationException("Cart is empty!");
+        }
+
+        Optional<AdditionalProduct> additionalProduct = additionalProductRepository.findById(productId);
+        if (additionalProduct.isEmpty()) {
+            throw new NotFoundException("No such product");
+        }
+
+        AdditionalProductDTO additionalProductDTO = new AdditionalProductDTO(additionalProduct.get());
+
+        if (!cart.containsKey(additionalProductDTO)) {
+            throw new NotFoundException("No such product in cart");
+        } else {
+            cart.put(additionalProductDTO, cart.get(additionalProductDTO) - 1);
+        }
+
+        if (cart.get(additionalProductDTO) <= 0) {
+            cart.remove(additionalProductDTO);
+        }
+
+        return "Product deleted successfully";
+    }
+
     public List<CartResponseDTO> getCart(Map<IProduct, Integer> cartAttribute) {
         List<CartResponseDTO> cart = new ArrayList<>();
-        for(Map.Entry<IProduct, Integer> entry : cartAttribute.entrySet()){
+        for (Map.Entry<IProduct, Integer> entry : cartAttribute.entrySet()) {
             CartResponseDTO cartItem = new CartResponseDTO(entry.getKey(), entry.getValue());
             cart.add(cartItem);
         }
@@ -59,15 +83,55 @@ public class CartService {
         return cart;
     }
 
-    public String addPizzaToCart(int pizzaId, RequestPizzaOrderDTO pizzaOrderDTO, Map<IProduct, Integer> cart) {
+    public String addPizzaToCart(int pizzaId, RequestPizzaOrderDTO requestPizzaOrderDTO, Map<IProduct, Integer> cart) {
         Pizza pizza = pizzaRepository.findById(pizzaId).get();
-        Dough dough;
+        Dough dough = null;
+        PizzaSize pizzaSize = null;
+        List<IngredientDTO> additionalIngredients = new ArrayList<>();
+
         if(pizza == null){
             throw new BadRequestException("This pizza doesn't exist!");
         }
 
-        int doughTypeId = pizzaOrderDTO.getDoughTypeId();
+        Integer doughTypeId = requestPizzaOrderDTO.getDoughTypeId();
+        if(doughTypeId != null) {
+            dough = doughRepository.findById(doughTypeId).get();
+            if(dough == null){
+                throw new BadRequestException("This dough doesn't exist!");
+            }
+        }
 
-        dough = doughRepository.findById(doughTypeId)
+        Integer pizzaSizeId = requestPizzaOrderDTO.getPizzaSizeId();
+        if(pizzaSizeId != null){
+            pizzaSize = pizzaSizeRepository.findById(pizzaSizeId).get();
+            if(pizzaSize == null){
+                throw new BadRequestException("This pizza size doesn't exists!");
+            }
+        }
+
+        List<Integer> additionalIngredientsIds = requestPizzaOrderDTO.getAdditionalIngredientsIds();
+        if(additionalIngredientsIds != null){
+            for(Integer ingredientId : additionalIngredientsIds){
+                Ingredient ingredient = ingredientRepository.findById(ingredientId).get();
+                if(ingredient == null){
+                    throw new BadRequestException("This ingredient doesn't exist!");
+                }
+                additionalIngredients.add(new IngredientDTO(ingredient));
+            }
+        }
+
+        PizzaOrderDTO pizzaOrderDTO = new PizzaOrderDTO();
+        pizzaOrderDTO.setPizza(pizza);
+        pizzaOrderDTO.setDough(dough);
+        pizzaOrderDTO.setPizzaSize(pizzaSize);
+        pizzaOrderDTO.setAdditionalIngredients(additionalIngredients);
+
+        if (!cart.containsKey(pizzaOrderDTO)) {
+            cart.put(pizzaOrderDTO, 1);
+        } else {
+            cart.put(pizzaOrderDTO, cart.get(pizzaOrderDTO) + 1);
+        }
+
+        return "Pizza " + pizza.getName() + " added successfully";
     }
 }
