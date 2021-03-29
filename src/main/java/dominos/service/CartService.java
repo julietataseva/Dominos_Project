@@ -1,11 +1,17 @@
 package dominos.service;
 
+import dominos.exceptions.BadRequestException;
 import dominos.exceptions.NotFoundException;
 import dominos.model.dto.AdditionalProductDTO;
 import dominos.model.dto.CartResponseDTO;
+import dominos.model.dto.RequestPizzaOrderDTO;
 import dominos.model.pojo.AdditionalProduct;
+import dominos.model.pojo.Dough;
 import dominos.model.pojo.IProduct;
+import dominos.model.pojo.Pizza;
 import dominos.model.repository.AdditionalProductRepository;
+import dominos.model.repository.DoughRepository;
+import dominos.model.repository.PizzaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +24,12 @@ import java.util.Optional;
 public class CartService {
     @Autowired
     private AdditionalProductRepository additionalProductRepository;
+
+    @Autowired
+    private PizzaRepository pizzaRepository;
+
+    @Autowired
+    private DoughRepository doughRepository;
 
 
     public String addAdditionalProductToCart(int productID, Map<IProduct, Integer> cart) {
@@ -45,5 +57,17 @@ public class CartService {
         }
 
         return cart;
+    }
+
+    public String addPizzaToCart(int pizzaId, RequestPizzaOrderDTO pizzaOrderDTO, Map<IProduct, Integer> cart) {
+        Pizza pizza = pizzaRepository.findById(pizzaId).get();
+        Dough dough;
+        if(pizza == null){
+            throw new BadRequestException("This pizza doesn't exist!");
+        }
+
+        int doughTypeId = pizzaOrderDTO.getDoughTypeId();
+
+        dough = doughRepository.findById(doughTypeId)
     }
 }
