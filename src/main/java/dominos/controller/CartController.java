@@ -1,7 +1,9 @@
 package dominos.controller;
 
+import dominos.exceptions.BadRequestException;
 import dominos.exceptions.NotFoundException;
 import dominos.model.pojo.IProduct;
+import dominos.model.pojo.User;
 import dominos.service.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -40,11 +42,7 @@ public class CartController {
     }
 
     @GetMapping("/cart")
-    public ArrayList<IProduct> getCart(HttpSession session){
-        if(sessionManager.getCartAttribute(session) == null){
-            throw new NotFoundException("Cart is empty!");
-        }
-
-        return sessionManager.getCartAttribute(session);
+    public ArrayList<IProduct> getCart(HttpSession session, @PathVariable int id){
+        return cartService.getCart(session);
     }
 }
