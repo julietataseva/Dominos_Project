@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -16,14 +17,14 @@ public class AdditionalProductService {
     @Autowired
     private AdditionalProductRepository additionalProductRepository;
 
-    public AdditionalProductDTO getAdditionalProductByName(String name) {
-        AdditionalProduct additionalProduct = additionalProductRepository.findByName(name);
+    public AdditionalProductDTO getAdditionalProductById(int productID) {
+        Optional<AdditionalProduct> additionalProduct = additionalProductRepository.findById(productID);
 
-        if (additionalProduct == null) {
+        if (additionalProduct.isEmpty()) {
             throw new NotFoundException("Product not found");
         }
 
-        return new AdditionalProductDTO(additionalProduct);
+        return new AdditionalProductDTO(additionalProduct.get());
     }
 
     public List<AdditionalProductDTO> getAdditionalProductMenu() {
