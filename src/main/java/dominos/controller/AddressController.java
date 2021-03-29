@@ -1,5 +1,6 @@
 package dominos.controller;
 
+import dominos.exceptions.AuthenticationException;
 import dominos.exceptions.BadRequestException;
 import dominos.model.dto.AddressRequestDTO;
 import dominos.model.dto.AddressWithoutUserDTO;
@@ -14,7 +15,7 @@ import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @RestController
-public class AddressController extends AbstractController{
+public class AddressController extends AbstractController {
     @Autowired
     private SessionManager sessionManager;
 
@@ -26,7 +27,7 @@ public class AddressController extends AbstractController{
 
     @PutMapping("/users/{id}/addresses")
     public AddressWithoutUserDTO addAddress(@RequestBody AddressRequestDTO addressRequestDTO,
-                                            HttpSession session, @PathVariable int id){
+                                            HttpSession session, @PathVariable int id) {
         User loggedUser = sessionManager.getLoggedUser(session);
         if (loggedUser.getId() != id) {
             throw new BadRequestException("You cannot add address to another user!");
@@ -35,8 +36,19 @@ public class AddressController extends AbstractController{
         return addressService.addAddress(addressRequestDTO, id);
     }
 
+    @DeleteMapping("/addresses/{addressId}")
+    public AddressWithoutUserDTO deleteAddress(@PathVariable int addressId, HttpSession session) {
+        if (!sessionManager.validateLogged(session)){
+            throw new AuthenticationException("You have to log in!");
+        }
+
+        User loggedUser = sessionManager.getLoggedUser(session);
+
+        return addressService.deleteAddress(addressId, loggedUser);
+    }
+
     @GetMapping("/users/{id}/addresses")
-    public List<AddressWithoutUserDTO> getAllAddressesByUserId(@PathVariable int id, HttpSession session){
+    public List<AddressWithoutUserDTO> getAllAddressesByUserId(@PathVariable int id, HttpSession session) {
         User loggedUser = sessionManager.getLoggedUser(session);
         if (loggedUser.getId() != id) {
             throw new BadRequestException("You cannot see addresses of another user!");
@@ -47,7 +59,7 @@ public class AddressController extends AbstractController{
 
     @PostMapping("/users/{userId}/addresses/{addressId}")
     public AddressWithoutUserDTO editAddress(@RequestBody AddressRequestDTO addressRequestDTO, HttpSession session,
-                                             @PathVariable int userId, @PathVariable int addressId){
+                                             @PathVariable int userId, @PathVariable int addressId) {
 
         User loggedUser = sessionManager.getLoggedUser(session);
         if (loggedUser.getId() != userId) {
