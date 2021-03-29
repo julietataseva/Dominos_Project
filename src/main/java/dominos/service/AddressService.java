@@ -1,5 +1,6 @@
 package dominos.service;
 
+import dominos.exceptions.AuthenticationException;
 import dominos.exceptions.BadRequestException;
 import dominos.exceptions.NoContentException;
 import dominos.exceptions.NotFoundException;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AddressService {
@@ -23,7 +25,7 @@ public class AddressService {
     @Autowired
     private UserRepository userRepository;
 
-    public AddressWithoutUserDTO addAddress(AddressRequestDTO addressRequestDTO, int id){
+    public AddressWithoutUserDTO addAddress(AddressRequestDTO addressRequestDTO, int id) {
         User user = userRepository.findById(id).get();
 
         String phoneNumber = addressRequestDTO.getPhoneNumber();
@@ -44,15 +46,15 @@ public class AddressService {
         return new AddressWithoutUserDTO(address);
     }
 
-    public List<AddressWithoutUserDTO> getAllAddressesByUserId(int id) throws NoContentException{
+    public List<AddressWithoutUserDTO> getAllAddressesByUserId(int id) throws NoContentException {
         User user = userRepository.findById(id).get();
         List<Address> addresses = user.getAddresses();
-        if(addresses.size() == 0) {
+        if (addresses.size() == 0) {
             throw new NoContentException("You don't have any addresses added.");
         }
 
         List<AddressWithoutUserDTO> returnAddresses = new ArrayList<>();
-        for(Address address : addresses){
+        for (Address address : addresses) {
             returnAddresses.add(new AddressWithoutUserDTO(address));
         }
 
@@ -61,36 +63,36 @@ public class AddressService {
 
     public AddressWithoutUserDTO editAddress(AddressRequestDTO addressRequestDTO, int userId, int addressId) {
         Address address = addressRepository.findById(addressId).get();
-        if(address == null){
+        if (address == null) {
             throw new BadRequestException("Address with id " + addressId + " doesn't exits!");
         }
 
         User user = userRepository.findById(userId).get();
         List<Address> userAddresses = user.getAddresses();
-        if(!userAddresses.contains(address)){
+        if (!userAddresses.contains(address)) {
             throw new BadRequestException("You cannot edit address that is not yours!");
         }
 
         String newPhoneNumber = addressRequestDTO.getPhoneNumber();
-        if(newPhoneNumber != null){
+        if (newPhoneNumber != null) {
             this.isValidPhoneNumber(newPhoneNumber);
             address.setPhoneNumber(newPhoneNumber);
         }
 
         String newLatitude = addressRequestDTO.getLatitude();
-        if(newLatitude != null){
+        if (newLatitude != null) {
             this.isValidLatitude(newLatitude);
             address.setLatitude(newLatitude);
         }
 
         String newLongitude = addressRequestDTO.getLongitude();
-        if(newLongitude != null){
+        if (newLongitude != null) {
             this.isValidLongitude(newLongitude);
             address.setLongitude(newLongitude);
         }
 
         String newDescription = addressRequestDTO.getDescription();
-        if(newDescription != null){
+        if (newDescription != null) {
             this.isValidDescription(newDescription);
             address.setDescription(newDescription);
         }
@@ -99,36 +101,49 @@ public class AddressService {
         return new AddressWithoutUserDTO(address);
     }
 
-    private boolean isValidPhoneNumber(String phoneNumber){
+    private boolean isValidPhoneNumber(String phoneNumber) {
         String validatePhoneNumber = "^([+]?359)|0?(|-| )8[789]\\d{1}(|-| )\\d{3}(|-| )\\d{3}$";
-        if(phoneNumber == null || !phoneNumber.matches(validatePhoneNumber)){
+        if (phoneNumber == null || !phoneNumber.matches(validatePhoneNumber)) {
             throw new BadRequestException("Invalid phone number!");
         }
 
         return true;
     }
 
-    private boolean isValidLatitude(String latitude){
-        if(latitude == null || latitude.equals("")){
+    private boolean isValidLatitude(String latitude) {
+        if (latitude == null || latitude.equals("")) {
             throw new BadRequestException("Invalid latitude!");
         }
 
         return true;
     }
 
-    private boolean isValidLongitude(String longitude){
-        if(longitude == null || longitude.equals("")){
+    private boolean isValidLongitude(String longitude) {
+        if (longitude == null || longitude.equals("")) {
             throw new BadRequestException("Invalid longitude!");
         }
 
         return true;
     }
 
-    private boolean isValidDescription(String description){
-        if(description == null || description.equals("")){
+    private boolean isValidDescription(String description) {
+        if (description == null || description.equals("")) {
             throw new BadRequestException("Invalid description!");
         }
 
         return true;
+    }
+
+    public AddressWithoutUserDTO deleteAddress(int addressId, User loggedUser) {
+        Optional<Address> address = addressRepository.findById(addressId);
+        AddressWithoutUserDTO addressWithoutUserDTO = new AddressWithoutUserDTO(address.get());
+        int addressUserId = address.get().getUser().getId();
+
+        if (addressUserId != loggedUser.getId()){
+            throw new AuthenticationException("You can not delete this address");
+        }
+
+        addressRepository.deleteById(addressId);
+        return addressWithoutUserDTO;
     }
 }
