@@ -29,8 +29,8 @@ public class PizzaService {
         return returnPizzas;
     }
 
-    public PizzaResponseDetailedDTO getByName(String name) {
-        Pizza pizza = pizzaRepository.getByName(name);
+    public PizzaResponseDetailedDTO getById(int pizzaId) {
+        Pizza pizza = pizzaRepository.findById(pizzaId).get();
         if(pizza == null){
             throw new BadRequestException("Pizza with this name doesn't exist.");
         }

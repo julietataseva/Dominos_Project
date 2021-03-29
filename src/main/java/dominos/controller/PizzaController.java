@@ -31,12 +31,12 @@ public class PizzaController extends AbstractController{
         return pizzaService.getMenu();
     }
 
-    @GetMapping("menu/pizzas/{name}")
-    public PizzaResponseDetailedDTO getPizzaByName(@PathVariable String name, HttpSession session){
+    @GetMapping("menu/pizzas/{pizzaId}")
+    public PizzaResponseDetailedDTO getPizzaByName(@PathVariable int pizzaId, HttpSession session){
         if(!sessionManager.validateLogged(session)){
             throw new AuthenticationException("You have to log in to see the pizza.");
         }
 
-        return pizzaService.getByName(name);
+        return pizzaService.getById(pizzaId);
     }
 }
