@@ -87,7 +87,7 @@ public class CartService {
         Pizza pizza = pizzaRepository.findById(pizzaId).get();
         Dough dough = null;
         PizzaSize pizzaSize = null;
-        List<IngredientDTO> additionalIngredients = new ArrayList<>();
+        List<Ingredient> additionalIngredients = new ArrayList<>();
 
         if(pizza == null){
             throw new BadRequestException("This pizza doesn't exist!");
@@ -100,6 +100,9 @@ public class CartService {
                 throw new BadRequestException("This dough doesn't exist!");
             }
         }
+        else {
+            dough = new Dough();
+        }
 
         Integer pizzaSizeId = requestPizzaOrderDTO.getPizzaSizeId();
         if(pizzaSizeId != null){
@@ -107,6 +110,9 @@ public class CartService {
             if(pizzaSize == null){
                 throw new BadRequestException("This pizza size doesn't exists!");
             }
+        }
+        else{
+            pizzaSize = new PizzaSize();
         }
 
         List<Integer> additionalIngredientsIds = requestPizzaOrderDTO.getAdditionalIngredientsIds();
@@ -116,11 +122,12 @@ public class CartService {
                 if(ingredient == null){
                     throw new BadRequestException("This ingredient doesn't exist!");
                 }
-                additionalIngredients.add(new IngredientDTO(ingredient));
+                additionalIngredients.add(ingredient);
             }
         }
 
         PizzaOrderDTO pizzaOrderDTO = new PizzaOrderDTO();
+        pizzaOrderDTO.setId(pizza.getId());
         pizzaOrderDTO.setPizza(pizza);
         pizzaOrderDTO.setDough(dough);
         pizzaOrderDTO.setPizzaSize(pizzaSize);
