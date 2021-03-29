@@ -42,7 +42,7 @@ public class CartController extends AbstractController {
         }
     }
 
-    @DeleteMapping("/cart/{productId}")
+    @DeleteMapping("/cart/products/{productId}")
     public ResponseEntity<String> deleteAdditionalProductFromCart(@PathVariable int productId, HttpSession session) {
         if (!sessionManager.validateLogged(session)) {
             return new ResponseEntity<>("Invalid session, you have to log in", HttpStatus.UNAUTHORIZED);
@@ -70,6 +70,23 @@ public class CartController extends AbstractController {
 
         try {
             String response = cartService.addPizzaToCart(pizzaId, pizzaOrderDTO, cart);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (NotFoundException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @DeleteMapping("/cart/pizzas/{pizzaId}")
+    public ResponseEntity<String> removePizzaFromCart(@PathVariable int pizzaId, HttpSession session) {
+        if (!sessionManager.validateLogged(session)) {
+            return new ResponseEntity<>("You have to log in in order to remove pizza from cart!",
+                                              HttpStatus.UNAUTHORIZED);
+        }
+
+        Map<IProduct, Integer> cart = sessionManager.getCartAttribute(session);
+
+        try {
+            String response = cartService.removePizzaFromCart(pizzaId, cart);
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (NotFoundException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);

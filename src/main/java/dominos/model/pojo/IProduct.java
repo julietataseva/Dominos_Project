@@ -5,4 +5,5 @@ import java.io.Serializable;
 public interface IProduct{
     String getName();
     double getPrice();
+    int getId();
 }

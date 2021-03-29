@@ -141,4 +141,37 @@ public class CartService {
 
         return "Pizza " + pizza.getName() + " added successfully";
     }
+
+    public String removePizzaFromCart(int pizzaId, Map<IProduct, Integer> cart) {
+        if(cart.isEmpty()){
+            throw new BadRequestException("Cart is empty!");
+        }
+
+        Pizza pizza = pizzaRepository.findById(pizzaId).get();
+        if (pizza == null) {
+            throw new NotFoundException("Non-existing pizza!");
+        }
+
+        boolean pizzaExistsInCart = false;
+        for(Map.Entry<IProduct, Integer> entry : cart.entrySet()) {
+            IProduct pizzaOrder = entry.getKey();
+            if(pizzaOrder.getId() == pizza.getId()) {
+                pizzaExistsInCart = true;
+                int quantity = entry.getValue();
+                if(quantity > 1) {
+                    cart.put(pizzaOrder, quantity - 1);
+                }
+                else {
+                    cart.remove(pizzaOrder);
+                }
+                break;
+            }
+        }
+
+        if(!pizzaExistsInCart){
+            throw new NotFoundException("No such pizza in cart!");
+        }
+
+        return "Pizza " + pizza.getName() + " removed from cart.";
+    }
 }
