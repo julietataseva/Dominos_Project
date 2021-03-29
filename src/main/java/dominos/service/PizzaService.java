@@ -18,7 +18,7 @@ public class PizzaService {
 
     public List<PizzaResponseDTO> getMenu(){
         List<Pizza> pizzas = pizzaRepository.findAll();
-        if(pizzas == null){
+        if(pizzas == null || pizzas.isEmpty()){
             throw new NoContentException("The menu is empty.");
         }
 
