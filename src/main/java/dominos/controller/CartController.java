@@ -1,12 +1,10 @@
 package dominos.controller;
 
-import dominos.exceptions.BadRequestException;
 import dominos.exceptions.AuthenticationException;
 import dominos.exceptions.NotFoundException;
 import dominos.model.dto.CartResponseDTO;
 import dominos.model.dto.RequestPizzaOrderDTO;
 import dominos.model.pojo.IProduct;
-import dominos.model.pojo.User;
 import dominos.service.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

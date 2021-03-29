@@ -50,7 +50,7 @@ public class CartService {
 
     public String deleteAdditionalProductFromCart(int productId, Map<IProduct, Integer> cart) {
         if (cart.isEmpty()) {
-            throw new AuthenticationException("Cart is empty!");
+            throw new BadRequestException("Cart is empty!");
         }
 
         Optional<AdditionalProduct> additionalProduct = additionalProductRepository.findById(productId);
