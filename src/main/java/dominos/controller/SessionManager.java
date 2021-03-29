@@ -8,7 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 @Component
 public class SessionManager {
@@ -30,7 +31,7 @@ public class SessionManager {
 
     public void loginUser(HttpSession session, int id) {
         session.setAttribute(LOGGED_USER_ID, id);
-        session.setAttribute(USER_CART, new ArrayList<IProduct>());
+        session.setAttribute(USER_CART, new HashMap<IProduct, Integer>());
     }
 
     public void logoutUser(HttpSession session) {
@@ -41,7 +42,7 @@ public class SessionManager {
         return !session.isNew() && session.getAttribute(LOGGED_USER_ID) != null;
     }
 
-    public ArrayList<IProduct> getCartAttribute(HttpSession session) {
-        return (ArrayList<IProduct>) session.getAttribute("USER_CART");
+    public Map<IProduct, Integer> getCartAttribute(HttpSession session) {
+        return (Map<IProduct, Integer>) session.getAttribute("USER_CART");
     }
 }

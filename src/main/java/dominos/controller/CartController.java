@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
+import java.util.Map;
 
 @RestController
 public class CartController {
@@ -30,7 +31,7 @@ public class CartController {
             return new ResponseEntity<>("Invalid session, you have to log in", HttpStatus.UNAUTHORIZED);
         }
 
-        ArrayList<IProduct> cart = sessionManager.getCartAttribute(session);
+        Map<IProduct, Integer> cart = sessionManager.getCartAttribute(session);
 
         try {
             String response = cartService.addAdditionalProductToCart(id, cart);
@@ -41,7 +42,7 @@ public class CartController {
     }
 
     @GetMapping("/cart")
-    public ArrayList<IProduct> getCart(HttpSession session) {
+    public Map<IProduct, Integer> getCart(HttpSession session) {
         if (!sessionManager.validateLogged(session)) {
             throw new AuthenticationException("You have to log in!");
         }

@@ -8,7 +8,7 @@ import dominos.model.repository.AdditionalProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -17,15 +17,20 @@ public class CartService {
     private AdditionalProductRepository additionalProductRepository;
 
 
-    public String addAdditionalProductToCart(int id, ArrayList<IProduct> cart) {
-        Optional<AdditionalProduct> additionalProduct = additionalProductRepository.findById(id);
+    public String addAdditionalProductToCart(int productID, Map<IProduct, Integer> cart) {
+        Optional<AdditionalProduct> additionalProduct = additionalProductRepository.findById(productID);
         if (additionalProduct.isEmpty()) {
             throw new NotFoundException("No such product");
         }
 
         AdditionalProductDTO additionalProductDTO = new AdditionalProductDTO(additionalProduct.get());
 
-        cart.add(additionalProductDTO);
+        if (!cart.containsKey(additionalProductDTO)) {
+            cart.put(additionalProductDTO, 1);
+        } else {
+            cart.put(additionalProductDTO, cart.get(additionalProductDTO) + 1);
+        }
+
         return "Product added successfully";
     }
 }
