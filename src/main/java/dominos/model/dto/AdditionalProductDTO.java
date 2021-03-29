@@ -8,18 +8,18 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.stereotype.Component;
 
-import java.io.Serializable;
-
 @NoArgsConstructor
 @Getter
 @Setter
 @Component
 @EqualsAndHashCode
 public class AdditionalProductDTO implements IProduct {
+    private int id;
     private String name;
     private double price;
 
     public AdditionalProductDTO(AdditionalProduct additionalProduct) {
+        this.id = additionalProduct.getId();
         this.name = additionalProduct.getName();
         this.price = additionalProduct.getPrice();
     }
