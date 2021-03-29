@@ -1,5 +1,6 @@
 package dominos.service;
 
+import dominos.exceptions.AuthenticationException;
 import dominos.exceptions.NotFoundException;
 import dominos.model.dto.AdditionalProductDTO;
 import dominos.model.dto.CartResponseDTO;
@@ -37,9 +38,34 @@ public class CartService {
         return "Product added successfully";
     }
 
+    public String deleteAdditionalProductFromCart(int productId, Map<IProduct, Integer> cart) {
+        if (cart.isEmpty()) {
+            throw new AuthenticationException("Cart is empty!");
+        }
+
+        Optional<AdditionalProduct> additionalProduct = additionalProductRepository.findById(productId);
+        if (additionalProduct.isEmpty()) {
+            throw new NotFoundException("No such product");
+        }
+
+        AdditionalProductDTO additionalProductDTO = new AdditionalProductDTO(additionalProduct.get());
+
+        if (!cart.containsKey(additionalProductDTO)) {
+            throw new NotFoundException("No such product in cart");
+        } else {
+            cart.put(additionalProductDTO, cart.get(additionalProductDTO) - 1);
+        }
+
+        if (cart.get(additionalProductDTO) <= 0) {
+            cart.remove(additionalProductDTO);
+        }
+
+        return "Product deleted successfully";
+    }
+
     public List<CartResponseDTO> getCart(Map<IProduct, Integer> cartAttribute) {
         List<CartResponseDTO> cart = new ArrayList<>();
-        for(Map.Entry<IProduct, Integer> entry : cartAttribute.entrySet()){
+        for (Map.Entry<IProduct, Integer> entry : cartAttribute.entrySet()) {
             CartResponseDTO cartItem = new CartResponseDTO(entry.getKey(), entry.getValue());
             cart.add(cartItem);
         }
