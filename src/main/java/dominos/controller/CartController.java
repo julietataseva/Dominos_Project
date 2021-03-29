@@ -6,6 +6,7 @@ import dominos.service.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -38,5 +39,12 @@ public class CartController {
         }
     }
 
+    @GetMapping("/cart")
+    public ArrayList<IProduct> getCart(HttpSession session){
+        if(sessionManager.getCartAttribute(session) == null){
+            throw new NotFoundException("Cart is empty!");
+        }
 
+        return sessionManager.getCartAttribute(session);
+    }
 }
