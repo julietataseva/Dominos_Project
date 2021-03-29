@@ -2,6 +2,7 @@ package dominos.controller;
 import dominos.exceptions.BadRequestException;
 import dominos.exceptions.AuthenticationException;
 import dominos.exceptions.NotFoundException;
+import dominos.model.dto.CartResponseDTO;
 import dominos.model.pojo.IProduct;
 import dominos.model.pojo.User;
 import dominos.service.CartService;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpSession;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -42,7 +44,7 @@ public class CartController extends AbstractController{
     }
 
     @GetMapping("/cart")
-    public Map<IProduct, Integer> getCart(HttpSession session) {
+    public List<CartResponseDTO> getCart(HttpSession session) {
         if (!sessionManager.validateLogged(session)) {
             throw new AuthenticationException("You have to log in!");
         }
@@ -51,6 +53,7 @@ public class CartController extends AbstractController{
             throw new NotFoundException("Cart is empty!");
         }
 
-        return sessionManager.getCartAttribute(session);
+        Map<IProduct, Integer> cartAttribute = sessionManager.getCartAttribute(session);
+        return cartService.getCart(cartAttribute);
     }
 }
