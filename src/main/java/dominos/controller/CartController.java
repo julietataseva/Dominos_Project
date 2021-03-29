@@ -1,9 +1,8 @@
 package dominos.controller;
-import dominos.exceptions.BadRequestException;
+
 import dominos.exceptions.AuthenticationException;
 import dominos.exceptions.NotFoundException;
 import dominos.model.pojo.IProduct;
-import dominos.model.pojo.User;
 import dominos.service.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,7 +16,7 @@ import javax.servlet.http.HttpSession;
 import java.util.Map;
 
 @RestController
-public class CartController {
+public class CartController extends AbstractController {
     @Autowired
     private CartService cartService;
 

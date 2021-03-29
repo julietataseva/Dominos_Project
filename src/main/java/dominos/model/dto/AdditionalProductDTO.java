@@ -1,6 +1,5 @@
 package dominos.model.dto;
 
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import dominos.model.pojo.AdditionalProduct;
 import dominos.model.pojo.IProduct;
 import lombok.EqualsAndHashCode;
