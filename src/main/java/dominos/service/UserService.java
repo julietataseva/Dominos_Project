@@ -18,6 +18,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Optional;
+import java.util.regex.Pattern;
 
 
 @Service
@@ -27,7 +28,10 @@ public class UserService {
     private UserRepository userRepository;
 
     public RegisterResponseUserDTO addUser(RegisterRequestUserDTO userDTO){
-        if(userRepository.findByEmail(userDTO.getEmail()) != null){
+        String email = userDTO.getEmail();
+        this.validateEmail(email);
+
+        if(userRepository.findByEmail(email) != null){
             throw new BadRequestException("Email already exists");
         }
 
@@ -45,12 +49,24 @@ public class UserService {
 
         String encodedPassword = encoder.encode(initialPassword);
         userDTO.setPassword(encodedPassword);
+
+        String firstName = userDTO.getFirstName();
+        validateName(firstName);
+
+        String lastName = userDTO.getLastName();
+        validateName(lastName);
+
         User user = new User(userDTO);
         user = userRepository.save(user);
         RegisterResponseUserDTO responseUserDTO = new RegisterResponseUserDTO(user);
         return responseUserDTO;
     }
 
+    private void validateName(String name){
+        if(name == null || name.isEmpty()){
+            throw new BadRequestException("Invalid name!");
+        }
+    }
 
     public EditResponseUserDTO editUser(EditRequestUserDTO userDTO, int id) {
         Optional<User> u = userRepository.findById(id);
@@ -66,7 +82,8 @@ public class UserService {
         this.validateNewLastName(user, newLastName);
 
         String newEmail = userDTO.getEmail();
-        this.validateNewEmail(user, newEmail);
+        this.validateEmail(newEmail);
+        user.setEmail(newEmail);
 
         String currentPassword = userDTO.getCurrentPassword();
         this.validateCurrentAndNewPassword(user, currentPassword, userDTO);
@@ -76,30 +93,37 @@ public class UserService {
         return new EditResponseUserDTO(user);
     }
 
-    private void validateNewFirstName(User user, String newFirstName){
-        if(newFirstName != null){
-            if(newFirstName.equals("")){
+    private void validateNewFirstName(User user, String firstName){
+        if(firstName != null){
+            if(firstName.equals("")){
                 throw new BadRequestException("First name should not be empty!");
             }
-            user.setFirstName(newFirstName);
+            user.setFirstName(firstName);
         }
     }
 
-    private void validateNewLastName(User user, String newLastName) {
-        if(newLastName != null){
-            if(newLastName.equals("")){
+    private void validateNewLastName(User user, String lastName) {
+        if(lastName != null){
+            if(lastName.equals("")){
                 throw new BadRequestException("Last name should not be empty!");
             }
-            user.setLastName(newLastName);
+            user.setLastName(lastName);
         }
     }
 
-    private void validateNewEmail(User user, String newEmail) {
-        if(newEmail != null){
-            if(newEmail.equals("")){
-                throw new BadRequestException("Email should not be empty!");
-            }
-            user.setEmail(newEmail);
+    private void validateEmail(String email){
+        String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\."+
+                "[a-zA-Z0-9_+&*-]+)*@" +
+                "(?:[a-zA-Z0-9-]+\\.)+[a-z" +
+                "A-Z]{2,7}$";
+
+        Pattern pat = Pattern.compile(emailRegex);
+        if (email == null) {
+            throw new BadRequestException("Invalid email!");
+        }
+
+        if(!pat.matcher(email).matches()){
+            throw new BadRequestException("Invalid email!");
         }
     }
 
