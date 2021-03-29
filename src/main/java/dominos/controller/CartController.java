@@ -17,7 +17,7 @@ import javax.servlet.http.HttpSession;
 import java.util.Map;
 
 @RestController
-public class CartController {
+public class CartController extends AbstractController{
     @Autowired
     private CartService cartService;
 
