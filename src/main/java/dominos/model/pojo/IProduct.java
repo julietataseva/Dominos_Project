@@ -1,4 +1,6 @@
 package dominos.model.pojo;
 
-public interface IProduct {
+import java.io.Serializable;
+
+public interface IProduct{
 }
