@@ -1,6 +1,6 @@
 package dominos.controller;
-
 import dominos.exceptions.BadRequestException;
+import dominos.exceptions.AuthenticationException;
 import dominos.exceptions.NotFoundException;
 import dominos.model.pojo.IProduct;
 import dominos.model.pojo.User;
@@ -42,7 +42,15 @@ public class CartController {
     }
 
     @GetMapping("/cart")
-    public ArrayList<IProduct> getCart(HttpSession session, @PathVariable int id){
-        return cartService.getCart(session);
+    public ArrayList<IProduct> getCart(HttpSession session) {
+        if (!sessionManager.validateLogged(session)) {
+            throw new AuthenticationException("You have to log in!");
+        }
+
+        if (sessionManager.getCartAttribute(session) == null) {
+            throw new NotFoundException("Cart is empty!");
+        }
+
+        return sessionManager.getCartAttribute(session);
     }
 }

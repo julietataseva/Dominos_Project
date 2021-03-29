@@ -16,13 +16,13 @@ public class AdditionalProductController extends AbstractController {
     @Autowired
     private AdditionalProductService additionalProductService;
 
-    @GetMapping("/menu/products/{name}")
-    public AdditionalProductDTO getAdditionalProductByName(@PathVariable String name){
-        return additionalProductService.getAdditionalProductByName(name);
+    @GetMapping("/menu/products/{id}")
+    public AdditionalProductDTO getAdditionalProductById(@PathVariable int id) {
+        return additionalProductService.getAdditionalProductById(id);
     }
 
     @GetMapping("/menu/products")
-    public List<AdditionalProductDTO> getAdditionalProductsMenu(){
+    public List<AdditionalProductDTO> getAdditionalProductsMenu() {
         return additionalProductService.getAdditionalProductMenu();
     }
 }
