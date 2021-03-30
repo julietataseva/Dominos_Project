@@ -21,6 +21,15 @@ public class OrderService {
     private PizzaOrderRepository pizzaOrderRepository;
 
     @Autowired
+    PizzaRepository pizzaRepository;
+
+    @Autowired
+    DoughRepository doughRepository;
+
+    @Autowired
+    PizzaSizeRepository pizzaSizeRepository;
+
+    @Autowired
     private AdditionalProductOrderRepository additionalProductOrderRepository;
 
     @Autowired
@@ -46,7 +55,18 @@ public class OrderService {
 
                 PizzaOrderDTO pizzaOrderDTO = (PizzaOrderDTO) product.getKey();
                 int quantity = product.getValue();
-                PizzaOrder pizzaOrder = new PizzaOrder(order, pizzaOrderDTO, quantity);
+                PizzaOrder pizzaOrder = new PizzaOrder();
+                pizzaOrder.setOrder(order);
+                Pizza pizza = pizzaRepository.findById(pizzaOrderDTO.getPizza().getId()).get();
+                pizzaOrder.setPizza(pizza);
+                pizzaOrder.setQuantity(quantity);
+                pizzaOrder.setPrice(pizzaOrderDTO.getPrice());
+                Dough dough = doughRepository.findById(pizzaOrderDTO.getDough().getId()).get();
+                pizzaOrder.setDough(dough);
+                PizzaSize pizzaSize = pizzaSizeRepository.findById(pizzaOrderDTO.getPizzaSize().getId()).get();
+                pizzaOrder.setSize(pizzaSize);
+                pizzaOrder.setModifications(pizzaOrderDTO.getModifications());
+                //PizzaOrder pizzaOrder = new PizzaOrder(order, pizzaOrderDTO, quantity);
                 pizzaOrderRepository.save(pizzaOrder);
             } else {
                 AdditionalProductOrderDTO additionalProductOrderDTO =

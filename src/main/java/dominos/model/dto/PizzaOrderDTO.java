@@ -19,6 +19,7 @@ public class PizzaOrderDTO implements IProduct {
     private PizzaSizeDTO pizzaSize;
     private List<IngredientWithPriceDTO> additionalIngredients;
     private static final int priceDifference = 3;
+
     public PizzaOrderDTO(){
         this.additionalIngredients = new ArrayList<>();
     }
