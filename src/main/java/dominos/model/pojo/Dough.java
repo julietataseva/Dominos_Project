@@ -1,11 +1,7 @@
 package dominos.model.pojo;
 
-import dominos.model.dto.DoughDTO;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -28,7 +24,7 @@ public class Dough {
         TRADITIONAL, ITALIAN_STYLE, THIN_AND_CRISPY, WITH_PHILADELPHIA
     }
 
-    public Dough(){
+    public Dough() {
         this.id = 1;
         this.type = DoughType.TRADITIONAL;
         this.pizzaOrders = new ArrayList<>();

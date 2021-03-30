@@ -2,14 +2,12 @@ package dominos.model.pojo;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import dominos.model.dto.OrderDTO;
-import dominos.model.dto.RegisterRequestUserDTO;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 @NoArgsConstructor

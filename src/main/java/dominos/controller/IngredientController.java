@@ -12,7 +12,6 @@ import java.util.List;
 
 @RestController
 public class IngredientController extends AbstractController {
-
     @Autowired
     private IngredientService ingredientService;
 

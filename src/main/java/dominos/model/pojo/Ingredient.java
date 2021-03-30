@@ -23,7 +23,7 @@ public class Ingredient {
     @ManyToMany(mappedBy = "ingredients")
     private List<Pizza> pizzas; //pizzas that contain the ingredient
 
-    public Ingredient(IngredientDTO ingredientDTO){
+    public Ingredient(IngredientDTO ingredientDTO) {
         this.id = ingredientDTO.getId();
         this.name = ingredientDTO.getName();
         this.pizzas = new ArrayList<>();

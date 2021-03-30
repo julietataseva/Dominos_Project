@@ -14,7 +14,6 @@ import java.util.List;
 
 @RestController
 public class AdditionalProductController extends AbstractController {
-
     @Autowired
     private AdditionalProductService additionalProductService;
 

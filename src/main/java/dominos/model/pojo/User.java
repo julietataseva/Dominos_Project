@@ -27,7 +27,7 @@ public class User {
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
     private List<Order> orders;
 
-    public User(RegisterRequestUserDTO userDTO){
+    public User(RegisterRequestUserDTO userDTO) {
         this.firstName = userDTO.getFirstName();
         this.lastName = userDTO.getLastName();
         password = userDTO.getPassword();

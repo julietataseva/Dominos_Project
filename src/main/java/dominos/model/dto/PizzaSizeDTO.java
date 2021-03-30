@@ -14,12 +14,12 @@ public class PizzaSizeDTO {
     private int id;
     private PizzaSize.Size size;
 
-    public PizzaSizeDTO(int id, PizzaSize.Size size){
+    public PizzaSizeDTO(int id, PizzaSize.Size size) {
         this.id = id;
         this.size = size;
     }
 
-    public PizzaSizeDTO(PizzaSize pizzaSize){
+    public PizzaSizeDTO(PizzaSize pizzaSize) {
         this.id = pizzaSize.getId();
         this.size = pizzaSize.getSize();
     }

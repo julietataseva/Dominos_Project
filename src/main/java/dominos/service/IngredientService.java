@@ -14,10 +14,10 @@ public class IngredientService {
     @Autowired
     private IngredientRepository ingredientRepository;
 
-    public  List<IngredientDTO> getAllIngredients() {
+    public List<IngredientDTO> getAllIngredients() {
         List<Ingredient> ingredients = ingredientRepository.findAll();
         List<IngredientDTO> ingredientDTOS = new ArrayList<>();
-        for (Ingredient i : ingredients){
+        for (Ingredient i : ingredients) {
             ingredientDTOS.add(new IngredientDTO(i));
         }
         return ingredientDTOS;

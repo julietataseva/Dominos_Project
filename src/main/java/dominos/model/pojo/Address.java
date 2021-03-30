@@ -12,13 +12,13 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-@Table(name="addresses")
+@Table(name = "addresses")
 public class Address {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @ManyToOne
-    @JoinColumn(name="user_id")
+    @JoinColumn(name = "user_id")
     private User user;
     @OneToMany(mappedBy = "address")
     private List<Order> orders;
@@ -27,7 +27,7 @@ public class Address {
     private String longitude;
     private String description;
 
-    public Address(AddressRequestDTO addressRequestDTO){
+    public Address(AddressRequestDTO addressRequestDTO) {
         this.phoneNumber = addressRequestDTO.getPhoneNumber();
         this.latitude = addressRequestDTO.getLatitude();
         this.longitude = addressRequestDTO.getLongitude();

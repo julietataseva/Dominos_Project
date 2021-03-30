@@ -14,12 +14,12 @@ public class DoughDTO {
     private int id;
     private Dough.DoughType type;
 
-    public DoughDTO(int id, Dough.DoughType doughType){
+    public DoughDTO(int id, Dough.DoughType doughType) {
         this.id = id;
         this.type = doughType;
     }
 
-    public DoughDTO(Dough dough){
+    public DoughDTO(Dough dough) {
         this.id = dough.getId();
         this.type = dough.getType();
     }

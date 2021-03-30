@@ -13,7 +13,6 @@ import java.util.Map;
 
 @Component
 public class SessionManager {
-
     private static final String LOGGED_USER_ID = "LOGGED_USER_ID";
     private static final String USER_CART = "USER_CART";
 

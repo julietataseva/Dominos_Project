@@ -1,7 +1,6 @@
 package dominos.controller;
 
 import dominos.exceptions.AuthenticationException;
-import dominos.exceptions.BadRequestException;
 import dominos.model.dto.AddressRequestDTO;
 import dominos.model.dto.AddressWithoutUserDTO;
 import dominos.model.pojo.User;
@@ -20,10 +19,9 @@ public class AddressController extends AbstractController {
     @Autowired
     private AddressService addressService;
 
-
     @PutMapping("/addresses")
     public AddressWithoutUserDTO addAddress(@RequestBody AddressRequestDTO addressRequestDTO, HttpSession session) {
-        if(!sessionManager.validateLogged(session)){
+        if (!sessionManager.validateLogged(session)) {
             throw new AuthenticationException("You have to log in in order to add address!");
         }
 

@@ -12,7 +12,5 @@ import org.springframework.stereotype.Component;
 @Component
 @AllArgsConstructor
 public class ErrorDTO {
-
     private String msg;
-
 }

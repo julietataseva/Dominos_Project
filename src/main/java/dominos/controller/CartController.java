@@ -25,7 +25,6 @@ public class CartController extends AbstractController {
     @Autowired
     private SessionManager sessionManager;
 
-
     @PutMapping("/menu/products/{productId}")
     public AdditionalProductDTO addAdditionalProductToCart(@PathVariable int productId, HttpSession session) {
         if (!sessionManager.validateLogged(session)) {
@@ -50,7 +49,7 @@ public class CartController extends AbstractController {
 
     @PutMapping("/menu/pizzas/{pizzaId}")
     public PizzaOrderDTO addPizzaToCart(@PathVariable int pizzaId, HttpSession session,
-                                                 @RequestBody RequestPizzaOrderDTO requestPizzaOrderDTO) {
+                                        @RequestBody RequestPizzaOrderDTO requestPizzaOrderDTO) {
         if (!sessionManager.validateLogged(session)) {
             throw new AuthenticationException("You have to log in in order to add pizza to cart!");
         }

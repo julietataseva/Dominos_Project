@@ -8,7 +8,6 @@ import dominos.model.dto.AddressWithoutUserDTO;
 import dominos.model.pojo.Address;
 import dominos.model.pojo.User;
 import dominos.model.repository.AddressRepository;
-import dominos.model.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,9 +20,6 @@ import java.util.regex.Pattern;
 public class AddressService {
     @Autowired
     private AddressRepository addressRepository;
-
-    @Autowired
-    private UserRepository userRepository;
 
     public AddressWithoutUserDTO addAddress(AddressRequestDTO addressRequestDTO, User loggedUser) {
         String phoneNumber = addressRequestDTO.getPhoneNumber();

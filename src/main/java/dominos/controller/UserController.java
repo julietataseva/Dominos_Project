@@ -1,7 +1,6 @@
 package dominos.controller;
 
 import dominos.exceptions.AuthenticationException;
-import dominos.exceptions.BadRequestException;
 import dominos.model.dto.EditRequestUserDTO;
 import dominos.model.dto.EditResponseUserDTO;
 import dominos.model.dto.LoginUserDTO;
@@ -18,7 +17,6 @@ import javax.servlet.http.HttpSession;
 
 @RestController
 public class UserController extends AbstractController {
-
     @Autowired
     private UserService userService;
 
