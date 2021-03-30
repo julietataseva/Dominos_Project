@@ -26,6 +26,7 @@ public class UserService {
 
     @Autowired
     private UserRepository userRepository;
+    private static final int MIN_PASSWORD_LENGTH = 6;
 
     public RegisterResponseUserDTO addUser(RegisterRequestUserDTO userDTO){
         String email = userDTO.getEmail();
@@ -37,15 +38,10 @@ public class UserService {
 
         PasswordEncoder encoder = new BCryptPasswordEncoder();
         String initialPassword = userDTO.getPassword();
-        if(initialPassword == null || initialPassword.equals("")){
-            throw new BadRequestException("Invalid password!");
-        }
+        this.validatePassword(initialPassword);
 
         String confirmPassword = userDTO.getConfirmPassword();
-        if(confirmPassword == null || confirmPassword.equals("") ||
-                !initialPassword.equals(confirmPassword)){
-            throw new BadRequestException("Passwords don't match!");
-        }
+        this.validateConfirmPassword(confirmPassword, initialPassword);
 
         String encodedPassword = encoder.encode(initialPassword);
         userDTO.setPassword(encodedPassword);
@@ -60,6 +56,29 @@ public class UserService {
         user = userRepository.save(user);
         RegisterResponseUserDTO responseUserDTO = new RegisterResponseUserDTO(user);
         return responseUserDTO;
+    }
+
+    private void validatePassword(String password){
+        if(password == null || password.isEmpty() ||
+                password.length() < MIN_PASSWORD_LENGTH || this.containsOnlySpaces(password)){
+            throw new BadRequestException("Invalid password!");
+        }
+    }
+
+    private boolean containsOnlySpaces(String password){
+        for (int i = 0; i < password.length(); i++) {
+            if(password.charAt(i) != ' '){
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private void validateConfirmPassword(String confirmPassword, String initialPassword){
+        if(!initialPassword.equals(confirmPassword)){
+            throw new BadRequestException("Passwords don't match!");
+        }
     }
 
     private void validateName(String name){
