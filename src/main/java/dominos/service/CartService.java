@@ -1,7 +1,6 @@
 package dominos.service;
 
 import dominos.exceptions.BadRequestException;
-import dominos.exceptions.AuthenticationException;
 import dominos.exceptions.NotFoundException;
 import dominos.model.dto.*;
 import dominos.model.pojo.*;
