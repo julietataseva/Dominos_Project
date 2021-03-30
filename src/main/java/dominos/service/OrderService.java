@@ -42,16 +42,15 @@ public class OrderService {
         Order order = new Order(orderDTO);
         order = orderRepository.save(order);
 
-        // TODO save products/pizzas
         for (Map.Entry<IProduct, Integer> product : cart.entrySet()) {
-//            if (product.getKey().isPizza()) {
-//                PizzaOrderWithoutIngredientsDTO pizzaOrderWithoutIngredientsDTO =
-//                        new PizzaOrderWithoutIngredientsDTO(order, product.getKey());
-//
-//                PizzaOrder pizzaOrder = new PizzaOrder();
-//
-//                pizzaOrderRepository.save(pizzaOrder);
-//            } else {
+            if (product.getKey().isPizza()) {
+
+                PizzaOrderDTO pizzaOrderDTO = (PizzaOrderDTO) product.getKey();
+                int quantity = product.getValue();
+                PizzaOrder pizzaOrder = new PizzaOrder(order, pizzaOrderDTO, quantity);
+                pizzaOrderRepository.save(pizzaOrder);
+            }
+            else {
                 AdditionalProductOrderDTO additionalProductOrderDTO =
                         new AdditionalProductOrderDTO(order, (AdditionalProductDTO) product.getKey(),
                                 product.getKey().getPrice(), product.getValue());
@@ -60,7 +59,7 @@ public class OrderService {
                         new AdditionalProductOrder(additionalProductOrderDTO);
 
                 additionalProductOrderRepository.save(additionalProductOrder);
-//            }
+            }
         }
     }
 }

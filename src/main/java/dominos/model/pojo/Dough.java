@@ -1,5 +1,6 @@
 package dominos.model.pojo;
 
+import dominos.model.dto.DoughDTO;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -30,6 +31,12 @@ public class Dough {
     public Dough(){
         this.id = 1;
         this.type = DoughType.TRADITIONAL;
+        this.pizzaOrders = new ArrayList<>();
+    }
+
+    public Dough(DoughDTO doughDTO){
+        this.id = doughDTO.getId();
+        this.type = doughDTO.getType();
         this.pizzaOrders = new ArrayList<>();
     }
 }

@@ -11,9 +11,11 @@ import org.springframework.stereotype.Component;
 @Setter
 @Component
 public class IngredientDTO {
+    private int id;
     private String name;
 
     public IngredientDTO(Ingredient i) {
+        this.id = i.getId();
         this.name = i.getName();
     }
 }
