@@ -50,18 +50,19 @@ public class AddressController extends AbstractController {
 
         User loggedUser = sessionManager.getLoggedUser(session);
 
-        return addressService.getAllAddressesByUserId(loggedUser);
+        return addressService.getAllAddressesOfUser(loggedUser);
     }
 
-    @PostMapping("/users/{userId}/addresses/{addressId}")
+    @PostMapping("/addresses/{addressId}")
     public AddressWithoutUserDTO editAddress(@RequestBody AddressRequestDTO addressRequestDTO, HttpSession session,
-                                             @PathVariable int userId, @PathVariable int addressId) {
+                                             @PathVariable int addressId) {
 
-        User loggedUser = sessionManager.getLoggedUser(session);
-        if (loggedUser.getId() != userId) {
-            throw new BadRequestException("You cannot edit address of another user!");
+        if (!sessionManager.validateLogged(session)) {
+            throw new AuthenticationException("You have to log in in order to edit address!");
         }
 
-        return addressService.editAddress(addressRequestDTO, userId, addressId);
+        User loggedUser = sessionManager.getLoggedUser(session);
+
+        return addressService.editAddress(addressRequestDTO, loggedUser, addressId);
     }
 }

@@ -44,7 +44,7 @@ public class AddressService {
         return new AddressWithoutUserDTO(address);
     }
 
-    public List<AddressWithoutUserDTO> getAllAddressesByUserId(User loggedUser) {
+    public List<AddressWithoutUserDTO> getAllAddressesOfUser(User loggedUser) {
         List<Address> addresses = loggedUser.getAddresses();
         if (addresses.size() == 0) {
             throw new NotFoundException("You don't have any addresses added.");
@@ -58,14 +58,14 @@ public class AddressService {
         return returnAddresses;
     }
 
-    public AddressWithoutUserDTO editAddress(AddressRequestDTO addressRequestDTO, int userId, int addressId) {
-        Address address = addressRepository.findById(addressId).get();
-        if (address == null) {
-            throw new BadRequestException("Address with id " + addressId + " doesn't exits!");
+    public AddressWithoutUserDTO editAddress(AddressRequestDTO addressRequestDTO, User loggedUser, int addressId) {
+        Optional<Address> optionalAddress = addressRepository.findById(addressId);
+        if (optionalAddress.isEmpty()) {
+            throw new BadRequestException("This address doesn't exits!");
         }
 
-        User user = userRepository.findById(userId).get();
-        List<Address> userAddresses = user.getAddresses();
+        Address address = optionalAddress.get();
+        List<Address> userAddresses = loggedUser.getAddresses();
         if (!userAddresses.contains(address)) {
             throw new BadRequestException("You cannot edit address that is not yours!");
         }
