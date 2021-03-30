@@ -4,9 +4,7 @@ import dominos.exceptions.AuthenticationException;
 import dominos.exceptions.BadRequestException;
 import dominos.model.dto.AddressRequestDTO;
 import dominos.model.dto.AddressWithoutUserDTO;
-import dominos.model.pojo.Address;
 import dominos.model.pojo.User;
-import dominos.model.repository.AddressRepository;
 import dominos.service.AddressService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -22,8 +20,6 @@ public class AddressController extends AbstractController {
     @Autowired
     private AddressService addressService;
 
-    @Autowired
-    private AddressRepository addressRepository;
 
     @PutMapping("/users/{id}/addresses")
     public AddressWithoutUserDTO addAddress(@RequestBody AddressRequestDTO addressRequestDTO,
@@ -38,7 +34,7 @@ public class AddressController extends AbstractController {
 
     @DeleteMapping("/addresses/{addressId}")
     public AddressWithoutUserDTO deleteAddress(@PathVariable int addressId, HttpSession session) {
-        if (!sessionManager.validateLogged(session)){
+        if (!sessionManager.validateLogged(session)) {
             throw new AuthenticationException("You have to log in!");
         }
 
@@ -68,5 +64,4 @@ public class AddressController extends AbstractController {
 
         return addressService.editAddress(addressRequestDTO, userId, addressId);
     }
-
 }
