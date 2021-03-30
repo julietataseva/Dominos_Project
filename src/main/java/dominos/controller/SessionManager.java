@@ -1,8 +1,6 @@
 package dominos.controller;
 
 import dominos.exceptions.AuthenticationException;
-import dominos.exceptions.BadRequestException;
-import dominos.exceptions.NotFoundException;
 import dominos.model.pojo.IProduct;
 import dominos.model.pojo.User;
 import dominos.model.repository.UserRepository;
