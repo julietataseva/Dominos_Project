@@ -1,6 +1,5 @@
 package dominos.service;
 
-import dominos.exceptions.AuthenticationException;
 import dominos.exceptions.BadRequestException;
 import dominos.exceptions.NotFoundException;
 import dominos.model.dto.*;
@@ -29,7 +28,7 @@ public class OrderService {
 
     @Transactional
     public void payOrder(RequestOrderDTO requestOrderDTO, Map<IProduct, Integer> cart, User user) {
-        if (cart.isEmpty()){
+        if (cart.isEmpty()) {
             throw new BadRequestException("Cart is empty!");
         }
 
@@ -49,8 +48,7 @@ public class OrderService {
                 int quantity = product.getValue();
                 PizzaOrder pizzaOrder = new PizzaOrder(order, pizzaOrderDTO, quantity);
                 pizzaOrderRepository.save(pizzaOrder);
-            }
-            else {
+            } else {
                 AdditionalProductOrderDTO additionalProductOrderDTO =
                         new AdditionalProductOrderDTO(order, (AdditionalProductDTO) product.getKey(),
                                 product.getKey().getPrice(), product.getValue());
