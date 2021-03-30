@@ -2,8 +2,8 @@ package dominos.service;
 
 import dominos.exceptions.AuthenticationException;
 import dominos.exceptions.BadRequestException;
-import dominos.exceptions.NoContentException;
 import dominos.exceptions.NotFoundException;
+import dominos.exceptions.NoContentException;
 import dominos.model.dto.AddressRequestDTO;
 import dominos.model.dto.AddressWithoutUserDTO;
 import dominos.model.pojo.Address;
