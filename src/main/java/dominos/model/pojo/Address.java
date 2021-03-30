@@ -26,6 +26,8 @@ public class Address {
     private String latitude;
     private String longitude;
     private String description;
+    @OneToMany(mappedBy = "address")
+    private List<Order> orders;
 
     public Address(AddressRequestDTO addressRequestDTO){
         this.phoneNumber = addressRequestDTO.getPhoneNumber();

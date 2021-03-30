@@ -29,10 +29,4 @@ public class PizzaSize {
         this.id = 2;
         this.size = Size.LARGE;
     }
-
-    public PizzaSize(PizzaSizeDTO pizzaSizeDTO){
-        this.id = pizzaSizeDTO.getId();
-        this.size = pizzaSizeDTO.getSize();
-        this.pizzaOrders = new ArrayList<>();
-    }
 }

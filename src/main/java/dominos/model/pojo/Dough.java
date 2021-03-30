@@ -33,10 +33,4 @@ public class Dough {
         this.type = DoughType.TRADITIONAL;
         this.pizzaOrders = new ArrayList<>();
     }
-
-    public Dough(DoughDTO doughDTO){
-        this.id = doughDTO.getId();
-        this.type = doughDTO.getType();
-        this.pizzaOrders = new ArrayList<>();
-    }
 }
