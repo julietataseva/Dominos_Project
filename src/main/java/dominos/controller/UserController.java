@@ -53,16 +53,15 @@ public class UserController extends AbstractController {
         return userService.editUser(userDTO, userId);
     }
 
-    @DeleteMapping("/users/{id}")
-    public String delete(@PathVariable int id, HttpSession session) {
+    @DeleteMapping("/users")
+    public String delete(HttpSession session) {
         if (!sessionManager.validateLogged(session)) {
             throw new AuthenticationException("You have to log in!");
         }
 
-        if (sessionManager.getLoggedUser(session).getId() != id) {
-            throw new AuthenticationException("You have to be logged in your account");
-        }
-
-        return userService.deleteUser(id);
+        int userId = sessionManager.getLoggedUser(session).getId();
+        String response = userService.deleteUser(userId);
+        sessionManager.logoutUser(session);
+        return response;
     }
 }

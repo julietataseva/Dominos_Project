@@ -20,7 +20,7 @@ public class OrderDAO {
     private JdbcTemplate jdbcTemplate;
 
     private static final String GET_ALL_MADE_ORDERS_BY_USER_ID =
-                    "SELECT o.id, o.created_at, p.name FROM orders AS o\n" +
+            "SELECT o.id, o.created_at, p.name FROM orders AS o\n" +
                     "JOIN orders_have_pizzas AS ohp\n" +
                     "ON o.id = ohp.order_id\n" +
                     "JOIN pizzas AS p\n" +
