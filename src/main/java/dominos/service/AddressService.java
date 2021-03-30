@@ -3,7 +3,6 @@ package dominos.service;
 import dominos.exceptions.AuthenticationException;
 import dominos.exceptions.BadRequestException;
 import dominos.exceptions.NoContentException;
-import dominos.exceptions.NotFoundException;
 import dominos.model.dto.AddressRequestDTO;
 import dominos.model.dto.AddressWithoutUserDTO;
 import dominos.model.pojo.Address;
@@ -16,6 +15,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.regex.Pattern;
 
 @Service
 public class AddressService {
@@ -29,16 +29,16 @@ public class AddressService {
         User user = userRepository.findById(id).get();
 
         String phoneNumber = addressRequestDTO.getPhoneNumber();
-        this.isValidPhoneNumber(phoneNumber);
+        this.validatePhoneNumber(phoneNumber);
 
         String latitude = addressRequestDTO.getLatitude();
-        this.isValidLatitude(latitude);
+        this.validateLatitude(latitude);
 
         String longitude = addressRequestDTO.getLongitude();
-        this.isValidLongitude(longitude);
+        this.validateLongitude(longitude);
 
         String description = addressRequestDTO.getDescription();
-        this.isValidDescription(description);
+        this.validateDescription(description);
 
         Address address = new Address(addressRequestDTO);
         address.setUser(user);
@@ -75,25 +75,25 @@ public class AddressService {
 
         String newPhoneNumber = addressRequestDTO.getPhoneNumber();
         if (newPhoneNumber != null) {
-            this.isValidPhoneNumber(newPhoneNumber);
+            this.validatePhoneNumber(newPhoneNumber);
             address.setPhoneNumber(newPhoneNumber);
         }
 
         String newLatitude = addressRequestDTO.getLatitude();
         if (newLatitude != null) {
-            this.isValidLatitude(newLatitude);
+            this.validateLatitude(newLatitude);
             address.setLatitude(newLatitude);
         }
 
         String newLongitude = addressRequestDTO.getLongitude();
         if (newLongitude != null) {
-            this.isValidLongitude(newLongitude);
+            this.validateLongitude(newLongitude);
             address.setLongitude(newLongitude);
         }
 
         String newDescription = addressRequestDTO.getDescription();
         if (newDescription != null) {
-            this.isValidDescription(newDescription);
+            this.validateDescription(newDescription);
             address.setDescription(newDescription);
         }
 
@@ -101,37 +101,33 @@ public class AddressService {
         return new AddressWithoutUserDTO(address);
     }
 
-    private boolean isValidPhoneNumber(String phoneNumber) {
+    private void validatePhoneNumber(String phoneNumber) {
         String validatePhoneNumber = "^([+]?359)|0?(|-| )8[789]\\d{1}(|-| )\\d{3}(|-| )\\d{3}$";
         if (phoneNumber == null || !phoneNumber.matches(validatePhoneNumber)) {
             throw new BadRequestException("Invalid phone number!");
         }
-
-        return true;
     }
 
-    private boolean isValidLatitude(String latitude) {
-        if (latitude == null || latitude.equals("")) {
+    private void validateLatitude(String latitude) {
+        String latMatch = "((?:[0-9]|[1-8][0-9])\\.([0-9]{0,6}))|((?:90)\\.([0]{0,6}))";
+
+        if (!Pattern.matches(latMatch, latitude)){
             throw new BadRequestException("Invalid latitude!");
         }
-
-        return true;
     }
 
-    private boolean isValidLongitude(String longitude) {
-        if (longitude == null || longitude.equals("")) {
+    private void validateLongitude(String longitude) {
+            String lonMatch = "((?:[0-9]|[1-9][0-9]|1[0-7][0-9])\\.([0-9]{0,6}))|((?:180)\\.([0]{0,6}))";
+
+        if (!Pattern.matches(lonMatch, longitude)){
             throw new BadRequestException("Invalid longitude!");
         }
-
-        return true;
     }
 
-    private boolean isValidDescription(String description) {
+    private void validateDescription(String description) {
         if (description == null || description.equals("")) {
             throw new BadRequestException("Invalid description!");
         }
-
-        return true;
     }
 
     public AddressWithoutUserDTO deleteAddress(int addressId, User loggedUser) {
