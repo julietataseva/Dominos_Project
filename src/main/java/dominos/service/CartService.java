@@ -1,4 +1,5 @@
 package dominos.service;
+
 import dominos.exceptions.BadRequestException;
 import dominos.exceptions.AuthenticationException;
 import dominos.exceptions.NotFoundException;
@@ -31,7 +32,7 @@ public class CartService {
     IngredientRepository ingredientRepository;
 
 
-    public String addAdditionalProductToCart(int productID, Map<IProduct, Integer> cart) {
+    public AdditionalProductDTO addAdditionalProductToCart(int productID, Map<IProduct, Integer> cart) {
         Optional<AdditionalProduct> additionalProduct = additionalProductRepository.findById(productID);
         if (additionalProduct.isEmpty()) {
             throw new NotFoundException("No such product");
@@ -45,10 +46,10 @@ public class CartService {
             cart.put(additionalProductDTO, cart.get(additionalProductDTO) + 1);
         }
 
-        return "Product added successfully";
+        return additionalProductDTO;
     }
 
-    public String deleteAdditionalProductFromCart(int productId, Map<IProduct, Integer> cart) {
+    public AdditionalProductDTO deleteAdditionalProductFromCart(int productId, Map<IProduct, Integer> cart) {
         if (cart.isEmpty()) {
             throw new BadRequestException("Cart is empty!");
         }
@@ -70,7 +71,7 @@ public class CartService {
             cart.remove(additionalProductDTO);
         }
 
-        return "Product deleted successfully";
+        return additionalProductDTO;
     }
 
     public List<CartResponseDTO> getCart(Map<IProduct, Integer> cartAttribute) {
@@ -89,37 +90,35 @@ public class CartService {
         PizzaSize pizzaSize = null;
         List<Ingredient> additionalIngredients = new ArrayList<>();
 
-        if(pizza == null){
+        if (pizza == null) {
             throw new BadRequestException("This pizza doesn't exist!");
         }
 
         Integer doughTypeId = requestPizzaOrderDTO.getDoughTypeId();
-        if(doughTypeId != null) {
+        if (doughTypeId != null) {
             dough = doughRepository.findById(doughTypeId).get();
-            if(dough == null){
+            if (dough == null) {
                 throw new BadRequestException("This dough doesn't exist!");
             }
-        }
-        else {
+        } else {
             dough = new Dough();
         }
 
         Integer pizzaSizeId = requestPizzaOrderDTO.getPizzaSizeId();
-        if(pizzaSizeId != null){
+        if (pizzaSizeId != null) {
             pizzaSize = pizzaSizeRepository.findById(pizzaSizeId).get();
-            if(pizzaSize == null){
+            if (pizzaSize == null) {
                 throw new BadRequestException("This pizza size doesn't exists!");
             }
-        }
-        else{
+        } else {
             pizzaSize = new PizzaSize();
         }
 
         List<Integer> additionalIngredientsIds = requestPizzaOrderDTO.getAdditionalIngredientsIds();
-        if(additionalIngredientsIds != null){
-            for(Integer ingredientId : additionalIngredientsIds){
+        if (additionalIngredientsIds != null) {
+            for (Integer ingredientId : additionalIngredientsIds) {
                 Ingredient ingredient = ingredientRepository.findById(ingredientId).get();
-                if(ingredient == null){
+                if (ingredient == null) {
                     throw new BadRequestException("This ingredient doesn't exist!");
                 }
                 additionalIngredients.add(ingredient);
@@ -143,7 +142,7 @@ public class CartService {
     }
 
     public String removePizzaFromCart(int pizzaId, Map<IProduct, Integer> cart) {
-        if(cart.isEmpty()){
+        if (cart.isEmpty()) {
             throw new BadRequestException("Cart is empty!");
         }
 
@@ -153,22 +152,21 @@ public class CartService {
         }
 
         boolean pizzaExistsInCart = false;
-        for(Map.Entry<IProduct, Integer> entry : cart.entrySet()) {
+        for (Map.Entry<IProduct, Integer> entry : cart.entrySet()) {
             IProduct pizzaOrder = entry.getKey();
-            if(pizzaOrder.getId() == pizza.getId()) {
+            if (pizzaOrder.getId() == pizza.getId()) {
                 pizzaExistsInCart = true;
                 int quantity = entry.getValue();
-                if(quantity > 1) {
+                if (quantity > 1) {
                     cart.put(pizzaOrder, quantity - 1);
-                }
-                else {
+                } else {
                     cart.remove(pizzaOrder);
                 }
                 break;
             }
         }
 
-        if(!pizzaExistsInCart){
+        if (!pizzaExistsInCart) {
             throw new NotFoundException("No such pizza in cart!");
         }
 
