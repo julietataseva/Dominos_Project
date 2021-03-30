@@ -4,6 +4,7 @@ import dominos.exceptions.AuthenticationException;
 import dominos.exceptions.NotFoundException;
 import dominos.model.dto.AdditionalProductDTO;
 import dominos.model.dto.CartResponseDTO;
+import dominos.model.dto.PizzaOrderDTO;
 import dominos.model.dto.RequestPizzaOrderDTO;
 import dominos.model.pojo.IProduct;
 import dominos.service.CartService;
@@ -50,21 +51,14 @@ public class CartController extends AbstractController {
     }
 
     @PutMapping("/menu/pizzas/{pizzaId}")
-    public ResponseEntity<String> addPizzaToCart(@PathVariable int pizzaId, HttpSession session,
-                                                 @RequestBody RequestPizzaOrderDTO pizzaOrderDTO) {
+    public PizzaOrderDTO addPizzaToCart(@PathVariable int pizzaId, HttpSession session,
+                                                 @RequestBody RequestPizzaOrderDTO requestPizzaOrderDTO) {
         if (!sessionManager.validateLogged(session)) {
-            return new ResponseEntity<>("You have to log in in order to add pizza to cart!",
-                    HttpStatus.UNAUTHORIZED);
+            throw new AuthenticationException("You have to log in in order to add pizza to cart!");
         }
 
         Map<IProduct, Integer> cart = sessionManager.getCartAttribute(session);
-
-        try {
-            String response = cartService.addPizzaToCart(pizzaId, pizzaOrderDTO, cart);
-            return new ResponseEntity<>(response, HttpStatus.OK);
-        } catch (NotFoundException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-        }
+        return cartService.addPizzaToCart(pizzaId, requestPizzaOrderDTO, cart);
     }
 
     @DeleteMapping("/cart/pizzas/{pizzaId}")

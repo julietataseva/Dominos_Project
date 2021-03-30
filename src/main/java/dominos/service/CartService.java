@@ -84,7 +84,7 @@ public class CartService {
         return cart;
     }
 
-    public String addPizzaToCart(int pizzaId, RequestPizzaOrderDTO requestPizzaOrderDTO, Map<IProduct, Integer> cart) {
+    public PizzaOrderDTO addPizzaToCart(int pizzaId, RequestPizzaOrderDTO requestPizzaOrderDTO, Map<IProduct, Integer> cart) {
         Pizza pizza = pizzaRepository.findById(pizzaId).get();
         Dough dough = null;
         PizzaSize pizzaSize = null;
@@ -138,7 +138,7 @@ public class CartService {
             cart.put(pizzaOrderDTO, cart.get(pizzaOrderDTO) + 1);
         }
 
-        return "Pizza " + pizza.getName() + " added successfully";
+        return pizzaOrderDTO;
     }
 
     public String removePizzaFromCart(int pizzaId, Map<IProduct, Integer> cart) {
