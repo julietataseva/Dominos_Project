@@ -14,10 +14,10 @@ import java.util.Objects;
 @Component
 public class PizzaOrderDTO implements IProduct {
     private int id;
-    private Pizza pizza;
-    private Dough dough;
-    private PizzaSize pizzaSize;
-    private List<Ingredient> additionalIngredients;
+    private PizzaAddedToCartDTO pizza;
+    private DoughDTO dough;
+    private PizzaSizeDTO pizzaSize;
+    private List<IngredientWithPriceDTO> additionalIngredients;
     private static final int priceDifference = 3;
     public PizzaOrderDTO(){
         this.additionalIngredients = new ArrayList<>();
@@ -37,7 +37,7 @@ public class PizzaOrderDTO implements IProduct {
             case JUMBO:price += priceDifference; break;
         }
 
-        for(Ingredient ingredient : this.additionalIngredients) {
+        for(IngredientWithPriceDTO ingredient : this.additionalIngredients) {
             price += ingredient.getPrice();
         }
 

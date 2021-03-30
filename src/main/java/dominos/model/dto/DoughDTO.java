@@ -11,9 +11,15 @@ import org.springframework.stereotype.Component;
 @NoArgsConstructor
 @Component
 public class DoughDTO {
+    private int id;
     private Dough.DoughType type;
 
     public DoughDTO(Dough.DoughType doughType){
         this.type = doughType;
+    }
+
+    public DoughDTO(Dough dough){
+        this.id = dough.getId();
+        this.type = dough.getType();
     }
 }

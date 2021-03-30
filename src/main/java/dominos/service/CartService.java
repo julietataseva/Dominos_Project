@@ -84,15 +84,16 @@ public class CartService {
     }
 
     public PizzaOrderDTO addPizzaToCart(int pizzaId, RequestPizzaOrderDTO requestPizzaOrderDTO, Map<IProduct, Integer> cart) {
-        Pizza pizza = pizzaRepository.findById(pizzaId).get();
+        Optional<Pizza> pizzaOptional = pizzaRepository.findById(pizzaId);
         Dough dough = null;
         PizzaSize pizzaSize = null;
         List<Ingredient> additionalIngredients = new ArrayList<>();
 
-        if (pizza == null) {
+        if (pizzaOptional == null) {
             throw new BadRequestException("This pizza doesn't exist!");
         }
 
+        PizzaAddedToCartDTO pizza = new PizzaAddedToCartDTO(pizzaOptional.get());
         Integer doughTypeId = requestPizzaOrderDTO.getDoughTypeId();
         if (doughTypeId != null) {
             dough = doughRepository.findById(doughTypeId).get();
@@ -103,6 +104,8 @@ public class CartService {
             dough = new Dough();
         }
 
+        DoughDTO doughDTO = new DoughDTO(dough);
+
         Integer pizzaSizeId = requestPizzaOrderDTO.getPizzaSizeId();
         if (pizzaSizeId != null) {
             pizzaSize = pizzaSizeRepository.findById(pizzaSizeId).get();
@@ -112,6 +115,8 @@ public class CartService {
         } else {
             pizzaSize = new PizzaSize();
         }
+
+        PizzaSizeDTO pizzaSizeDTO = new PizzaSizeDTO(pizzaSize);
 
         List<Integer> additionalIngredientsIds = requestPizzaOrderDTO.getAdditionalIngredientsIds();
         if (additionalIngredientsIds != null) {
@@ -124,12 +129,17 @@ public class CartService {
             }
         }
 
+        List<IngredientWithPriceDTO> additionalIngredientsWithPrice = new ArrayList<>();
+        for(Ingredient ingredient : additionalIngredients){
+            additionalIngredientsWithPrice.add(new IngredientWithPriceDTO(ingredient));
+        }
+
         PizzaOrderDTO pizzaOrderDTO = new PizzaOrderDTO();
         pizzaOrderDTO.setId(pizza.getId());
         pizzaOrderDTO.setPizza(pizza);
-        pizzaOrderDTO.setDough(dough);
-        pizzaOrderDTO.setPizzaSize(pizzaSize);
-        pizzaOrderDTO.setAdditionalIngredients(additionalIngredients);
+        pizzaOrderDTO.setDough(doughDTO);
+        pizzaOrderDTO.setPizzaSize(pizzaSizeDTO);
+        pizzaOrderDTO.setAdditionalIngredients(additionalIngredientsWithPrice);
 
         if (!cart.containsKey(pizzaOrderDTO)) {
             cart.put(pizzaOrderDTO, 1);

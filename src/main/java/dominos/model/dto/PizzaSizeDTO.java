@@ -11,9 +11,15 @@ import org.springframework.stereotype.Component;
 @NoArgsConstructor
 @Component
 public class PizzaSizeDTO {
+    private int id;
     private PizzaSize.Size size;
 
     public PizzaSizeDTO(PizzaSize.Size size){
         this.size = size;
+    }
+
+    public PizzaSizeDTO(PizzaSize pizzaSize){
+        this.id = pizzaSize.getId();
+        this.size = pizzaSize.getSize();
     }
 }
