@@ -27,27 +27,25 @@ public class CartController extends AbstractController {
 
 
     @PutMapping("/menu/products/{productId}")
-    public ResponseEntity<AdditionalProductDTO> addAdditionalProductToCart(@PathVariable int productId, HttpSession session) {
+    public AdditionalProductDTO addAdditionalProductToCart(@PathVariable int productId, HttpSession session) {
         if (!sessionManager.validateLogged(session)) {
             throw new AuthenticationException("You have to log in!");
         }
 
         Map<IProduct, Integer> cart = sessionManager.getCartAttribute(session);
 
-        AdditionalProductDTO response = cartService.addAdditionalProductToCart(productId, cart);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        return cartService.addAdditionalProductToCart(productId, cart);
     }
 
     @DeleteMapping("/cart/products/{productId}")
-    public ResponseEntity<AdditionalProductDTO> deleteAdditionalProductFromCart(@PathVariable int productId, HttpSession session) {
+    public AdditionalProductDTO deleteAdditionalProductFromCart(@PathVariable int productId, HttpSession session) {
         if (!sessionManager.validateLogged(session)) {
             throw new AuthenticationException("You have to log in!");
         }
 
         Map<IProduct, Integer> cart = sessionManager.getCartAttribute(session);
 
-        AdditionalProductDTO response = cartService.deleteAdditionalProductFromCart(productId, cart);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        return cartService.deleteAdditionalProductFromCart(productId, cart);
     }
 
     @PutMapping("/menu/pizzas/{pizzaId}")

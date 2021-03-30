@@ -3,6 +3,7 @@ package dominos.service;
 import dominos.exceptions.AuthenticationException;
 import dominos.exceptions.BadRequestException;
 import dominos.exceptions.NotFoundException;
+import dominos.exceptions.NoContentException;
 import dominos.model.dto.AddressRequestDTO;
 import dominos.model.dto.AddressWithoutUserDTO;
 import dominos.model.pojo.Address;
@@ -25,8 +26,8 @@ public class AddressService {
     @Autowired
     private UserRepository userRepository;
 
-    public AddressWithoutUserDTO addAddress(AddressRequestDTO addressRequestDTO, int userId) {
-        User user = userRepository.findById(userId).get();
+    public AddressWithoutUserDTO addAddress(AddressRequestDTO addressRequestDTO, int id) {
+        User user = userRepository.findById(id).get();
 
         String phoneNumber = addressRequestDTO.getPhoneNumber();
         this.validatePhoneNumber(phoneNumber);
@@ -46,11 +47,11 @@ public class AddressService {
         return new AddressWithoutUserDTO(address);
     }
 
-    public List<AddressWithoutUserDTO> getAllAddressesByUserId(int userId){
-        User user = userRepository.findById(userId).get();
+    public List<AddressWithoutUserDTO> getAllAddressesByUserId(int id) throws NoContentException {
+        User user = userRepository.findById(id).get();
         List<Address> addresses = user.getAddresses();
         if (addresses.size() == 0) {
-            throw new NotFoundException("You don't have any addresses added.");
+            throw new NoContentException("You don't have any addresses added.");
         }
 
         List<AddressWithoutUserDTO> returnAddresses = new ArrayList<>();
@@ -111,15 +112,15 @@ public class AddressService {
     private void validateLatitude(String latitude) {
         String latMatch = "((?:[0-9]|[1-8][0-9])\\.([0-9]{0,6}))|((?:90)\\.([0]{0,6}))";
 
-        if (!Pattern.matches(latMatch, latitude)){
+        if (!Pattern.matches(latMatch, latitude)) {
             throw new BadRequestException("Invalid latitude!");
         }
     }
 
     private void validateLongitude(String longitude) {
-            String lonMatch = "((?:[0-9]|[1-9][0-9]|1[0-7][0-9])\\.([0-9]{0,6}))|((?:180)\\.([0]{0,6}))";
+        String lonMatch = "((?:[0-9]|[1-9][0-9]|1[0-7][0-9])\\.([0-9]{0,6}))|((?:180)\\.([0]{0,6}))";
 
-        if (!Pattern.matches(lonMatch, longitude)){
+        if (!Pattern.matches(lonMatch, longitude)) {
             throw new BadRequestException("Invalid longitude!");
         }
     }
