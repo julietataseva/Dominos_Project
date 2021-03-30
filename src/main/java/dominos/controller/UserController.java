@@ -42,15 +42,15 @@ public class UserController extends AbstractController {
         sessionManager.logoutUser(session);
     }
 
-    @PostMapping("/users/{userId}")
-    public EditResponseUserDTO edit(@RequestBody EditRequestUserDTO userDTO, HttpSession session,
-                                    @PathVariable int userId) {
-        User loggedUser = sessionManager.getLoggedUser(session);
-        if (loggedUser.getId() != userId) {
-            throw new BadRequestException("You cannot edit the profile of another user!");
+    @PostMapping("/users")
+    public EditResponseUserDTO edit(@RequestBody EditRequestUserDTO userDTO, HttpSession session) {
+        if (!sessionManager.validateLogged(session)) {
+            throw new AuthenticationException("You have to log in in order to edit your account!");
         }
 
-        return userService.editUser(userDTO, userId);
+        User loggedUser = sessionManager.getLoggedUser(session);
+
+        return userService.editUser(userDTO, loggedUser);
     }
 
     @DeleteMapping("/users")
