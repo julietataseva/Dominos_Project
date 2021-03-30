@@ -3,6 +3,7 @@ package dominos.service;
 import dominos.exceptions.AuthenticationException;
 import dominos.exceptions.BadRequestException;
 import dominos.exceptions.NoContentException;
+import dominos.exceptions.NotFoundException;
 import dominos.model.dto.AddressRequestDTO;
 import dominos.model.dto.AddressWithoutUserDTO;
 import dominos.model.pojo.Address;
@@ -111,15 +112,15 @@ public class AddressService {
     private void validateLatitude(String latitude) {
         String latMatch = "((?:[0-9]|[1-8][0-9])\\.([0-9]{0,6}))|((?:90)\\.([0]{0,6}))";
 
-        if (!Pattern.matches(latMatch, latitude)){
+        if (!Pattern.matches(latMatch, latitude)) {
             throw new BadRequestException("Invalid latitude!");
         }
     }
 
     private void validateLongitude(String longitude) {
-            String lonMatch = "((?:[0-9]|[1-9][0-9]|1[0-7][0-9])\\.([0-9]{0,6}))|((?:180)\\.([0]{0,6}))";
+        String lonMatch = "((?:[0-9]|[1-9][0-9]|1[0-7][0-9])\\.([0-9]{0,6}))|((?:180)\\.([0]{0,6}))";
 
-        if (!Pattern.matches(lonMatch, longitude)){
+        if (!Pattern.matches(lonMatch, longitude)) {
             throw new BadRequestException("Invalid longitude!");
         }
     }
