@@ -34,12 +34,12 @@ public class OrderDAO {
                     "WHERE o.owner_id = ?\n" +
                     "ORDER BY created_at DESC;";
 
-    public Map<Integer, Map<LocalDate, List<String>>> getAllMadeOrdersByUserId(int id) throws SQLException {
+    public Map<Integer, Map<LocalDate, List<String>>> getAllMadeOrdersByUserId(int userId) throws SQLException {
         Map<Integer, Map<LocalDate, List<String>>> result = new HashMap<>();
 
         try (Connection connection = jdbcTemplate.getDataSource().getConnection();
              PreparedStatement statement = connection.prepareStatement(GET_ALL_MADE_ORDERS_BY_USER_ID)) {
-            statement.setInt(1, id);
+            statement.setInt(1, userId);
             ResultSet resultSet = statement.executeQuery();
 
             while (resultSet.next()) {

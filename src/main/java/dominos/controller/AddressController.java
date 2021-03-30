@@ -21,15 +21,15 @@ public class AddressController extends AbstractController {
     private AddressService addressService;
 
 
-    @PutMapping("/users/{id}/addresses")
+    @PutMapping("/users/{userId}/addresses")
     public AddressWithoutUserDTO addAddress(@RequestBody AddressRequestDTO addressRequestDTO,
-                                            HttpSession session, @PathVariable int id) {
+                                            HttpSession session, @PathVariable int userId) {
         User loggedUser = sessionManager.getLoggedUser(session);
-        if (loggedUser.getId() != id) {
+        if (loggedUser.getId() != userId) {
             throw new BadRequestException("You cannot add address to another user!");
         }
 
-        return addressService.addAddress(addressRequestDTO, id);
+        return addressService.addAddress(addressRequestDTO, userId);
     }
 
     @DeleteMapping("/addresses/{addressId}")
@@ -43,14 +43,14 @@ public class AddressController extends AbstractController {
         return addressService.deleteAddress(addressId, loggedUser);
     }
 
-    @GetMapping("/users/{id}/addresses")
-    public List<AddressWithoutUserDTO> getAllAddressesByUserId(@PathVariable int id, HttpSession session) {
+    @GetMapping("/users/{userId}/addresses")
+    public List<AddressWithoutUserDTO> getAllAddressesByUserId(@PathVariable int userId, HttpSession session) {
         User loggedUser = sessionManager.getLoggedUser(session);
-        if (loggedUser.getId() != id) {
+        if (loggedUser.getId() != userId) {
             throw new BadRequestException("You cannot see addresses of another user!");
         }
 
-        return addressService.getAllAddressesByUserId(id);
+        return addressService.getAllAddressesByUserId(userId);
     }
 
     @PostMapping("/users/{userId}/addresses/{addressId}")

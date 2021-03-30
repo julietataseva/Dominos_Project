@@ -3,6 +3,7 @@ package dominos.service;
 import dominos.exceptions.AuthenticationException;
 import dominos.exceptions.BadRequestException;
 import dominos.exceptions.NoContentException;
+import dominos.exceptions.NotFoundException;
 import dominos.model.dto.AddressRequestDTO;
 import dominos.model.dto.AddressWithoutUserDTO;
 import dominos.model.pojo.Address;
@@ -25,8 +26,8 @@ public class AddressService {
     @Autowired
     private UserRepository userRepository;
 
-    public AddressWithoutUserDTO addAddress(AddressRequestDTO addressRequestDTO, int id) {
-        User user = userRepository.findById(id).get();
+    public AddressWithoutUserDTO addAddress(AddressRequestDTO addressRequestDTO, int userId) {
+        User user = userRepository.findById(userId).get();
 
         String phoneNumber = addressRequestDTO.getPhoneNumber();
         this.validatePhoneNumber(phoneNumber);
@@ -46,8 +47,8 @@ public class AddressService {
         return new AddressWithoutUserDTO(address);
     }
 
-    public List<AddressWithoutUserDTO> getAllAddressesByUserId(int id) throws NoContentException {
-        User user = userRepository.findById(id).get();
+    public List<AddressWithoutUserDTO> getAllAddressesByUserId(int userId) throws NoContentException {
+        User user = userRepository.findById(userId).get();
         List<Address> addresses = user.getAddresses();
         if (addresses.size() == 0) {
             throw new NoContentException("You don't have any addresses added.");
