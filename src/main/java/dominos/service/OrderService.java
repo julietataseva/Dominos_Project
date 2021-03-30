@@ -1,5 +1,7 @@
 package dominos.service;
 
+import dominos.exceptions.AuthenticationException;
+import dominos.exceptions.BadRequestException;
 import dominos.exceptions.NotFoundException;
 import dominos.model.dto.*;
 import dominos.model.pojo.*;
@@ -27,6 +29,10 @@ public class OrderService {
 
     @Transactional
     public void payOrder(RequestOrderDTO requestOrderDTO, Map<IProduct, Integer> cart, User user) {
+        if (cart.isEmpty()){
+            throw new BadRequestException("Cart is empty!");
+        }
+
         Optional<Address> address = addressRepository.findById(requestOrderDTO.getAddressId());
         if (address.isEmpty()) {
             throw new NotFoundException("Address doesn't exist!");
@@ -34,18 +40,18 @@ public class OrderService {
 
         OrderDTO orderDTO = new OrderDTO(user, address.get(), requestOrderDTO.getComment());
         Order order = new Order(orderDTO);
-        orderRepository.save(order);
+        order = orderRepository.save(order);
 
         // TODO save products/pizzas
         for (Map.Entry<IProduct, Integer> product : cart.entrySet()) {
-            if (product.getKey().isPizza()) {
+//            if (product.getKey().isPizza()) {
 //                PizzaOrderWithoutIngredientsDTO pizzaOrderWithoutIngredientsDTO =
 //                        new PizzaOrderWithoutIngredientsDTO(order, product.getKey());
 //
-                PizzaOrder pizzaOrder = new PizzaOrder();
-
-                pizzaOrderRepository.save(pizzaOrder);
-            } else {
+//                PizzaOrder pizzaOrder = new PizzaOrder();
+//
+//                pizzaOrderRepository.save(pizzaOrder);
+//            } else {
                 AdditionalProductOrderDTO additionalProductOrderDTO =
                         new AdditionalProductOrderDTO(order, (AdditionalProductDTO) product.getKey(),
                                 product.getKey().getPrice(), product.getValue());
@@ -54,7 +60,7 @@ public class OrderService {
                         new AdditionalProductOrder(additionalProductOrderDTO);
 
                 additionalProductOrderRepository.save(additionalProductOrder);
-            }
+//            }
         }
     }
 }
