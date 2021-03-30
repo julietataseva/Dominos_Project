@@ -14,7 +14,8 @@ public class PizzaSizeDTO {
     private int id;
     private PizzaSize.Size size;
 
-    public PizzaSizeDTO(PizzaSize.Size size){
+    public PizzaSizeDTO(int id, PizzaSize.Size size){
+        this.id = id;
         this.size = size;
     }
 

@@ -87,34 +87,27 @@ public class UserService {
         }
     }
 
-    public EditResponseUserDTO editUser(EditRequestUserDTO userDTO, int id) {
-        Optional<User> u = userRepository.findById(id);
-        if (!u.isPresent()) {
-            throw new NotFoundException("User with id " + id + " not found.");
-        }
-
-        User user = u.get();
+    public EditResponseUserDTO editUser(EditRequestUserDTO userDTO, User loggedUser) {
         String newFirstName = userDTO.getFirstName();
-        this.validateNewFirstName(user, newFirstName);
+        this.validateNewFirstName(loggedUser, newFirstName);
 
         String newLastName = userDTO.getLastName();
-        this.validateNewLastName(user, newLastName);
+        this.validateNewLastName(loggedUser, newLastName);
 
         String newEmail = userDTO.getEmail();
         this.validateEmail(newEmail);
-        user.setEmail(newEmail);
+        loggedUser.setEmail(newEmail);
 
         String currentPassword = userDTO.getCurrentPassword();
-        this.validateCurrentAndNewPassword(user, currentPassword, userDTO);
+        this.validateCurrentAndNewPassword(loggedUser, currentPassword, userDTO);
 
-        userRepository.save(user);
-        user = userRepository.findById(id).get();
-        return new EditResponseUserDTO(user);
+        loggedUser = userRepository.save(loggedUser);
+        return new EditResponseUserDTO(loggedUser);
     }
 
     private void validateNewFirstName(User user, String firstName) {
         if (firstName != null) {
-            if (firstName.equals("")) {
+            if (firstName.isEmpty()) {
                 throw new BadRequestException("First name should not be empty!");
             }
             user.setFirstName(firstName);
@@ -123,7 +116,7 @@ public class UserService {
 
     private void validateNewLastName(User user, String lastName) {
         if (lastName != null) {
-            if (lastName.equals("")) {
+            if (lastName.isEmpty()) {
                 throw new BadRequestException("Last name should not be empty!");
             }
             user.setLastName(lastName);

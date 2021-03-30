@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PizzaService {
@@ -30,11 +31,12 @@ public class PizzaService {
     }
 
     public PizzaResponseDetailedDTO getById(int pizzaId) {
-        Pizza pizza = pizzaRepository.findById(pizzaId).get();
-        if(pizza == null){
-            throw new BadRequestException("Pizza with this name doesn't exist.");
+        Optional<Pizza> optionalPizza = pizzaRepository.findById(pizzaId);
+        if(optionalPizza.isEmpty()){
+            throw new BadRequestException("This pizza doesn't exist.");
         }
 
+        Pizza pizza = optionalPizza.get();
         return new PizzaResponseDetailedDTO(pizza);
     }
 }

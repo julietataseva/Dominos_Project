@@ -21,15 +21,14 @@ public class AddressController extends AbstractController {
     private AddressService addressService;
 
 
-    @PutMapping("/users/{userId}/addresses")
-    public AddressWithoutUserDTO addAddress(@RequestBody AddressRequestDTO addressRequestDTO,
-                                            HttpSession session, @PathVariable int userId) {
-        User loggedUser = sessionManager.getLoggedUser(session);
-        if (loggedUser.getId() != userId) {
-            throw new BadRequestException("You cannot add address to another user!");
+    @PutMapping("/addresses")
+    public AddressWithoutUserDTO addAddress(@RequestBody AddressRequestDTO addressRequestDTO, HttpSession session) {
+        if(!sessionManager.validateLogged(session)){
+            throw new AuthenticationException("You have to log in in order to add address!");
         }
 
-        return addressService.addAddress(addressRequestDTO, userId);
+        User loggedUser = sessionManager.getLoggedUser(session);
+        return addressService.addAddress(addressRequestDTO, loggedUser);
     }
 
     @DeleteMapping("/addresses/{addressId}")
@@ -43,25 +42,27 @@ public class AddressController extends AbstractController {
         return addressService.deleteAddress(addressId, loggedUser);
     }
 
-    @GetMapping("/users/{userId}/addresses")
-    public List<AddressWithoutUserDTO> getAllAddressesByUserId(@PathVariable int userId, HttpSession session) {
-        User loggedUser = sessionManager.getLoggedUser(session);
-        if (loggedUser.getId() != userId) {
-            throw new BadRequestException("You cannot see addresses of another user!");
+    @GetMapping("/addresses")
+    public List<AddressWithoutUserDTO> getAllAddressesOfUser(HttpSession session) {
+        if (!sessionManager.validateLogged(session)) {
+            throw new AuthenticationException("You have to log in in order to see your addresses!");
         }
 
-        return addressService.getAllAddressesByUserId(userId);
+        User loggedUser = sessionManager.getLoggedUser(session);
+
+        return addressService.getAllAddressesOfUser(loggedUser);
     }
 
-    @PostMapping("/users/{userId}/addresses/{addressId}")
+    @PostMapping("/addresses/{addressId}")
     public AddressWithoutUserDTO editAddress(@RequestBody AddressRequestDTO addressRequestDTO, HttpSession session,
-                                             @PathVariable int userId, @PathVariable int addressId) {
+                                             @PathVariable int addressId) {
 
-        User loggedUser = sessionManager.getLoggedUser(session);
-        if (loggedUser.getId() != userId) {
-            throw new BadRequestException("You cannot edit address of another user!");
+        if (!sessionManager.validateLogged(session)) {
+            throw new AuthenticationException("You have to log in in order to edit address!");
         }
 
-        return addressService.editAddress(addressRequestDTO, userId, addressId);
+        User loggedUser = sessionManager.getLoggedUser(session);
+
+        return addressService.editAddress(addressRequestDTO, loggedUser, addressId);
     }
 }

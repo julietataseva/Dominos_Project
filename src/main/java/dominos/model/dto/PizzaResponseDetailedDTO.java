@@ -32,7 +32,7 @@ public class PizzaResponseDetailedDTO {
             this.ingredients.add(new IngredientDTO(ingredient));
         }
 
-        this.dough = new DoughDTO(Dough.DoughType.TRADITIONAL);
-        this.pizzaSize = new PizzaSizeDTO(PizzaSize.Size.LARGE);
+        this.dough = new DoughDTO(1, Dough.DoughType.TRADITIONAL);
+        this.pizzaSize = new PizzaSizeDTO(2, PizzaSize.Size.LARGE);
     }
 }
