@@ -44,9 +44,8 @@ public class AddressService {
         return new AddressWithoutUserDTO(address);
     }
 
-    public List<AddressWithoutUserDTO> getAllAddressesByUserId(int id) {
-        User user = userRepository.findById(id).get();
-        List<Address> addresses = user.getAddresses();
+    public List<AddressWithoutUserDTO> getAllAddressesByUserId(User loggedUser) {
+        List<Address> addresses = loggedUser.getAddresses();
         if (addresses.size() == 0) {
             throw new NotFoundException("You don't have any addresses added.");
         }
