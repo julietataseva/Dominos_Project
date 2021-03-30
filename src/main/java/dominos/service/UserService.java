@@ -28,11 +28,11 @@ public class UserService {
     private UserRepository userRepository;
     private static final int MIN_PASSWORD_LENGTH = 6;
 
-    public RegisterResponseUserDTO addUser(RegisterRequestUserDTO userDTO){
+    public RegisterResponseUserDTO addUser(RegisterRequestUserDTO userDTO) {
         String email = userDTO.getEmail();
         this.validateEmail(email);
 
-        if(userRepository.findByEmail(email) != null){
+        if (userRepository.findByEmail(email) != null) {
             throw new BadRequestException("Email already exists");
         }
 
@@ -58,16 +58,16 @@ public class UserService {
         return responseUserDTO;
     }
 
-    private void validatePassword(String password){
-        if(password == null || password.isEmpty() ||
-                password.length() < MIN_PASSWORD_LENGTH || this.containsOnlySpaces(password)){
+    private void validatePassword(String password) {
+        if (password == null || password.isEmpty() ||
+                password.length() < MIN_PASSWORD_LENGTH || this.containsOnlySpaces(password)) {
             throw new BadRequestException("Invalid password!");
         }
     }
 
-    private boolean containsOnlySpaces(String password){
+    private boolean containsOnlySpaces(String password) {
         for (int i = 0; i < password.length(); i++) {
-            if(password.charAt(i) != ' '){
+            if (password.charAt(i) != ' ') {
                 return false;
             }
         }
@@ -75,21 +75,21 @@ public class UserService {
         return true;
     }
 
-    private void validateConfirmPassword(String confirmPassword, String initialPassword){
-        if(!initialPassword.equals(confirmPassword)){
+    private void validateConfirmPassword(String confirmPassword, String initialPassword) {
+        if (!initialPassword.equals(confirmPassword)) {
             throw new BadRequestException("Passwords don't match!");
         }
     }
 
-    private void validateName(String name){
-        if(name == null || name.isEmpty()){
+    private void validateName(String name) {
+        if (name == null || name.isEmpty()) {
             throw new BadRequestException("Invalid name!");
         }
     }
 
     public EditResponseUserDTO editUser(EditRequestUserDTO userDTO, int id) {
         Optional<User> u = userRepository.findById(id);
-        if(!u.isPresent()){
+        if (!u.isPresent()) {
             throw new NotFoundException("User with id " + id + " not found.");
         }
 
@@ -112,9 +112,9 @@ public class UserService {
         return new EditResponseUserDTO(user);
     }
 
-    private void validateNewFirstName(User user, String firstName){
-        if(firstName != null){
-            if(firstName.equals("")){
+    private void validateNewFirstName(User user, String firstName) {
+        if (firstName != null) {
+            if (firstName.equals("")) {
                 throw new BadRequestException("First name should not be empty!");
             }
             user.setFirstName(firstName);
@@ -122,16 +122,16 @@ public class UserService {
     }
 
     private void validateNewLastName(User user, String lastName) {
-        if(lastName != null){
-            if(lastName.equals("")){
+        if (lastName != null) {
+            if (lastName.equals("")) {
                 throw new BadRequestException("Last name should not be empty!");
             }
             user.setLastName(lastName);
         }
     }
 
-    private void validateEmail(String email){
-        String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\."+
+    private void validateEmail(String email) {
+        String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\." +
                 "[a-zA-Z0-9_+&*-]+)*@" +
                 "(?:[a-zA-Z0-9-]+\\.)+[a-z" +
                 "A-Z]{2,7}$";
@@ -141,29 +141,29 @@ public class UserService {
             throw new BadRequestException("Invalid email!");
         }
 
-        if(!pat.matcher(email).matches()){
+        if (!pat.matcher(email).matches()) {
             throw new BadRequestException("Invalid email!");
         }
     }
 
     private void validateCurrentAndNewPassword(User user, String currentPassword, EditRequestUserDTO userDTO) {
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        if(currentPassword != null){
-            if(!passwordEncoder.matches(currentPassword, user.getPassword())){
+        if (currentPassword != null) {
+            if (!passwordEncoder.matches(currentPassword, user.getPassword())) {
                 throw new AuthenticationException("Wrong credentials!");
             }
 
             String newPassword = userDTO.getNewPassword();
-            if(newPassword == null || newPassword.equals("")){
+            if (newPassword == null || newPassword.equals("")) {
                 throw new BadRequestException("New password should not be empty!");
             }
 
             String confirmPassword = userDTO.getConfirmPassword();
-            if(confirmPassword == null || confirmPassword.equals("")){
+            if (confirmPassword == null || confirmPassword.equals("")) {
                 throw new BadRequestException("Confirm password should not be empty!");
             }
 
-            if(!newPassword.equals(confirmPassword)){
+            if (!newPassword.equals(confirmPassword)) {
                 throw new BadRequestException("Passwords don't match");
             }
 
@@ -174,13 +174,13 @@ public class UserService {
 
     public LoginResponseUserDTO login(LoginUserDTO loginUserDTO) {
         User user = userRepository.findByEmail(loginUserDTO.getEmail());
-        if (user == null){
+        if (user == null) {
             throw new AuthenticationException("Wrong credentials");
-        }else {
+        } else {
             PasswordEncoder encoder = new BCryptPasswordEncoder();
-            if (encoder.matches(loginUserDTO.getPassword(),user.getPassword())){
+            if (encoder.matches(loginUserDTO.getPassword(), user.getPassword())) {
                 return new LoginResponseUserDTO(user);
-            }else {
+            } else {
                 throw new AuthenticationException("Wrong credentials");
             }
         }

@@ -28,8 +28,6 @@ public class OrderController extends AbstractController {
         if (!sessionManager.validateLogged(session)) {
             throw new AuthenticationException("You have to log in!");
         }
-
-        Map<Integer, Map<LocalDate, List<String>>> orders = orderDAO.getAllMadeOrdersByUserId(userId);
-        return orders;
+        return orderDAO.getAllMadeOrdersByUserId(userId);
     }
 }
