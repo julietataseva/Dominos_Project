@@ -23,4 +23,9 @@ public class AdditionalProductDTO implements IProduct {
         this.name = additionalProduct.getName();
         this.price = additionalProduct.getPrice();
     }
+
+    @Override
+    public boolean isPizza() {
+        return false;
+    }
 }

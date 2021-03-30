@@ -1,5 +1,6 @@
 package dominos.model.pojo;
 
+import dominos.model.dto.PizzaOrderWithoutIngredientsDTO;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -26,4 +27,11 @@ public class PizzaOrder {
     @ManyToOne
     @JoinColumn(name = "size_id")
     private PizzaSize size;
+
+//    public PizzaOrder(PizzaOrderWithoutIngredientsDTO pizzaOrderWithoutIngredientsDTO){
+//        this.order = pizzaOrderWithoutIngredientsDTO.getOrder();
+//        this.pizza = pizzaOrderWithoutIngredientsDTO.getPizza();
+//        this.dough = pizzaOrderWithoutIngredientsDTO.getDough();
+//        this.size = pizzaOrderWithoutIngredientsDTO.getPizzaSize();
+//    }
 }

@@ -45,4 +45,8 @@ public class SessionManager {
     public Map<IProduct, Integer> getCartAttribute(HttpSession session) {
         return (Map<IProduct, Integer>) session.getAttribute("USER_CART");
     }
+
+    public void emptyCart(HttpSession session) {
+        session.setAttribute("USER_CART", new HashMap<IProduct, Integer>());
+    }
 }

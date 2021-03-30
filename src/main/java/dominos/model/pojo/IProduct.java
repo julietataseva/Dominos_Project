@@ -1,9 +1,11 @@
 package dominos.model.pojo;
 
-import java.io.Serializable;
-
-public interface IProduct{
+public interface IProduct {
     String getName();
+
     double getPrice();
+
     int getId();
+
+    boolean isPizza();
 }

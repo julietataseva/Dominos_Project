@@ -1,12 +1,15 @@
 package dominos.model.pojo;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import dominos.model.dto.OrderDTO;
+import dominos.model.dto.RegisterRequestUserDTO;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @NoArgsConstructor
@@ -30,4 +33,11 @@ public class Order {
     private List<PizzaOrder> pizzaOrders;
     @OneToMany(mappedBy = "order")
     private List<AdditionalProductOrder> additionalProductOrders;
+
+    public Order(OrderDTO orderDTO) {
+        this.owner = orderDTO.getOwner();
+        this.createdAt = LocalDate.now();
+        this.address = orderDTO.getAddress();
+        this.comment = orderDTO.getComment();
+    }
 }
