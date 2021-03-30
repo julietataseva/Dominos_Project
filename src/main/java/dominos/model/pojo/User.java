@@ -24,7 +24,7 @@ public class User {
     private String password;
     @OneToMany(mappedBy = "user")
     private List<Address> addresses;
-    @OneToMany(mappedBy = "owner")
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
     private List<Order> orders;
 
     public User(RegisterRequestUserDTO userDTO){

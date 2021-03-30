@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.List;
 
 @NoArgsConstructor
 @Getter
@@ -19,6 +20,8 @@ public class Address {
     @ManyToOne
     @JoinColumn(name="user_id")
     private User user;
+    @OneToMany(mappedBy = "address")
+    private List<Order> orders;
     private String phoneNumber;
     private String latitude;
     private String longitude;
