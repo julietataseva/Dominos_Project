@@ -39,5 +39,6 @@ public class PizzaOrder {
         this.price = pizzaOrderDTO.getPrice();
         this.dough = new Dough(pizzaOrderDTO.getDough());
         this.size = new PizzaSize(pizzaOrderDTO.getPizzaSize());
+        this.modifications = pizzaOrderDTO.getModifications();
     }
 }

@@ -61,4 +61,38 @@ public class PizzaOrderDTO implements IProduct {
     public int hashCode() {
         return Objects.hash(id);
     }
+
+    private String getModifiedDough(){
+        if(dough.getType() != Dough.DoughType.TRADITIONAL){
+            return dough.getType().toString();
+        }
+        return "";
+    }
+
+    private String getModifiedSize(){
+        if(pizzaSize.getSize() != PizzaSize.Size.LARGE){
+            return pizzaSize.getSize().toString();
+        }
+        return "";
+    }
+
+    private String getAdditionalIngredients(){
+        if(this.additionalIngredients.isEmpty()){
+            return "";
+        }
+
+        StringBuilder additionalIngredients = new StringBuilder();
+        for(IngredientWithPriceDTO ingredient : this.additionalIngredients){
+            additionalIngredients.append(ingredient.getName() + " ");
+        }
+        return additionalIngredients.toString();
+    }
+
+    public String getModifications(){
+        StringBuilder modifications = new StringBuilder();
+        modifications.append(this.getModifiedDough() + " ");
+        modifications.append(this.getModifiedSize() + " ");
+        modifications.append(this.getAdditionalIngredients());
+        return modifications.toString();
+    }
 }
