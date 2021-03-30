@@ -34,25 +34,17 @@ public class OrderService {
 
         OrderDTO orderDTO = new OrderDTO(user, address.get(), requestOrderDTO.getComment());
         Order order = new Order(orderDTO);
-        orderRepository.save(order);
+        order = orderRepository.save(order);
 
-        // TODO save products/pizzas
         for (Map.Entry<IProduct, Integer> product : cart.entrySet()) {
             if (product.getKey().isPizza()) {
-//                PizzaOrderWithoutIngredientsDTO pizzaOrderWithoutIngredientsDTO =
-//                        new PizzaOrderWithoutIngredientsDTO(order, product.getKey());
-//
+
                 PizzaOrderDTO pizzaOrderDTO = (PizzaOrderDTO) product.getKey();
-                DoughDTO doughDTO = pizzaOrderDTO.getDough();
-
-
-
-
-                PizzaOrder pizzaOrder = new PizzaOrder();
-                pizzaOrder.setOrder(order);
-
+                int quantity = product.getValue();
+                PizzaOrder pizzaOrder = new PizzaOrder(order, pizzaOrderDTO, quantity);
                 pizzaOrderRepository.save(pizzaOrder);
-            } else {
+            }
+            else {
                 AdditionalProductOrderDTO additionalProductOrderDTO =
                         new AdditionalProductOrderDTO(order, (AdditionalProductDTO) product.getKey(),
                                 product.getKey().getPrice(), product.getValue());
