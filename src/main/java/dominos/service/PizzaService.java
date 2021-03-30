@@ -1,7 +1,7 @@
 package dominos.service;
 
 import dominos.exceptions.BadRequestException;
-import dominos.exceptions.NoContentException;
+import dominos.exceptions.NotFoundException;
 import dominos.model.dto.PizzaResponseDTO;
 import dominos.model.dto.PizzaResponseDetailedDTO;
 import dominos.model.pojo.Pizza;
@@ -19,7 +19,7 @@ public class PizzaService {
     public List<PizzaResponseDTO> getMenu(){
         List<Pizza> pizzas = pizzaRepository.findAll();
         if(pizzas == null || pizzas.isEmpty()){
-            throw new NoContentException("The menu is empty.");
+            throw new NotFoundException("The menu is empty.");
         }
 
         List<PizzaResponseDTO> returnPizzas = new ArrayList<>();
