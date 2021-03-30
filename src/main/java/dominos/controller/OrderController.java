@@ -22,14 +22,11 @@ public class OrderController extends AbstractController {
     @Autowired
     private SessionManager sessionManager;
 
-    @GetMapping("/users/{userId}/orders")
-    public Map<Integer, Map<LocalDate, List<String>>> getAllMadeOrdersByUserId(@PathVariable int userId, HttpSession session) throws SQLException {
+    @GetMapping("/orders")
+    public Map<Integer, Map<LocalDate, List<String>>> getAllMadeOrdersByUserId(@PathVariable int userId,
+                                                                               HttpSession session) throws SQLException {
         if (!sessionManager.validateLogged(session)) {
             throw new AuthenticationException("You have to log in!");
-        }
-
-        if (sessionManager.getLoggedUser(session).getId() != userId) {
-            throw new AuthenticationException("You have to be logged in your account");
         }
 
         Map<Integer, Map<LocalDate, List<String>>> orders = orderDAO.getAllMadeOrdersByUserId(userId);
