@@ -136,10 +136,15 @@ public class AddressService {
 
     public AddressWithoutUserDTO deleteAddress(int addressId, User loggedUser) {
         Optional<Address> address = addressRepository.findById(addressId);
+
+        if (address.isEmpty()) {
+            throw new NotFoundException("Address does not exist!");
+        }
+
         AddressWithoutUserDTO addressWithoutUserDTO = new AddressWithoutUserDTO(address.get());
         int addressUserId = address.get().getUser().getId();
 
-        if (addressUserId != loggedUser.getId()){
+        if (addressUserId != loggedUser.getId()) {
             throw new AuthenticationException("You can not delete this address");
         }
 
