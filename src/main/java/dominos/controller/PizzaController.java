@@ -32,7 +32,7 @@ public class PizzaController extends AbstractController{
     }
 
     @GetMapping("menu/pizzas/{pizzaId}")
-    public PizzaResponseDetailedDTO getPizzaByName(@PathVariable int pizzaId, HttpSession session){
+    public PizzaResponseDetailedDTO getPizzaById(@PathVariable int pizzaId, HttpSession session){
         if(!sessionManager.validateLogged(session)){
             throw new AuthenticationException("You have to log in to see the pizza.");
         }
