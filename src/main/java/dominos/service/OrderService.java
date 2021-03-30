@@ -42,7 +42,14 @@ public class OrderService {
 //                PizzaOrderWithoutIngredientsDTO pizzaOrderWithoutIngredientsDTO =
 //                        new PizzaOrderWithoutIngredientsDTO(order, product.getKey());
 //
+                PizzaOrderDTO pizzaOrderDTO = (PizzaOrderDTO) product.getKey();
+                DoughDTO doughDTO = pizzaOrderDTO.getDough();
+
+
+
+
                 PizzaOrder pizzaOrder = new PizzaOrder();
+                pizzaOrder.setOrder(order);
 
                 pizzaOrderRepository.save(pizzaOrder);
             } else {
