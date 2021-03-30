@@ -25,9 +25,7 @@ public class AddressService {
     @Autowired
     private UserRepository userRepository;
 
-    public AddressWithoutUserDTO addAddress(AddressRequestDTO addressRequestDTO, int id) {
-        User user = userRepository.findById(id).get();
-
+    public AddressWithoutUserDTO addAddress(AddressRequestDTO addressRequestDTO, User loggedUser) {
         String phoneNumber = addressRequestDTO.getPhoneNumber();
         this.validatePhoneNumber(phoneNumber);
 
@@ -41,7 +39,7 @@ public class AddressService {
         this.validateDescription(description);
 
         Address address = new Address(addressRequestDTO);
-        address.setUser(user);
+        address.setUser(loggedUser);
         address = addressRepository.save(address);
         return new AddressWithoutUserDTO(address);
     }
@@ -109,23 +107,23 @@ public class AddressService {
     }
 
     private void validateLatitude(String latitude) {
-        String latMatch = "((?:[0-9]|[1-8][0-9])\\.([0-9]{0,6}))|((?:90)\\.([0]{0,6}))";
+        String latitudeMatch = "((?:[0-9]|[1-8][0-9])\\.([0-9]{0,6}))|((?:90)\\.([0]{0,6}))";
 
-        if (!Pattern.matches(latMatch, latitude)) {
+        if (latitude == null || !Pattern.matches(latitudeMatch, latitude)) {
             throw new BadRequestException("Invalid latitude!");
         }
     }
 
     private void validateLongitude(String longitude) {
-        String lonMatch = "((?:[0-9]|[1-9][0-9]|1[0-7][0-9])\\.([0-9]{0,6}))|((?:180)\\.([0]{0,6}))";
+        String longitudeMatch = "((?:[0-9]|[1-9][0-9]|1[0-7][0-9])\\.([0-9]{0,6}))|((?:180)\\.([0]{0,6}))";
 
-        if (!Pattern.matches(lonMatch, longitude)) {
+        if (longitude == null || !Pattern.matches(longitudeMatch, longitude)) {
             throw new BadRequestException("Invalid longitude!");
         }
     }
 
     private void validateDescription(String description) {
-        if (description == null || description.equals("")) {
+        if (description == null || description.isEmpty()) {
             throw new BadRequestException("Invalid description!");
         }
     }

@@ -21,15 +21,14 @@ public class AddressController extends AbstractController {
     private AddressService addressService;
 
 
-    @PutMapping("/users/{userId}/addresses")
-    public AddressWithoutUserDTO addAddress(@RequestBody AddressRequestDTO addressRequestDTO,
-                                            HttpSession session, @PathVariable int userId) {
-        User loggedUser = sessionManager.getLoggedUser(session);
-        if (loggedUser.getId() != userId) {
-            throw new BadRequestException("You cannot add address to another user!");
+    @PutMapping("/addresses")
+    public AddressWithoutUserDTO addAddress(@RequestBody AddressRequestDTO addressRequestDTO, HttpSession session) {
+        if(!sessionManager.validateLogged(session)){
+            throw new AuthenticationException("You have to log in in order to add address!");
         }
 
-        return addressService.addAddress(addressRequestDTO, userId);
+        User loggedUser = sessionManager.getLoggedUser(session);
+        return addressService.addAddress(addressRequestDTO, loggedUser);
     }
 
     @DeleteMapping("/addresses/{addressId}")
