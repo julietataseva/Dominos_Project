@@ -47,4 +47,14 @@ public class AddressController extends AbstractController {
         User loggedUser = sessionManager.getLoggedUser(session);
         return addressService.editAddress(addressRequestDTO, loggedUser, addressId);
     }
+
+    @PutMapping("/addresses/{addressId}")
+    public AddressWithoutUserDTO chooseAddressForCurrentOrder(@PathVariable int addressId, HttpSession session) {
+        sessionManager.validateLogged(session);
+        User loggedUser = sessionManager.getLoggedUser(session);
+
+        AddressWithoutUserDTO addressWithoutUserDTO = addressService.chooseAddressForCurrentOrder(addressId, loggedUser);
+        session.setAttribute("CURRENT_ORDER_ADDRESS_ID", addressId);
+        return addressWithoutUserDTO;
+    }
 }
