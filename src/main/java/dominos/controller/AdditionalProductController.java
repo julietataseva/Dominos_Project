@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpSession;
+import java.sql.SQLException;
 import java.util.List;
 
 
@@ -29,5 +30,11 @@ public class AdditionalProductController extends AbstractController {
     public List<AdditionalProductDTO> getAdditionalProductsMenu(HttpSession session) {
         sessionManager.validateLogged(session);
         return additionalProductService.getAdditionalProductMenu();
+    }
+
+    @GetMapping("/menu/products/top")
+    public List<AdditionalProductDTO> getMostSoldAdditionalProducts(HttpSession session) throws SQLException {
+        sessionManager.validateLogged(session);
+        return additionalProductService.getMostSoldAdditionalProducts();
     }
 }
