@@ -29,9 +29,6 @@ public class Pizza {
     private List<Ingredient> ingredients;
     @OneToMany(mappedBy = "pizza")
     private List<PizzaOrder> pizzaOrders;
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "image_id", referencedColumnName = "id")
-    private Image image;
 
     public Pizza() {
         this.ingredients = new ArrayList<>();
