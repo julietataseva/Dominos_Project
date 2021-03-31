@@ -1,17 +1,15 @@
 package dominos.model.pojo;
 
-import dominos.model.dto.PizzaSizeDTO;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
 
 @Getter
 @Setter
 @Entity
-@Table(name="pizza_sizes")
+@Table(name = "pizza_sizes")
 public class PizzaSize {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,11 +19,11 @@ public class PizzaSize {
     @OneToMany(mappedBy = "size")
     private List<PizzaOrder> pizzaOrders;
 
-    public enum Size{
+    public enum Size {
         MEDIUM, LARGE, JUMBO
     }
 
-    public PizzaSize(){
+    public PizzaSize() {
         this.id = 2;
         this.size = Size.LARGE;
     }

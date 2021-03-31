@@ -30,17 +30,17 @@ public class Pizza {
     @OneToMany(mappedBy = "pizza")
     private List<PizzaOrder> pizzaOrders;
 
-    public Pizza(){
+    public Pizza() {
         this.ingredients = new ArrayList<>();
         this.pizzaOrders = new ArrayList<>();
     }
 
-    public Pizza(PizzaAddedToCartDTO pizzaAddedToCartDTO){
+    public Pizza(PizzaAddedToCartDTO pizzaAddedToCartDTO) {
         this.id = pizzaAddedToCartDTO.getId();
         this.name = pizzaAddedToCartDTO.getName();
         this.price = pizzaAddedToCartDTO.getPrice();
         this.ingredients = new ArrayList<>();
-        for(IngredientDTO ingredientDTO : pizzaAddedToCartDTO.getIngredients()){
+        for (IngredientDTO ingredientDTO : pizzaAddedToCartDTO.getIngredients()) {
             this.ingredients.add(new Ingredient(ingredientDTO));
         }
     }

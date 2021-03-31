@@ -20,7 +20,7 @@ public class PizzaOrderDTO implements IProduct {
     private List<IngredientWithPriceDTO> additionalIngredients;
     private static final int priceDifference = 3;
 
-    public PizzaOrderDTO(){
+    public PizzaOrderDTO() {
         this.additionalIngredients = new ArrayList<>();
     }
 
@@ -33,12 +33,16 @@ public class PizzaOrderDTO implements IProduct {
     public double getPrice() {
         double price = pizza.getPrice();
 
-        switch (pizzaSize.getSize()){
-            case MEDIUM: price -= priceDifference; break;
-            case JUMBO:price += priceDifference; break;
+        switch (pizzaSize.getSize()) {
+            case MEDIUM:
+                price -= priceDifference;
+                break;
+            case JUMBO:
+                price += priceDifference;
+                break;
         }
 
-        for(IngredientWithPriceDTO ingredient : this.additionalIngredients) {
+        for (IngredientWithPriceDTO ingredient : this.additionalIngredients) {
             price += ingredient.getPrice();
         }
 
@@ -63,33 +67,33 @@ public class PizzaOrderDTO implements IProduct {
         return Objects.hash(id);
     }
 
-    private String getModifiedDough(){
-        if(dough.getType() != Dough.DoughType.TRADITIONAL){
+    private String getModifiedDough() {
+        if (dough.getType() != Dough.DoughType.TRADITIONAL) {
             return dough.getType().toString();
         }
         return "";
     }
 
-    private String getModifiedSize(){
-        if(pizzaSize.getSize() != PizzaSize.Size.LARGE){
+    private String getModifiedSize() {
+        if (pizzaSize.getSize() != PizzaSize.Size.LARGE) {
             return pizzaSize.getSize().toString();
         }
         return "";
     }
 
-    private String getAdditionalIngredients(){
-        if(this.additionalIngredients.isEmpty()){
+    private String getAdditionalIngredients() {
+        if (this.additionalIngredients.isEmpty()) {
             return "";
         }
 
         StringBuilder additionalIngredients = new StringBuilder();
-        for(IngredientWithPriceDTO ingredient : this.additionalIngredients){
+        for (IngredientWithPriceDTO ingredient : this.additionalIngredients) {
             additionalIngredients.append(ingredient.getName() + " ");
         }
         return additionalIngredients.toString();
     }
 
-    public String getModifications(){
+    public String getModifications() {
         StringBuilder modifications = new StringBuilder();
         modifications.append(this.getModifiedDough() + " ");
         modifications.append(this.getModifiedSize() + " ");

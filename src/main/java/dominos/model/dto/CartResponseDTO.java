@@ -1,6 +1,5 @@
 package dominos.model.dto;
 
-import dominos.model.pojo.AdditionalProduct;
 import dominos.model.pojo.IProduct;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,6 +18,6 @@ public class CartResponseDTO {
     public CartResponseDTO(IProduct product, int quantity) {
         this.name = product.getName();
         this.quantity = quantity;
-        this.price = product.getPrice()*quantity;
+        this.price = product.getPrice() * quantity;
     }
 }

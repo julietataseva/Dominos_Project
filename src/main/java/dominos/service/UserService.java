@@ -1,6 +1,5 @@
 package dominos.service;
 
-import dominos.exceptions.NotFoundException;
 import dominos.model.dto.EditRequestUserDTO;
 import dominos.model.dto.EditResponseUserDTO;
 import dominos.exceptions.AuthenticationException;
@@ -17,13 +16,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import java.util.Optional;
 import java.util.regex.Pattern;
-
 
 @Service
 public class UserService {
-
     @Autowired
     private UserRepository userRepository;
     private static final int MIN_PASSWORD_LENGTH = 6;

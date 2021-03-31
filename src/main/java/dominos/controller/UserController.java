@@ -1,7 +1,5 @@
 package dominos.controller;
 
-import dominos.exceptions.AuthenticationException;
-import dominos.exceptions.BadRequestException;
 import dominos.model.dto.EditRequestUserDTO;
 import dominos.model.dto.EditResponseUserDTO;
 import dominos.model.dto.LoginUserDTO;
@@ -18,7 +16,6 @@ import javax.servlet.http.HttpSession;
 
 @RestController
 public class UserController extends AbstractController {
-
     @Autowired
     private UserService userService;
 
@@ -44,21 +41,14 @@ public class UserController extends AbstractController {
 
     @PostMapping("/users")
     public EditResponseUserDTO edit(@RequestBody EditRequestUserDTO userDTO, HttpSession session) {
-        if (!sessionManager.validateLogged(session)) {
-            throw new AuthenticationException("You have to log in in order to edit your account!");
-        }
-
+        sessionManager.validateLogged(session);
         User loggedUser = sessionManager.getLoggedUser(session);
-
         return userService.editUser(userDTO, loggedUser);
     }
 
     @DeleteMapping("/users")
     public String delete(HttpSession session) {
-        if (!sessionManager.validateLogged(session)) {
-            throw new AuthenticationException("You have to log in!");
-        }
-
+        sessionManager.validateLogged(session);
         int userId = sessionManager.getLoggedUser(session).getId();
         String response = userService.deleteUser(userId);
         sessionManager.logoutUser(session);

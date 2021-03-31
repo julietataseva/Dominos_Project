@@ -9,5 +9,4 @@ public class DominosApplication {
     public static void main(String[] args) {
         SpringApplication.run(DominosApplication.class, args);
     }
-
 }

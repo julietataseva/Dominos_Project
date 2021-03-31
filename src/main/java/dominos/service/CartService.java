@@ -30,7 +30,6 @@ public class CartService {
     @Autowired
     IngredientRepository ingredientRepository;
 
-
     public AdditionalProductDTO addAdditionalProductToCart(int productID, Map<IProduct, Integer> cart) {
         Optional<AdditionalProduct> additionalProduct = additionalProductRepository.findById(productID);
         if (additionalProduct.isEmpty()) {
@@ -136,7 +135,7 @@ public class CartService {
         }
 
         List<IngredientWithPriceDTO> additionalIngredientsWithPrice = new ArrayList<>();
-        for(Ingredient ingredient : additionalIngredients){
+        for (Ingredient ingredient : additionalIngredients) {
             additionalIngredientsWithPrice.add(new IngredientWithPriceDTO(ingredient));
         }
 

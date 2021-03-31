@@ -16,7 +16,7 @@ public class RegisterResponseUserDTO {
     private String lastName;
     private String email;
 
-    public RegisterResponseUserDTO(User user){
+    public RegisterResponseUserDTO(User user) {
         id = user.getId();
         this.firstName = user.getFirstName();
         this.lastName = user.getLastName();

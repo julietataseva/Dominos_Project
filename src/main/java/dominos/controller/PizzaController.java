@@ -1,6 +1,5 @@
 package dominos.controller;
 
-import dominos.exceptions.AuthenticationException;
 import dominos.model.dto.PizzaResponseDTO;
 import dominos.model.dto.PizzaResponseDetailedDTO;
 import dominos.service.PizzaService;
@@ -10,12 +9,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpSession;
-import java.sql.SQLException;
 import java.util.List;
 
 @RestController
-public class PizzaController extends AbstractController{
-
+public class PizzaController extends AbstractController {
     @Autowired
     private PizzaService pizzaService;
 
@@ -23,20 +20,14 @@ public class PizzaController extends AbstractController{
     private SessionManager sessionManager;
 
     @GetMapping("/menu/pizzas")
-    public List<PizzaResponseDTO> getMenu(HttpSession session){
-        if(!sessionManager.validateLogged(session)){
-            throw new AuthenticationException("You have to log in to see the menu.");
-        }
-
+    public List<PizzaResponseDTO> getMenu(HttpSession session) {
+        sessionManager.validateLogged(session);
         return pizzaService.getMenu();
     }
 
     @GetMapping("menu/pizzas/{pizzaId}")
-    public PizzaResponseDetailedDTO getPizzaById(@PathVariable int pizzaId, HttpSession session){
-        if(!sessionManager.validateLogged(session)){
-            throw new AuthenticationException("You have to log in to see the pizza.");
-        }
-
+    public PizzaResponseDetailedDTO getPizzaById(@PathVariable int pizzaId, HttpSession session) {
+        sessionManager.validateLogged(session);
         return pizzaService.getById(pizzaId);
     }
 }

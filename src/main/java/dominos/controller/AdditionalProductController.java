@@ -1,6 +1,5 @@
 package dominos.controller;
 
-import dominos.exceptions.AuthenticationException;
 import dominos.model.dto.AdditionalProductDTO;
 import dominos.service.AdditionalProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +13,6 @@ import java.util.List;
 
 @RestController
 public class AdditionalProductController extends AbstractController {
-
     @Autowired
     private AdditionalProductService additionalProductService;
 
@@ -23,17 +21,13 @@ public class AdditionalProductController extends AbstractController {
 
     @GetMapping("/menu/products/{productId}")
     public AdditionalProductDTO getAdditionalProductById(@PathVariable int productId, HttpSession session) {
-        if (!sessionManager.validateLogged(session)) {
-            throw new AuthenticationException("You have to log in!");
-        }
+        sessionManager.validateLogged(session);
         return additionalProductService.getAdditionalProductById(productId);
     }
 
     @GetMapping("/menu/products")
     public List<AdditionalProductDTO> getAdditionalProductsMenu(HttpSession session) {
-        if (!sessionManager.validateLogged(session)) {
-            throw new AuthenticationException("You have to log in!");
-        }
+        sessionManager.validateLogged(session);
         return additionalProductService.getAdditionalProductMenu();
     }
 }
