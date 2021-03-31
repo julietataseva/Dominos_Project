@@ -1,6 +1,5 @@
 package dominos.controller;
 
-import dominos.exceptions.AuthenticationException;
 import dominos.exceptions.NotFoundException;
 import dominos.model.dto.AdditionalProductDTO;
 import dominos.model.dto.CartResponseDTO;
@@ -27,44 +26,35 @@ public class CartController extends AbstractController {
 
     @PutMapping("/menu/products/{productId}")
     public AdditionalProductDTO addAdditionalProductToCart(@PathVariable int productId, HttpSession session) {
-        if (!sessionManager.validateLogged(session)) {
-            throw new AuthenticationException("You have to log in!");
-        }
-
+        sessionManager.validateLogged(session);
         Map<IProduct, Integer> cart = sessionManager.getCartAttribute(session);
-
         return cartService.addAdditionalProductToCart(productId, cart);
     }
 
-    @DeleteMapping("/cart/products/{productId}")
+    @PutMapping("/cart/products/decrease/{productId}")
+    public AdditionalProductDTO decreaseAdditionalProductQuantityInCart(@PathVariable int productId, HttpSession session) {
+        // TODO
+        return null;
+    }
+
+    @DeleteMapping("/cart/products/delete/{productId}")
     public AdditionalProductDTO deleteAdditionalProductFromCart(@PathVariable int productId, HttpSession session) {
-        if (!sessionManager.validateLogged(session)) {
-            throw new AuthenticationException("You have to log in!");
-        }
-
+        sessionManager.validateLogged(session);
         Map<IProduct, Integer> cart = sessionManager.getCartAttribute(session);
-
         return cartService.deleteAdditionalProductFromCart(productId, cart);
     }
 
     @PutMapping("/menu/pizzas/{pizzaId}")
     public PizzaOrderDTO addPizzaToCart(@PathVariable int pizzaId, HttpSession session,
                                         @RequestBody RequestPizzaOrderDTO requestPizzaOrderDTO) {
-        if (!sessionManager.validateLogged(session)) {
-            throw new AuthenticationException("You have to log in in order to add pizza to cart!");
-        }
-
+        sessionManager.validateLogged(session);
         Map<IProduct, Integer> cart = sessionManager.getCartAttribute(session);
         return cartService.addPizzaToCart(pizzaId, requestPizzaOrderDTO, cart);
     }
 
     @DeleteMapping("/cart/pizzas/{pizzaId}")
     public ResponseEntity<String> removePizzaFromCart(@PathVariable int pizzaId, HttpSession session) {
-        if (!sessionManager.validateLogged(session)) {
-            return new ResponseEntity<>("You have to log in in order to remove pizza from cart!",
-                    HttpStatus.UNAUTHORIZED);
-        }
-
+        sessionManager.validateLogged(session);
         Map<IProduct, Integer> cart = sessionManager.getCartAttribute(session);
 
         try {
@@ -77,9 +67,7 @@ public class CartController extends AbstractController {
 
     @GetMapping("/cart")
     public List<CartResponseDTO> getCart(HttpSession session) {
-        if (!sessionManager.validateLogged(session)) {
-            throw new AuthenticationException("You have to log in!");
-        }
+        sessionManager.validateLogged(session);
 
         if (sessionManager.getCartAttribute(session) == null) {
             throw new NotFoundException("Cart is empty!");

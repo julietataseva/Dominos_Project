@@ -1,6 +1,5 @@
 package dominos.controller;
 
-import dominos.exceptions.AuthenticationException;
 import dominos.model.dto.PizzaResponseDTO;
 import dominos.model.dto.PizzaResponseDetailedDTO;
 import dominos.service.PizzaService;
@@ -22,19 +21,13 @@ public class PizzaController extends AbstractController {
 
     @GetMapping("/menu/pizzas")
     public List<PizzaResponseDTO> getMenu(HttpSession session) {
-        if (!sessionManager.validateLogged(session)) {
-            throw new AuthenticationException("You have to log in to see the menu.");
-        }
-
+        sessionManager.validateLogged(session);
         return pizzaService.getMenu();
     }
 
     @GetMapping("menu/pizzas/{pizzaId}")
     public PizzaResponseDetailedDTO getPizzaById(@PathVariable int pizzaId, HttpSession session) {
-        if (!sessionManager.validateLogged(session)) {
-            throw new AuthenticationException("You have to log in to see the pizza.");
-        }
-
+        sessionManager.validateLogged(session);
         return pizzaService.getById(pizzaId);
     }
 }

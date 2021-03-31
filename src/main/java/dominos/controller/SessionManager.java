@@ -38,7 +38,10 @@ public class SessionManager {
     }
 
     public boolean validateLogged(HttpSession session) {
-        return !session.isNew() && session.getAttribute(LOGGED_USER_ID) != null;
+        if (session.isNew() || session.getAttribute(LOGGED_USER_ID) == null) {
+            throw new AuthenticationException("You have to log in!");
+        }
+        return true;
     }
 
     public Map<IProduct, Integer> getCartAttribute(HttpSession session) {

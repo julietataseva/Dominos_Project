@@ -1,7 +1,5 @@
 package dominos.controller;
 
-import dominos.exceptions.AuthenticationException;
-import dominos.model.dao.OrderDAO;
 import dominos.model.dto.RequestOrderDTO;
 import dominos.model.pojo.IProduct;
 import dominos.model.pojo.User;
@@ -27,18 +25,13 @@ public class OrderController extends AbstractController {
     @GetMapping("/orders")
     public Map<Integer, Map<LocalDate, List<String>>> getAllMadeOrdersByUserId(@PathVariable int userId,
                                                                                HttpSession session) throws SQLException {
-        if (!sessionManager.validateLogged(session)) {
-            throw new AuthenticationException("You have to log in!");
-        }
-
+        sessionManager.validateLogged(session);
         return orderService.getAllMadeOrdersByUserId(userId);
     }
 
     @PostMapping("/checkout")
     public String payOrder(@RequestBody RequestOrderDTO requestOrderDTO, HttpSession session) {
-        if (!sessionManager.validateLogged(session)) {
-            throw new AuthenticationException("You have to log in!");
-        }
+        sessionManager.validateLogged(session);
         Map<IProduct, Integer> cart = sessionManager.getCartAttribute(session);
 
         User user = sessionManager.getLoggedUser(session);

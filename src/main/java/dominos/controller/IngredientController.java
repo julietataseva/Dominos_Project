@@ -1,6 +1,5 @@
 package dominos.controller;
 
-import dominos.exceptions.AuthenticationException;
 import dominos.model.dto.IngredientDTO;
 import dominos.service.IngredientService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,9 +19,7 @@ public class IngredientController extends AbstractController {
 
     @GetMapping("/ingredients")
     public List<IngredientDTO> getAll(HttpSession session) {
-        if (!sessionManager.validateLogged(session)) {
-            throw new AuthenticationException("You have to log in!");
-        }
+        sessionManager.validateLogged(session);
         return ingredientService.getAllIngredients();
     }
 }
