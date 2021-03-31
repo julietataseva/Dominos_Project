@@ -2,6 +2,7 @@ package dominos.service;
 
 import dominos.exceptions.BadRequestException;
 import dominos.exceptions.NotFoundException;
+import dominos.model.dao.PizzaDAO;
 import dominos.model.dto.PizzaResponseDTO;
 import dominos.model.dto.PizzaResponseDetailedDTO;
 import dominos.model.pojo.Pizza;
@@ -9,6 +10,7 @@ import dominos.model.repository.PizzaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -17,6 +19,9 @@ import java.util.Optional;
 public class PizzaService {
     @Autowired
     private PizzaRepository pizzaRepository;
+
+    @Autowired
+    private PizzaDAO pizzaDAO;
 
     public List<PizzaResponseDTO> getMenu() {
         List<Pizza> pizzas = pizzaRepository.findAll();
@@ -39,5 +44,9 @@ public class PizzaService {
 
         Pizza pizza = optionalPizza.get();
         return new PizzaResponseDetailedDTO(pizza);
+    }
+
+    public List<PizzaResponseDTO> getMostSoldPizzas() throws SQLException {
+        return pizzaDAO.getMostSoldPizzas();
     }
 }

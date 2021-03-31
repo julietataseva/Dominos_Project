@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpSession;
+import java.sql.SQLException;
 import java.util.List;
 
 @RestController
@@ -29,5 +30,11 @@ public class PizzaController extends AbstractController {
     public PizzaResponseDetailedDTO getPizzaById(@PathVariable int pizzaId, HttpSession session) {
         sessionManager.validateLogged(session);
         return pizzaService.getById(pizzaId);
+    }
+
+    @GetMapping("/menu/pizzas/top")
+    public List<PizzaResponseDTO> getMostSoldPizzas(HttpSession session) throws SQLException {
+        sessionManager.validateLogged(session);
+        return pizzaService.getMostSoldPizzas();
     }
 }
