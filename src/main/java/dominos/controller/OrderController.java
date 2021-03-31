@@ -17,10 +17,6 @@ import java.util.Map;
 
 @RestController
 public class OrderController extends AbstractController {
-
-    @Autowired
-    private OrderDAO orderDAO;
-
     @Autowired
     private SessionManager sessionManager;
 
@@ -34,7 +30,8 @@ public class OrderController extends AbstractController {
         if (!sessionManager.validateLogged(session)) {
             throw new AuthenticationException("You have to log in!");
         }
-        return orderDAO.getAllMadeOrdersByUserId(userId);
+
+        return orderService.getAllMadeOrdersByUserId(userId);
     }
 
     @PostMapping("/checkout")
