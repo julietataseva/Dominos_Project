@@ -29,13 +29,13 @@ public class Pizza {
     private List<Ingredient> ingredients;
     @OneToMany(mappedBy = "pizza")
     private List<PizzaOrder> pizzaOrders;
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "image_id", referencedColumnName = "id")
-    private Image image;
+    @OneToMany(mappedBy = "pizza")
+    private List<PizzaImage> pizzaImages;
 
     public Pizza() {
         this.ingredients = new ArrayList<>();
         this.pizzaOrders = new ArrayList<>();
+        this.pizzaImages = new ArrayList<>();
     }
 
     public Pizza(PizzaAddedToCartDTO pizzaAddedToCartDTO) {

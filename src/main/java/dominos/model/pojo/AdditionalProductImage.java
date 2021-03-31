@@ -1,5 +1,6 @@
 package dominos.model.pojo;
 
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -12,12 +13,13 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Entity
-@Table(name = "images")
-public class Image {
+@Table(name = "additional_product_images")
+public class AdditionalProductImage {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String url;
-    @OneToOne(mappedBy = "image")
-    private Pizza pizzaOrProduct;
+    @ManyToOne
+    @JoinColumn(name = "additional_product_id")
+    private AdditionalProduct additionalProduct;
 }

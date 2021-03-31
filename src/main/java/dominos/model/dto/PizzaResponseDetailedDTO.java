@@ -1,9 +1,6 @@
 package dominos.model.dto;
 
-import dominos.model.pojo.Dough;
-import dominos.model.pojo.Ingredient;
-import dominos.model.pojo.Pizza;
-import dominos.model.pojo.PizzaSize;
+import dominos.model.pojo.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.stereotype.Component;
@@ -21,6 +18,7 @@ public class PizzaResponseDetailedDTO {
     private double price;
     private DoughDTO dough;
     private PizzaSizeDTO pizzaSize;
+    private List<PizzaImageDTO> pizzaImages;
 
     public PizzaResponseDetailedDTO(Pizza pizza) {
         this.id = pizza.getId();
@@ -33,5 +31,9 @@ public class PizzaResponseDetailedDTO {
 
         this.dough = new DoughDTO(1, Dough.DoughType.TRADITIONAL);
         this.pizzaSize = new PizzaSizeDTO(2, PizzaSize.Size.LARGE);
+        this.pizzaImages = new ArrayList<>();
+        for(PizzaImage pizzaImage : pizza.getPizzaImages()){
+            this.pizzaImages.add(new PizzaImageDTO(pizzaImage));
+        }
     }
 }

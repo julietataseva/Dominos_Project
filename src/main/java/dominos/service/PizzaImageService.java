@@ -1,12 +1,10 @@
 package dominos.service;
 
 import dominos.exceptions.BadRequestException;
-import dominos.model.pojo.Image;
-import dominos.model.repository.ImageRepository;
-import lombok.Value;
+import dominos.model.pojo.PizzaImage;
+import dominos.model.repository.PizzaImageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.io.File;
 import java.io.IOException;
@@ -14,24 +12,19 @@ import java.nio.file.Files;
 import java.util.Optional;
 
 @Service
-public class ImageService {
+public class PizzaImageService {
     @Autowired
-    private ImageRepository imageRepository;
+    private PizzaImageRepository pizzaImageRepository;
 
     public byte[] download(int imageId) throws IOException {
-        if (imageId <= 0) {
-            throw new BadRequestException("Id must be a positive number!");
-        }
-
-        Optional<Image> imageOptional = imageRepository.findById(imageId);
+        Optional<PizzaImage> imageOptional = pizzaImageRepository.findById(imageId);
         if(imageOptional.isEmpty()){
             throw new BadRequestException("This image doesn't exist!");
         }
 
-        Image image = imageOptional.get();
-        String url = image.getUrl();
+        PizzaImage pizzaImage = imageOptional.get();
+        String url = pizzaImage.getUrl();
         File pFile = new File(url);
-        byte[] array = Files.readAllBytes(pFile.toPath());
         return Files.readAllBytes(pFile.toPath());
     }
 }
