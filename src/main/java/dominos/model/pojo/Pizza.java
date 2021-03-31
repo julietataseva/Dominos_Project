@@ -29,10 +29,13 @@ public class Pizza {
     private List<Ingredient> ingredients;
     @OneToMany(mappedBy = "pizza")
     private List<PizzaOrder> pizzaOrders;
+    @OneToMany(mappedBy = "pizza")
+    private List<PizzaImage> pizzaImages;
 
     public Pizza() {
         this.ingredients = new ArrayList<>();
         this.pizzaOrders = new ArrayList<>();
+        this.pizzaImages = new ArrayList<>();
     }
 
     public Pizza(PizzaAddedToCartDTO pizzaAddedToCartDTO) {
