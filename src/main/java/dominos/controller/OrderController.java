@@ -5,6 +5,8 @@ import dominos.model.pojo.IProduct;
 import dominos.model.pojo.User;
 import dominos.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
@@ -21,7 +23,6 @@ public class OrderController extends AbstractController {
     @Autowired
     private OrderService orderService;
 
-
     @GetMapping("/orders")
     public Map<Integer, Map<LocalDate, List<String>>> getAllMadeOrdersByUserId(@PathVariable int userId,
                                                                                HttpSession session) throws SQLException {
@@ -30,7 +31,7 @@ public class OrderController extends AbstractController {
     }
 
     @PostMapping("/checkout")
-    public String payOrder(@RequestBody RequestOrderDTO requestOrderDTO, HttpSession session) {
+    public ResponseEntity<String> payOrder(@RequestBody RequestOrderDTO requestOrderDTO, HttpSession session) {
         sessionManager.validateLogged(session);
         Map<IProduct, Integer> cart = sessionManager.getCartAttribute(session);
 
@@ -44,7 +45,6 @@ public class OrderController extends AbstractController {
         }
 
         sessionManager.emptyCart(session);
-
-        return "Payment successful";
+        return new ResponseEntity<>("Payment successful", HttpStatus.OK);
     }
 }
