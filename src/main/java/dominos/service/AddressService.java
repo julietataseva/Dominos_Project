@@ -140,4 +140,14 @@ public class AddressService {
         addressRepository.deleteById(addressId);
         return addressWithoutUserDTO;
     }
+
+    public AddressWithoutUserDTO chooseAddressForCurrentOrder(int addressId, User loggedUser) {
+        Optional<Address> address = addressRepository.findById(addressId);
+
+        if (address.isEmpty() || address.get().getUser().getId() != loggedUser.getId()) {
+            throw new NotFoundException("Address does not exist!");
+        }
+
+        return new AddressWithoutUserDTO(address.get());
+    }
 }
