@@ -30,12 +30,8 @@ public class CartService {
     @Autowired
     IngredientRepository ingredientRepository;
 
-    public AdditionalProductDTO addAdditionalProductToCart(int productID, Map<IProduct, Integer> cart) {
-        Optional<AdditionalProduct> additionalProduct = additionalProductRepository.findById(productID);
-        if (additionalProduct.isEmpty()) {
-            throw new NotFoundException("No such product");
-        }
-
+    public AdditionalProductDTO addAdditionalProductToCart(int productId, Map<IProduct, Integer> cart) {
+        Optional<AdditionalProduct> additionalProduct = getAdditionalProduct(productId);
         AdditionalProductDTO additionalProductDTO = new AdditionalProductDTO(additionalProduct.get());
 
         if (!cart.containsKey(additionalProductDTO)) {
@@ -47,16 +43,9 @@ public class CartService {
         return additionalProductDTO;
     }
 
-    public AdditionalProductDTO deleteAdditionalProductFromCart(int productId, Map<IProduct, Integer> cart) {
-        if (cart.isEmpty()) {
-            throw new BadRequestException("Cart is empty!");
-        }
-
-        Optional<AdditionalProduct> additionalProduct = additionalProductRepository.findById(productId);
-        if (additionalProduct.isEmpty()) {
-            throw new NotFoundException("No such product");
-        }
-
+    public AdditionalProductDTO decreaseAdditionalProductQuantityInCart(int productId, Map<IProduct, Integer> cart) {
+        checkIfCartIsEmpty(cart);
+        Optional<AdditionalProduct> additionalProduct = getAdditionalProduct(productId);
         AdditionalProductDTO additionalProductDTO = new AdditionalProductDTO(additionalProduct.get());
 
         if (!cart.containsKey(additionalProductDTO)) {
@@ -69,6 +58,19 @@ public class CartService {
             cart.remove(additionalProductDTO);
         }
 
+        return additionalProductDTO;
+    }
+
+    public AdditionalProductDTO deleteAdditionalProductFromCart(int productId, Map<IProduct, Integer> cart) {
+        checkIfCartIsEmpty(cart);
+        Optional<AdditionalProduct> additionalProduct = getAdditionalProduct(productId);
+        AdditionalProductDTO additionalProductDTO = new AdditionalProductDTO(additionalProduct.get());
+
+        if (!cart.containsKey(additionalProductDTO)) {
+            throw new NotFoundException("No such product in cart");
+        }
+
+        cart.remove(additionalProductDTO);
         return additionalProductDTO;
     }
 
@@ -185,5 +187,20 @@ public class CartService {
         }
 
         return "Pizza " + pizza.getName() + " removed from cart.";
+    }
+
+    private void checkIfCartIsEmpty(Map<IProduct, Integer> cart) {
+        if (cart.isEmpty()) {
+            throw new BadRequestException("Cart is empty!");
+        }
+    }
+
+    private Optional<AdditionalProduct> getAdditionalProduct(int productId) {
+        Optional<AdditionalProduct> additionalProduct = additionalProductRepository.findById(productId);
+        if (additionalProduct.isEmpty()) {
+            throw new NotFoundException("No such product");
+        } else {
+            return additionalProduct;
+        }
     }
 }

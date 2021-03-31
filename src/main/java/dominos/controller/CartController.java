@@ -33,8 +33,9 @@ public class CartController extends AbstractController {
 
     @PutMapping("/cart/products/decrease/{productId}")
     public AdditionalProductDTO decreaseAdditionalProductQuantityInCart(@PathVariable int productId, HttpSession session) {
-        // TODO
-        return null;
+        sessionManager.validateLogged(session);
+        Map<IProduct, Integer> cart = sessionManager.getCartAttribute(session);
+        return cartService.decreaseAdditionalProductQuantityInCart(productId, cart);
     }
 
     @DeleteMapping("/cart/products/delete/{productId}")
