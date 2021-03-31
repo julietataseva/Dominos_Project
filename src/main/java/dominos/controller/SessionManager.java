@@ -15,6 +15,7 @@ import java.util.Map;
 public class SessionManager {
     private static final String LOGGED_USER_ID = "LOGGED_USER_ID";
     private static final String USER_CART = "USER_CART";
+    private static final String CURRENT_ORDER_ADDRESS_ID = "CURRENT_ORDER_ADDRESS_ID";
 
     @Autowired
     private UserRepository repository;
