@@ -2,6 +2,7 @@ package dominos.service;
 
 import dominos.exceptions.BadRequestException;
 import dominos.exceptions.NotFoundException;
+import dominos.model.dao.OrderDAO;
 import dominos.model.dto.*;
 import dominos.model.pojo.*;
 import dominos.model.repository.*;
@@ -9,6 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.SQLException;
+import java.time.LocalDate;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -34,6 +38,9 @@ public class OrderService {
 
     @Autowired
     private AddressRepository addressRepository;
+
+    @Autowired
+    private OrderDAO orderDAO;
 
     @Transactional
     public void payOrder(RequestOrderDTO requestOrderDTO, Map<IProduct, Integer> cart, User user) {
@@ -79,5 +86,9 @@ public class OrderService {
                 additionalProductOrderRepository.save(additionalProductOrder);
             }
         }
+    }
+
+    public Map<Integer, Map<LocalDate, List<String>>> getAllMadeOrdersByUserId(int userId) throws SQLException {
+        return orderDAO.getAllMadeOrdersByUserId(userId);
     }
 }
