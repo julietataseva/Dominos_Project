@@ -1,44 +1,37 @@
 package dominos.service;
 
+import dominos.exceptions.BadRequestException;
+import dominos.model.pojo.Image;
+import dominos.model.repository.ImageRepository;
 import lombok.Value;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.util.Optional;
 
 @Service
 public class ImageService {
-    @Value("${file.path}")
-    private String filePath;
     @Autowired
     private ImageRepository imageRepository;
-    @Autowired
-    private ProductRepository productRepository;
-
-    @ResponseBody
-    public Image upload(MultipartFile file, int productId) throws IOException {
-        if (!Validator.isValidInteger(productId)) {
-            throw new BadRequestException("You must enter integer greater than 0!");
-        }
-        if (!productRepository.existsById(productId)) {
-            throw new NotFoundException("Product not found! Wrong product_id!");
-        }
-        File imageFile = new File(filePath + File.separator + productId + "_" + System.nanoTime() + ".jpg");
-        try (OutputStream os = new FileOutputStream(imageFile)) {
-            os.write(file.getBytes());
-            Image image = new Image();
-            image.setUrl(imageFile.getAbsolutePath());
-            image.setProduct(productRepository.findById(productId));
-            imageRepository.save(image);
-            return image;
-        }
-    }
 
     public byte[] download(int imageId) throws IOException {
-        if (!Validator.isValidInteger(imageId)) {
-            throw new BadRequestException("You must enter integer greater than 0!");
+        if (imageId <= 0) {
+            throw new BadRequestException("Id must be a positive number!");
         }
-        Image image = imageRepository.getById(imageId);
+
+        Optional<Image> imageOptional = imageRepository.findById(imageId);
+        if(imageOptional.isEmpty()){
+            throw new BadRequestException("This image doesn't exist!");
+        }
+
+        Image image = imageOptional.get();
         String url = image.getUrl();
         File pFile = new File(url);
+        byte[] array = Files.readAllBytes(pFile.toPath());
         return Files.readAllBytes(pFile.toPath());
     }
 }
