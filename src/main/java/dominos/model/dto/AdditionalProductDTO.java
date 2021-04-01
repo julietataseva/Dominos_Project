@@ -11,12 +11,13 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @NoArgsConstructor
 @Getter
 @Setter
 @Component
-@EqualsAndHashCode
+//@EqualsAndHashCode
 public class AdditionalProductDTO implements IProduct {
     private int id;
     private String name;
@@ -36,5 +37,18 @@ public class AdditionalProductDTO implements IProduct {
     @Override
     public boolean isPizza() {
         return false;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        AdditionalProductDTO that = (AdditionalProductDTO) o;
+        return id == that.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

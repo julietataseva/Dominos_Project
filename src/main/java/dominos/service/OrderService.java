@@ -73,7 +73,6 @@ public class OrderService {
                 PizzaSize pizzaSize = pizzaSizeRepository.findById(pizzaOrderDTO.getPizzaSize().getId()).get();
                 pizzaOrder.setSize(pizzaSize);
                 pizzaOrder.setModifications(pizzaOrderDTO.getModifications());
-                //PizzaOrder pizzaOrder = new PizzaOrder(order, pizzaOrderDTO, quantity);
                 pizzaOrder = pizzaOrderRepository.save(pizzaOrder);
             } else {
                 AdditionalProductOrderDTO additionalProductOrderDTO =
