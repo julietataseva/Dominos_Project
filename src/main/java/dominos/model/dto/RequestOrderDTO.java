@@ -10,6 +10,5 @@ import org.springframework.stereotype.Component;
 @Setter
 @Component
 public class RequestOrderDTO {
-    private int addressId;
     private String comment;
 }

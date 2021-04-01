@@ -34,7 +34,7 @@ public class OrderDAO {
                     "WHERE o.owner_id = ?\n" +
                     "ORDER BY created_at DESC;";
 
-    public Map<Integer, Map<LocalDate, List<String>>> getAllMadeOrdersByUserId(int userId) throws SQLException {
+    public Map<Integer, Map<LocalDate, List<String>>> getAllMadeOrdersForLoggedUser(int userId) throws SQLException {
         Map<Integer, Map<LocalDate, List<String>>> result = new HashMap<>();
 
         try (Connection connection = jdbcTemplate.getDataSource().getConnection();

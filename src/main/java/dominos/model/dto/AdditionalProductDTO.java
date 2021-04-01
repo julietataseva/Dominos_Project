@@ -3,7 +3,6 @@ package dominos.model.dto;
 import dominos.model.pojo.AdditionalProduct;
 import dominos.model.pojo.AdditionalProductImage;
 import dominos.model.pojo.IProduct;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -17,7 +16,6 @@ import java.util.Objects;
 @Getter
 @Setter
 @Component
-@EqualsAndHashCode
 public class AdditionalProductDTO implements IProduct {
     private int id;
     private String name;

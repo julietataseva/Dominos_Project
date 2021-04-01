@@ -54,7 +54,7 @@ public class AddressController extends AbstractController {
         User loggedUser = sessionManager.getLoggedUser(session);
 
         AddressWithoutUserDTO addressWithoutUserDTO = addressService.chooseAddressForCurrentOrder(addressId, loggedUser);
-        session.setAttribute("CURRENT_ORDER_ADDRESS_ID", addressId);
+        sessionManager.setAddressAttribute(session, addressId);
         return addressWithoutUserDTO;
     }
 }

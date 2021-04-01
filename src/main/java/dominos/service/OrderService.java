@@ -43,12 +43,12 @@ public class OrderService {
     private OrderDAO orderDAO;
 
     @Transactional
-    public void payOrder(RequestOrderDTO requestOrderDTO, Map<IProduct, Integer> cart, User user) {
+    public void payOrder(RequestOrderDTO requestOrderDTO, int addressId, Map<IProduct, Integer> cart, User user) {
         if (cart.isEmpty()) {
             throw new BadRequestException("Cart is empty!");
         }
 
-        Optional<Address> address = addressRepository.findById(requestOrderDTO.getAddressId());
+        Optional<Address> address = addressRepository.findById(addressId);
         if (address.isEmpty()) {
             throw new NotFoundException("Address doesn't exist!");
         }
@@ -73,7 +73,7 @@ public class OrderService {
                 PizzaSize pizzaSize = pizzaSizeRepository.findById(pizzaOrderDTO.getPizzaSize().getId()).get();
                 pizzaOrder.setSize(pizzaSize);
                 pizzaOrder.setModifications(pizzaOrderDTO.getModifications());
-                pizzaOrder = pizzaOrderRepository.save(pizzaOrder);
+                pizzaOrderRepository.save(pizzaOrder);
             } else {
                 AdditionalProductOrderDTO additionalProductOrderDTO =
                         new AdditionalProductOrderDTO(order, (AdditionalProductDTO) product.getKey(),
@@ -82,12 +82,12 @@ public class OrderService {
                 AdditionalProductOrder additionalProductOrder =
                         new AdditionalProductOrder(additionalProductOrderDTO);
 
-                additionalProductOrder = additionalProductOrderRepository.save(additionalProductOrder);
+                additionalProductOrderRepository.save(additionalProductOrder);
             }
         }
     }
 
-    public Map<Integer, Map<LocalDate, List<String>>> getAllMadeOrdersByUserId(int userId) throws SQLException {
-        return orderDAO.getAllMadeOrdersByUserId(userId);
+    public Map<Integer, Map<LocalDate, List<String>>> getAllMadeOrdersForLoggedUser(int userId) throws SQLException {
+        return orderDAO.getAllMadeOrdersForLoggedUser(userId);
     }
 }
