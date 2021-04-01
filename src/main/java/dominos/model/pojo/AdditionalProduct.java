@@ -28,6 +28,7 @@ public class AdditionalProduct {
     private List<AdditionalProductOrder> additionalProductOrders;
     @OneToMany(mappedBy = "additionalProduct")
     private List<AdditionalProductImage> additionalProductImages;
+
     public AdditionalProduct(AdditionalProductDTO additionalProductDTO) {
         this.id = additionalProductDTO.getId();
         this.name = additionalProductDTO.getName();

@@ -2,6 +2,7 @@ package dominos.model.dto;
 
 import dominos.model.pojo.Ingredient;
 import dominos.model.pojo.Pizza;
+import dominos.model.pojo.PizzaImage;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.stereotype.Component;
@@ -16,6 +17,7 @@ public class PizzaResponseDTO {
     private int id;
     private String name;
     private List<IngredientDTO> ingredients;
+    private List<PizzaImage> pizzaImages;
 
     public PizzaResponseDTO(Pizza pizza) {
         this.id = pizza.getId();
@@ -24,5 +26,6 @@ public class PizzaResponseDTO {
         for (Ingredient ingredient : pizza.getIngredients()) {
             this.ingredients.add(new IngredientDTO(ingredient));
         }
+        this.pizzaImages = new ArrayList<>();
     }
 }
