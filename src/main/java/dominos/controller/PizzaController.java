@@ -1,5 +1,6 @@
 package dominos.controller;
 
+import dominos.model.dto.DoughDTO;
 import dominos.model.dto.PizzaResponseDTO;
 import dominos.model.dto.PizzaResponseDetailedDTO;
 import dominos.service.PizzaService;
@@ -36,5 +37,11 @@ public class PizzaController extends AbstractController {
     public List<PizzaResponseDTO> getMostSoldPizzas(HttpSession session) throws SQLException {
         sessionManager.validateLogged(session);
         return pizzaService.getMostSoldPizzas();
+    }
+
+    @GetMapping("/menu/pizzas/dough")
+    public DoughDTO getMostPreferredDough(HttpSession session){
+        sessionManager.validateLogged(session);
+        return pizzaService.getMostPreferredDough();
     }
 }

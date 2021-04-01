@@ -2,7 +2,9 @@ package dominos.service;
 
 import dominos.exceptions.BadRequestException;
 import dominos.exceptions.NotFoundException;
+import dominos.model.dao.DoughDAO;
 import dominos.model.dao.PizzaDAO;
+import dominos.model.dto.DoughDTO;
 import dominos.model.dto.PizzaResponseDTO;
 import dominos.model.dto.PizzaResponseDetailedDTO;
 import dominos.model.pojo.Pizza;
@@ -22,6 +24,9 @@ public class PizzaService {
 
     @Autowired
     private PizzaDAO pizzaDAO;
+
+    @Autowired
+    private DoughDAO doughDAO;
 
     public List<PizzaResponseDTO> getMenu() {
         List<Pizza> pizzas = pizzaRepository.findAll();
@@ -48,5 +53,9 @@ public class PizzaService {
 
     public List<PizzaResponseDTO> getMostSoldPizzas() throws SQLException {
         return pizzaDAO.getMostSoldPizzas();
+    }
+
+    public DoughDTO getMostPreferredDough() {
+        return doughDAO.getMostPreferredDough();
     }
 }
