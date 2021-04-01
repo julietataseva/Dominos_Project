@@ -34,12 +34,5 @@ public class AdditionalProduct {
         this.name = additionalProductDTO.getName();
         this.price = additionalProductDTO.getPrice();
         this.additionalProductImages = new ArrayList<>();
-        /*
-        for(AdditionalProductImageDTO additionalProductImageDTO : additionalProductDTO.getAdditionalProductImages()){
-            Optional<AdditionalProductImage> additionalProductImage =
-            this.additionalProductImages.add(n)
-        }
-
-         */
     }
 }
