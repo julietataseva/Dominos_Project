@@ -1,6 +1,7 @@
 package dominos.controller;
 
 import dominos.exceptions.AuthenticationException;
+import dominos.exceptions.NotFoundException;
 import dominos.model.pojo.IProduct;
 import dominos.model.pojo.User;
 import dominos.model.repository.UserRepository;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Component;
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 @Component
 public class SessionManager {
@@ -18,15 +20,16 @@ public class SessionManager {
     private static final String CURRENT_ORDER_ADDRESS_ID = "CURRENT_ORDER_ADDRESS_ID";
 
     @Autowired
-    private UserRepository repository;
+    private UserRepository userRepository;
 
     public User getLoggedUser(HttpSession session) {
-        if (!validateLogged(session)) {
-            throw new AuthenticationException("You have to log in!");
-        } else {
-            int userId = (int) session.getAttribute(LOGGED_USER_ID);
-            return repository.findById(userId).get();
+        validateLogged(session);
+        int userId = (int) session.getAttribute(LOGGED_USER_ID);
+        Optional<User> userOptional = userRepository.findById(userId);
+        if (userOptional.isEmpty()) {
+            throw new NotFoundException("User does not exist!");
         }
+        return userOptional.get();
     }
 
     public void loginUser(HttpSession session, int id) {
@@ -38,18 +41,25 @@ public class SessionManager {
         session.invalidate();
     }
 
-    public boolean validateLogged(HttpSession session) {
+    public void validateLogged(HttpSession session) {
         if (session.isNew() || session.getAttribute(LOGGED_USER_ID) == null) {
             throw new AuthenticationException("You have to log in!");
         }
-        return true;
     }
 
     public Map<IProduct, Integer> getCartAttribute(HttpSession session) {
-        return (Map<IProduct, Integer>) session.getAttribute("USER_CART");
+        return (Map<IProduct, Integer>) session.getAttribute(USER_CART);
+    }
+
+    public int getAddressAttribute(HttpSession session) {
+        return (int) session.getAttribute(CURRENT_ORDER_ADDRESS_ID);
+    }
+
+    public void setAddressAttribute(HttpSession session, int addressId){
+        session.setAttribute(CURRENT_ORDER_ADDRESS_ID, addressId);
     }
 
     public void emptyCart(HttpSession session) {
-        session.setAttribute("USER_CART", new HashMap<IProduct, Integer>());
+        session.setAttribute(USER_CART, new HashMap<IProduct, Integer>());
     }
 }
