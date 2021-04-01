@@ -5,10 +5,7 @@ import dominos.exceptions.NotFoundException;
 import dominos.model.dao.DoughDAO;
 import dominos.model.dao.PizzaDAO;
 import dominos.model.dao.PizzaSizeDAO;
-import dominos.model.dto.DoughDTO;
-import dominos.model.dto.PizzaResponseDTO;
-import dominos.model.dto.PizzaResponseDetailedDTO;
-import dominos.model.dto.PizzaSizeDTO;
+import dominos.model.dto.*;
 import dominos.model.pojo.Pizza;
 import dominos.model.repository.PizzaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,5 +63,9 @@ public class PizzaService {
 
     public PizzaSizeDTO getMostPreferredPizzaSize() {
         return pizzaSizeDAO.getMostPreferredPizzaSize();
+    }
+
+    public LoginResponseUserDTO getUserWithMostPizzaOrders() {
+        return pizzaDAO.getUserWithMostPizzaOrders();
     }
 }

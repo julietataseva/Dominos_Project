@@ -1,9 +1,7 @@
 package dominos.controller;
 
-import dominos.model.dto.DoughDTO;
-import dominos.model.dto.PizzaResponseDTO;
-import dominos.model.dto.PizzaResponseDetailedDTO;
-import dominos.model.dto.PizzaSizeDTO;
+import dominos.model.dto.*;
+import dominos.model.pojo.User;
 import dominos.service.PizzaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -50,5 +48,11 @@ public class PizzaController extends AbstractController {
     public PizzaSizeDTO getMostPreferredPizzaSize(HttpSession session){
         sessionManager.validateLogged(session);
         return pizzaService.getMostPreferredPizzaSize();
+    }
+
+    @GetMapping("/menu/pizzas/top-fan")
+    public LoginResponseUserDTO getUserWithMostPizzaOrders(HttpSession session){
+        sessionManager.validateLogged(session);
+        return pizzaService.getUserWithMostPizzaOrders();
     }
 }

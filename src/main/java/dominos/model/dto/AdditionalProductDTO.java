@@ -17,7 +17,7 @@ import java.util.Objects;
 @Getter
 @Setter
 @Component
-//@EqualsAndHashCode
+@EqualsAndHashCode
 public class AdditionalProductDTO implements IProduct {
     private int id;
     private String name;
