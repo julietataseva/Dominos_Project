@@ -4,9 +4,11 @@ import dominos.exceptions.BadRequestException;
 import dominos.exceptions.NotFoundException;
 import dominos.model.dao.DoughDAO;
 import dominos.model.dao.PizzaDAO;
+import dominos.model.dao.PizzaSizeDAO;
 import dominos.model.dto.DoughDTO;
 import dominos.model.dto.PizzaResponseDTO;
 import dominos.model.dto.PizzaResponseDetailedDTO;
+import dominos.model.dto.PizzaSizeDTO;
 import dominos.model.pojo.Pizza;
 import dominos.model.repository.PizzaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +29,9 @@ public class PizzaService {
 
     @Autowired
     private DoughDAO doughDAO;
+
+    @Autowired
+    private PizzaSizeDAO pizzaSizeDAO;
 
     public List<PizzaResponseDTO> getMenu() {
         List<Pizza> pizzas = pizzaRepository.findAll();
@@ -57,5 +62,9 @@ public class PizzaService {
 
     public DoughDTO getMostPreferredDough() {
         return doughDAO.getMostPreferredDough();
+    }
+
+    public PizzaSizeDTO getMostPreferredPizzaSize() {
+        return pizzaSizeDAO.getMostPreferredPizzaSize();
     }
 }
