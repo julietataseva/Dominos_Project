@@ -74,7 +74,7 @@ public class OrderService {
                 pizzaOrder.setSize(pizzaSize);
                 pizzaOrder.setModifications(pizzaOrderDTO.getModifications());
                 //PizzaOrder pizzaOrder = new PizzaOrder(order, pizzaOrderDTO, quantity);
-                pizzaOrderRepository.save(pizzaOrder);
+                pizzaOrder = pizzaOrderRepository.save(pizzaOrder);
             } else {
                 AdditionalProductOrderDTO additionalProductOrderDTO =
                         new AdditionalProductOrderDTO(order, (AdditionalProductDTO) product.getKey(),
@@ -83,7 +83,7 @@ public class OrderService {
                 AdditionalProductOrder additionalProductOrder =
                         new AdditionalProductOrder(additionalProductOrderDTO);
 
-                additionalProductOrderRepository.save(additionalProductOrder);
+                additionalProductOrder = additionalProductOrderRepository.save(additionalProductOrder);
             }
         }
     }
