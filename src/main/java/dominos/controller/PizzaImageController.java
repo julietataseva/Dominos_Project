@@ -14,7 +14,7 @@ public class PizzaImageController extends AbstractController{
     @Autowired
     private PizzaImageService imageService;
 
-    @GetMapping(value = "pizzas/images/{id}", produces = "image/*")
+    @GetMapping(value = "/pizzas/images/{id}", produces = "image/*")
     public @ResponseBody
     byte[] download(@PathVariable int id) throws IOException {
         return imageService.download(id);

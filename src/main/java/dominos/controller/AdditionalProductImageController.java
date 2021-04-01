@@ -16,7 +16,7 @@ public class AdditionalProductImageController extends AbstractController{
     @Autowired
     private AdditionalProductImageService imageService;
 
-    @GetMapping(value = "products/images/{id}", produces = "image/*")
+    @GetMapping(value = "/products/images/{id}", produces = "image/*")
     public @ResponseBody
     byte[] download(@PathVariable int id) throws IOException {
         return imageService.download(id);
