@@ -1,6 +1,8 @@
 package dominos.controller;
 
+import dominos.exceptions.NotFoundException;
 import dominos.model.dto.RequestOrderDTO;
+import dominos.model.pojo.Address;
 import dominos.model.pojo.IProduct;
 import dominos.model.pojo.User;
 import dominos.service.OrderService;
@@ -24,10 +26,10 @@ public class OrderController extends AbstractController {
     private OrderService orderService;
 
     @GetMapping("/orders")
-    public Map<Integer, Map<LocalDate, List<String>>> getAllMadeOrdersByUserId(@PathVariable int userId,
-                                                                               HttpSession session) throws SQLException {
+    public Map<Integer, Map<LocalDate, List<String>>> getAllMadeOrdersForLoggedUser(HttpSession session) throws SQLException {
         sessionManager.validateLogged(session);
-        return orderService.getAllMadeOrdersByUserId(userId);
+        User user = sessionManager.getLoggedUser(session);
+        return orderService.getAllMadeOrdersForLoggedUser(user.getId());
     }
 
     @PostMapping("/checkout")
@@ -36,7 +38,11 @@ public class OrderController extends AbstractController {
         Map<IProduct, Integer> cart = sessionManager.getCartAttribute(session);
 
         User user = sessionManager.getLoggedUser(session);
-        orderService.payOrder(requestOrderDTO, cart, user);
+        if (session.getAttribute("CURRENT_ORDER_ADDRESS_ID") == null) {
+            throw new NotFoundException("Please first choose an address for the order!");
+        }
+        int addressId = sessionManager.getAddressAttribute(session);
+        orderService.payOrder(requestOrderDTO, addressId, cart, user);
 
         try {
             Thread.sleep(2000);
