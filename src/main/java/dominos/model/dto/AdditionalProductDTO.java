@@ -41,5 +41,4 @@ public class AdditionalProductDTO implements IProductDTO {
     public String getModifications() {
         return "";
     }
-
 }

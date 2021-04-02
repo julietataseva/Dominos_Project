@@ -1,6 +1,6 @@
 package dominos.model.dao;
 
-import dominos.model.dto.LoginResponseUserDTO;
+import dominos.model.dto.ResponseUserDTO;
 import dominos.model.dto.PizzaResponseDTO;
 import dominos.model.pojo.Pizza;
 import dominos.model.pojo.User;
@@ -66,19 +66,16 @@ public class PizzaDAO {
         return mostSoldPizzas;
     }
 
-    public LoginResponseUserDTO getUserWithMostPizzaOrders() {
-        LoginResponseUserDTO topFan = null;
+    public ResponseUserDTO getUserWithMostPizzaOrders() throws SQLException {
+        ResponseUserDTO topFan = null;
         try (Connection connection = jdbcTemplate.getDataSource().getConnection();
              PreparedStatement statement = connection.prepareStatement(GET_USER_WITH_MOST_PIZZA_ORDERS)) {
 
             ResultSet rows = statement.executeQuery();
             rows.next();
             int topFanId = rows.getInt(1);
-            System.out.println("TOP FAN ID = " + topFanId);
             Optional<User> userOptional = userRepository.findById(topFanId);
-            topFan = new LoginResponseUserDTO(userOptional.get());
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+            topFan = new ResponseUserDTO(userOptional.get());
         }
 
         return topFan;

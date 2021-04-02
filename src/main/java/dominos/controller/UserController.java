@@ -24,8 +24,8 @@ public class UserController extends AbstractController {
     }
 
     @PostMapping("/users/login")
-    public LoginResponseUserDTO login(@RequestBody LoginUserDTO loginUserDTO, HttpSession session) {
-        LoginResponseUserDTO loginResponseUserDTO = userService.login(loginUserDTO);
+    public ResponseUserDTO login(@RequestBody LoginUserDTO loginUserDTO, HttpSession session) {
+        ResponseUserDTO loginResponseUserDTO = userService.login(loginUserDTO);
         sessionManager.loginUser(session, loginResponseUserDTO.getId());
         return loginResponseUserDTO;
     }

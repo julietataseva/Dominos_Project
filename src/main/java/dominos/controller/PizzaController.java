@@ -1,7 +1,6 @@
 package dominos.controller;
 
 import dominos.model.dto.*;
-import dominos.model.pojo.User;
 import dominos.service.PizzaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -51,7 +50,7 @@ public class PizzaController extends AbstractController {
     }
 
     @GetMapping("/menu/pizzas/top-fan")
-    public LoginResponseUserDTO getUserWithMostPizzaOrders(HttpSession session){
+    public ResponseUserDTO getUserWithMostPizzaOrders(HttpSession session) throws SQLException{
         sessionManager.validateLogged(session);
         return pizzaService.getUserWithMostPizzaOrders();
     }
