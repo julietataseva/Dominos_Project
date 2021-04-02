@@ -43,20 +43,20 @@ public class CartController extends AbstractController {
         return cartService.deleteAdditionalProductFromCart(productId, cart);
     }
 
-    @PutMapping("/menu/pizzas/{pizzaId}")
-    public PizzaOrderDTO addPizzaToCart(@PathVariable int pizzaId, HttpSession session,
+    @PutMapping("/menu/pizzas")
+    public PizzaOrderDTO addPizzaToCart(HttpSession session,
                                         @RequestBody RequestPizzaOrderDTO requestPizzaOrderDTO) {
         sessionManager.validateLogged(session);
         Map<IProductDTO, Integer> cart = sessionManager.getCartAttribute(session);
-        return cartService.addPizzaToCart(pizzaId, requestPizzaOrderDTO, cart);
+        return cartService.addPizzaToCart(requestPizzaOrderDTO, cart);
     }
 
-    @DeleteMapping("/cart/pizzas/{pizzaId}")
-    public PizzaOrderDTO removePizzaFromCart(@PathVariable int pizzaId, @RequestBody RequestPizzaOrderDTO requestPizzaOrderDTO,
+    @DeleteMapping("/cart/pizzas")
+    public PizzaOrderDTO removePizzaFromCart(@RequestBody RequestPizzaOrderDTO requestPizzaOrderDTO,
                                              HttpSession session) {
         sessionManager.validateLogged(session);
         Map<IProductDTO, Integer> cart = sessionManager.getCartAttribute(session);
-        return cartService.removePizzaFromCart(pizzaId, requestPizzaOrderDTO, cart);
+        return cartService.removePizzaFromCart(requestPizzaOrderDTO, cart);
     }
 
     @GetMapping("/cart")

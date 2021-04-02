@@ -84,8 +84,8 @@ public class CartService {
         return cart;
     }
 
-    public PizzaOrderDTO addPizzaToCart(int pizzaId, RequestPizzaOrderDTO requestPizzaOrderDTO, Map<IProductDTO, Integer> cart) {
-        PizzaOrderDTO pizzaOrderDTO = this.getPizzaOrderDTO(pizzaId, requestPizzaOrderDTO);
+    public PizzaOrderDTO addPizzaToCart(RequestPizzaOrderDTO requestPizzaOrderDTO, Map<IProductDTO, Integer> cart) {
+        PizzaOrderDTO pizzaOrderDTO = this.getPizzaOrderDTO(requestPizzaOrderDTO);
 
         if (!cart.containsKey(pizzaOrderDTO)) {
             cart.put(pizzaOrderDTO, 1);
@@ -96,10 +96,10 @@ public class CartService {
         return pizzaOrderDTO;
     }
 
-    public PizzaOrderDTO removePizzaFromCart(int pizzaId, RequestPizzaOrderDTO requestPizzaOrderDTO, Map<IProductDTO, Integer> cart) {
+    public PizzaOrderDTO removePizzaFromCart(RequestPizzaOrderDTO requestPizzaOrderDTO, Map<IProductDTO, Integer> cart) {
         this.checkIfCartIsEmpty(cart);
 
-        PizzaOrderDTO pizzaOrderDTO = this.getPizzaOrderDTO(pizzaId, requestPizzaOrderDTO);
+        PizzaOrderDTO pizzaOrderDTO = this.getPizzaOrderDTO(requestPizzaOrderDTO);
 
         if (!cart.containsKey(pizzaOrderDTO)) {
             throw new NotFoundException("No such pizza in cart");
@@ -130,7 +130,8 @@ public class CartService {
         }
     }
 
-    private PizzaOrderDTO getPizzaOrderDTO(int pizzaId, RequestPizzaOrderDTO requestPizzaOrderDTO){
+    private PizzaOrderDTO getPizzaOrderDTO(RequestPizzaOrderDTO requestPizzaOrderDTO){
+        int pizzaId = requestPizzaOrderDTO.getPizzaId();
         Optional<Pizza> pizzaOptional = pizzaRepository.findById(pizzaId);
 
         if (pizzaOptional.isEmpty()) {
