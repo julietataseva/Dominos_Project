@@ -1,6 +1,7 @@
 package dominos.controller;
 
 import dominos.model.dto.*;
+import dominos.model.dto.RegisterAndEditResponseUserDTO;
 import dominos.model.pojo.User;
 import dominos.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,7 @@ public class UserController extends AbstractController {
     private SessionManager sessionManager;
 
     @PutMapping("/users")
-    public RegisterResponseUserDTO register(@RequestBody RegisterRequestUserDTO userDTO) {
+    public RegisterAndEditResponseUserDTO register(@RequestBody RegisterRequestUserDTO userDTO) {
         return userService.addUser(userDTO);
     }
 
@@ -30,13 +31,14 @@ public class UserController extends AbstractController {
     }
 
     @PostMapping("/users/logout")
-    public void logout(HttpSession session) {
+    public SuccessDTO logout(HttpSession session) {
+        sessionManager.validateLogged(session);
         sessionManager.logoutUser(session);
+        return new SuccessDTO("Logging out successful");
     }
 
     @PostMapping("/users")
-    public EditResponseUserDTO edit(@RequestBody EditRequestUserDTO userDTO, HttpSession session) {
-        sessionManager.validateLogged(session);
+    public RegisterAndEditResponseUserDTO edit(@RequestBody EditRequestUserDTO userDTO, HttpSession session) {
         User loggedUser = sessionManager.getLoggedUser(session);
         return userService.editUser(userDTO, loggedUser);
     }
