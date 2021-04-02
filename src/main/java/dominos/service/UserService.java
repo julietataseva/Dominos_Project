@@ -166,8 +166,8 @@ public class UserService {
         }
     }
 
-    public String deleteUser(int id) {
+    public SuccessDTO deleteUser(int id) {
         userRepository.deleteById(id);
-        return "You have successfully deleted your account";
+        return new SuccessDTO("You have successfully deleted your account");
     }
 }

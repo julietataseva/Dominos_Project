@@ -42,10 +42,10 @@ public class UserController extends AbstractController {
     }
 
     @DeleteMapping("/users")
-    public String delete(HttpSession session) {
+    public SuccessDTO delete(HttpSession session) {
         sessionManager.validateLogged(session);
         int userId = sessionManager.getLoggedUser(session).getId();
-        String response = userService.deleteUser(userId);
+        SuccessDTO response = userService.deleteUser(userId);
         sessionManager.logoutUser(session);
         return response;
     }
