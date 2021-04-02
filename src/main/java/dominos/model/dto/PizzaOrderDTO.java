@@ -12,7 +12,7 @@ import java.util.Objects;
 @Getter
 @Setter
 @Component
-public class PizzaOrderDTO implements IProduct {
+public class PizzaOrderDTO implements IProductDTO {
     private int id;
     private PizzaAddedToCartDTO pizza;
     private DoughDTO dough;

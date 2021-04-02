@@ -2,8 +2,7 @@ package dominos.controller;
 
 import dominos.exceptions.NotFoundException;
 import dominos.model.dto.RequestOrderDTO;
-import dominos.model.pojo.Address;
-import dominos.model.pojo.IProduct;
+import dominos.model.dto.IProductDTO;
 import dominos.model.pojo.User;
 import dominos.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +34,7 @@ public class OrderController extends AbstractController {
     @PostMapping("/checkout")
     public ResponseEntity<String> payOrder(@RequestBody RequestOrderDTO requestOrderDTO, HttpSession session) {
         sessionManager.validateLogged(session);
-        Map<IProduct, Integer> cart = sessionManager.getCartAttribute(session);
+        Map<IProductDTO, Integer> cart = sessionManager.getCartAttribute(session);
 
         User user = sessionManager.getLoggedUser(session);
         if (session.getAttribute("CURRENT_ORDER_ADDRESS_ID") == null) {

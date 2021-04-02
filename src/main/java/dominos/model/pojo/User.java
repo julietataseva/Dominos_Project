@@ -24,14 +24,13 @@ public class User {
     private String password;
     @OneToMany(mappedBy = "user")
     private List<Address> addresses;
-    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "owner")
     private List<Order> orders;
 
     public User(RegisterRequestUserDTO userDTO) {
         this.firstName = userDTO.getFirstName();
         this.lastName = userDTO.getLastName();
-        password = userDTO.getPassword();
-        email = userDTO.getEmail();
-        addresses = new ArrayList<>();
+        this.password = userDTO.getPassword();
+        this.email = userDTO.getEmail();
     }
 }

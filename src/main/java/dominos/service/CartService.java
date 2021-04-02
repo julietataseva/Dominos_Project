@@ -30,9 +30,9 @@ public class CartService {
     @Autowired
     IngredientRepository ingredientRepository;
 
-    public AdditionalProductDTO addAdditionalProductToCart(int productId, Map<IProduct, Integer> cart) {
+    public AdditionalProductDTODTO addAdditionalProductToCart(int productId, Map<IProductDTO, Integer> cart) {
         Optional<AdditionalProduct> additionalProduct = getAdditionalProduct(productId);
-        AdditionalProductDTO additionalProductDTO = new AdditionalProductDTO(additionalProduct.get());
+        AdditionalProductDTODTO additionalProductDTO = new AdditionalProductDTODTO(additionalProduct.get());
 
         if (!cart.containsKey(additionalProductDTO)) {
             cart.put(additionalProductDTO, 1);
@@ -43,10 +43,10 @@ public class CartService {
         return additionalProductDTO;
     }
 
-    public AdditionalProductDTO decreaseAdditionalProductQuantityInCart(int productId, Map<IProduct, Integer> cart) {
+    public AdditionalProductDTODTO decreaseAdditionalProductQuantityInCart(int productId, Map<IProductDTO, Integer> cart) {
         checkIfCartIsEmpty(cart);
         Optional<AdditionalProduct> additionalProduct = getAdditionalProduct(productId);
-        AdditionalProductDTO additionalProductDTO = new AdditionalProductDTO(additionalProduct.get());
+        AdditionalProductDTODTO additionalProductDTO = new AdditionalProductDTODTO(additionalProduct.get());
 
         if (!cart.containsKey(additionalProductDTO)) {
             throw new NotFoundException("No such product in cart");
@@ -61,10 +61,10 @@ public class CartService {
         return additionalProductDTO;
     }
 
-    public AdditionalProductDTO deleteAdditionalProductFromCart(int productId, Map<IProduct, Integer> cart) {
+    public AdditionalProductDTODTO deleteAdditionalProductFromCart(int productId, Map<IProductDTO, Integer> cart) {
         checkIfCartIsEmpty(cart);
         Optional<AdditionalProduct> additionalProduct = getAdditionalProduct(productId);
-        AdditionalProductDTO additionalProductDTO = new AdditionalProductDTO(additionalProduct.get());
+        AdditionalProductDTODTO additionalProductDTO = new AdditionalProductDTODTO(additionalProduct.get());
 
         if (!cart.containsKey(additionalProductDTO)) {
             throw new NotFoundException("No such product in cart");
@@ -74,9 +74,9 @@ public class CartService {
         return additionalProductDTO;
     }
 
-    public List<CartResponseDTO> getCart(Map<IProduct, Integer> cartAttribute) {
+    public List<CartResponseDTO> getCart(Map<IProductDTO, Integer> cartAttribute) {
         List<CartResponseDTO> cart = new ArrayList<>();
-        for (Map.Entry<IProduct, Integer> entry : cartAttribute.entrySet()) {
+        for (Map.Entry<IProductDTO, Integer> entry : cartAttribute.entrySet()) {
             CartResponseDTO cartItem = new CartResponseDTO(entry.getKey(), entry.getValue());
             cart.add(cartItem);
         }
@@ -84,7 +84,7 @@ public class CartService {
         return cart;
     }
 
-    public PizzaOrderDTO addPizzaToCart(int pizzaId, RequestPizzaOrderDTO requestPizzaOrderDTO, Map<IProduct, Integer> cart) {
+    public PizzaOrderDTO addPizzaToCart(int pizzaId, RequestPizzaOrderDTO requestPizzaOrderDTO, Map<IProductDTO, Integer> cart) {
         Optional<Pizza> pizzaOptional = pizzaRepository.findById(pizzaId);
 
         if (pizzaOptional.isEmpty()) {
@@ -157,7 +157,7 @@ public class CartService {
         return pizzaOrderDTO;
     }
 
-    public String removePizzaFromCart(int pizzaId, Map<IProduct, Integer> cart) {
+    public String removePizzaFromCart(int pizzaId, Map<IProductDTO, Integer> cart) {
         if (cart.isEmpty()) {
             throw new BadRequestException("Cart is empty!");
         }
@@ -168,8 +168,8 @@ public class CartService {
         }
 
         boolean pizzaExistsInCart = false;
-        for (Map.Entry<IProduct, Integer> entry : cart.entrySet()) {
-            IProduct pizzaOrder = entry.getKey();
+        for (Map.Entry<IProductDTO, Integer> entry : cart.entrySet()) {
+            IProductDTO pizzaOrder = entry.getKey();
             if (pizzaOrder.getId() == pizza.getId()) {
                 pizzaExistsInCart = true;
                 int quantity = entry.getValue();
@@ -189,7 +189,7 @@ public class CartService {
         return "Pizza " + pizza.getName() + " removed from cart.";
     }
 
-    private void checkIfCartIsEmpty(Map<IProduct, Integer> cart) {
+    private void checkIfCartIsEmpty(Map<IProductDTO, Integer> cart) {
         if (cart.isEmpty()) {
             throw new BadRequestException("Cart is empty!");
         }

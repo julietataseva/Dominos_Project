@@ -43,7 +43,7 @@ public class OrderService {
     private OrderDAO orderDAO;
 
     @Transactional
-    public void payOrder(RequestOrderDTO requestOrderDTO, int addressId, Map<IProduct, Integer> cart, User user) {
+    public void payOrder(RequestOrderDTO requestOrderDTO, int addressId, Map<IProductDTO, Integer> cart, User user) {
         if (cart.isEmpty()) {
             throw new BadRequestException("Cart is empty!");
         }
@@ -57,7 +57,7 @@ public class OrderService {
         Order order = new Order(orderDTO);
         order = orderRepository.save(order);
 
-        for (Map.Entry<IProduct, Integer> product : cart.entrySet()) {
+        for (Map.Entry<IProductDTO, Integer> product : cart.entrySet()) {
             if (product.getKey().isPizza()) {
 
                 PizzaOrderDTO pizzaOrderDTO = (PizzaOrderDTO) product.getKey();
@@ -76,7 +76,7 @@ public class OrderService {
                 pizzaOrderRepository.save(pizzaOrder);
             } else {
                 AdditionalProductOrderDTO additionalProductOrderDTO =
-                        new AdditionalProductOrderDTO(order, (AdditionalProductDTO) product.getKey(),
+                        new AdditionalProductOrderDTO(order, (AdditionalProductDTODTO) product.getKey(),
                                 product.getKey().getPrice(), product.getValue());
 
                 AdditionalProductOrder additionalProductOrder =

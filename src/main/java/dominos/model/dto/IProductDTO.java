@@ -1,6 +1,6 @@
-package dominos.model.pojo;
+package dominos.model.dto;
 
-public interface IProduct {
+public interface IProductDTO {
     String getName();
     double getPrice();
     int getId();

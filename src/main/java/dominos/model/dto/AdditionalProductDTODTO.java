@@ -2,7 +2,6 @@ package dominos.model.dto;
 
 import dominos.model.pojo.AdditionalProduct;
 import dominos.model.pojo.AdditionalProductImage;
-import dominos.model.pojo.IProduct;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -16,13 +15,13 @@ import java.util.Objects;
 @Getter
 @Setter
 @Component
-public class AdditionalProductDTO implements IProduct {
+public class AdditionalProductDTODTO implements IProductDTO {
     private int id;
     private String name;
     private double price;
     private List<AdditionalProductImageDTO> additionalProductImages;
 
-    public AdditionalProductDTO(AdditionalProduct additionalProduct) {
+    public AdditionalProductDTODTO(AdditionalProduct additionalProduct) {
         this.id = additionalProduct.getId();
         this.name = additionalProduct.getName();
         this.price = additionalProduct.getPrice();
@@ -41,7 +40,7 @@ public class AdditionalProductDTO implements IProduct {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        AdditionalProductDTO that = (AdditionalProductDTO) o;
+        AdditionalProductDTODTO that = (AdditionalProductDTODTO) o;
         return id == that.id;
     }
 

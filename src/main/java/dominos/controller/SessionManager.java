@@ -2,7 +2,7 @@ package dominos.controller;
 
 import dominos.exceptions.AuthenticationException;
 import dominos.exceptions.NotFoundException;
-import dominos.model.pojo.IProduct;
+import dominos.model.dto.IProductDTO;
 import dominos.model.pojo.User;
 import dominos.model.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +34,7 @@ public class SessionManager {
 
     public void loginUser(HttpSession session, int id) {
         session.setAttribute(LOGGED_USER_ID, id);
-        session.setAttribute(USER_CART, new HashMap<IProduct, Integer>());
+        session.setAttribute(USER_CART, new HashMap<IProductDTO, Integer>());
     }
 
     public void logoutUser(HttpSession session) {
@@ -47,8 +47,8 @@ public class SessionManager {
         }
     }
 
-    public Map<IProduct, Integer> getCartAttribute(HttpSession session) {
-        return (Map<IProduct, Integer>) session.getAttribute(USER_CART);
+    public Map<IProductDTO, Integer> getCartAttribute(HttpSession session) {
+        return (Map<IProductDTO, Integer>) session.getAttribute(USER_CART);
     }
 
     public int getAddressAttribute(HttpSession session) {
@@ -60,6 +60,6 @@ public class SessionManager {
     }
 
     public void emptyCart(HttpSession session) {
-        session.setAttribute(USER_CART, new HashMap<IProduct, Integer>());
+        session.setAttribute(USER_CART, new HashMap<IProductDTO, Integer>());
     }
 }

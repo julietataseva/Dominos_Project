@@ -2,7 +2,7 @@ package dominos.service;
 
 import dominos.exceptions.NotFoundException;
 import dominos.model.dao.AdditionalProductDAO;
-import dominos.model.dto.AdditionalProductDTO;
+import dominos.model.dto.AdditionalProductDTODTO;
 import dominos.model.pojo.AdditionalProduct;
 import dominos.model.repository.AdditionalProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,26 +21,26 @@ public class AdditionalProductService {
     @Autowired
     private AdditionalProductDAO additionalProductDAO;
 
-    public AdditionalProductDTO getAdditionalProductById(int productID) {
+    public AdditionalProductDTODTO getAdditionalProductById(int productID) {
         Optional<AdditionalProduct> additionalProduct = additionalProductRepository.findById(productID);
 
         if (additionalProduct.isEmpty()) {
             throw new NotFoundException("Product not found");
         }
 
-        return new AdditionalProductDTO(additionalProduct.get());
+        return new AdditionalProductDTODTO(additionalProduct.get());
     }
 
-    public List<AdditionalProductDTO> getAdditionalProductMenu() {
+    public List<AdditionalProductDTODTO> getAdditionalProductMenu() {
         List<AdditionalProduct> products = additionalProductRepository.findAll();
-        List<AdditionalProductDTO> returnProducts = new ArrayList<>();
+        List<AdditionalProductDTODTO> returnProducts = new ArrayList<>();
         for (AdditionalProduct product : products) {
-            returnProducts.add(new AdditionalProductDTO(product));
+            returnProducts.add(new AdditionalProductDTODTO(product));
         }
         return returnProducts;
     }
 
-    public List<AdditionalProductDTO> getMostSoldAdditionalProducts() throws SQLException {
+    public List<AdditionalProductDTODTO> getMostSoldAdditionalProducts() throws SQLException {
         return additionalProductDAO.getMostSoldAdditionalProducts();
     }
 }

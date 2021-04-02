@@ -1,17 +1,13 @@
 package dominos.model.pojo;
 
-import dominos.model.dto.AdditionalProductDTO;
-import dominos.model.dto.AdditionalProductImageDTO;
-import dominos.model.repository.AdditionalProductImageRepository;
+import dominos.model.dto.AdditionalProductDTODTO;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @NoArgsConstructor
 @Getter
@@ -29,7 +25,7 @@ public class AdditionalProduct {
     @OneToMany(mappedBy = "additionalProduct")
     private List<AdditionalProductImage> additionalProductImages;
 
-    public AdditionalProduct(AdditionalProductDTO additionalProductDTO) {
+    public AdditionalProduct(AdditionalProductDTODTO additionalProductDTO) {
         this.id = additionalProductDTO.getId();
         this.name = additionalProductDTO.getName();
         this.price = additionalProductDTO.getPrice();
