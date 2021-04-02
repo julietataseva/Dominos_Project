@@ -1,11 +1,6 @@
 package dominos.controller;
 
-import dominos.model.dto.EditRequestUserDTO;
-import dominos.model.dto.EditResponseUserDTO;
-import dominos.model.dto.LoginUserDTO;
-import dominos.model.dto.RegisterRequestUserDTO;
-import dominos.model.dto.RegisterResponseUserDTO;
-import dominos.model.dto.LoginResponseUserDTO;
+import dominos.model.dto.*;
 import dominos.model.pojo.User;
 import dominos.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,10 +42,10 @@ public class UserController extends AbstractController {
     }
 
     @DeleteMapping("/users")
-    public String delete(HttpSession session) {
+    public SuccessDTO delete(HttpSession session) {
         sessionManager.validateLogged(session);
         int userId = sessionManager.getLoggedUser(session).getId();
-        String response = userService.deleteUser(userId);
+        SuccessDTO response = userService.deleteUser(userId);
         sessionManager.logoutUser(session);
         return response;
     }

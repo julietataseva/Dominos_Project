@@ -1,13 +1,8 @@
 package dominos.service;
 
-import dominos.model.dto.EditRequestUserDTO;
-import dominos.model.dto.EditResponseUserDTO;
+import dominos.model.dto.*;
 import dominos.exceptions.AuthenticationException;
-import dominos.model.dto.LoginUserDTO;
-import dominos.model.dto.RegisterRequestUserDTO;
-import dominos.model.dto.RegisterResponseUserDTO;
 import dominos.exceptions.BadRequestException;
-import dominos.model.dto.LoginResponseUserDTO;
 import dominos.model.pojo.User;
 import dominos.model.repository.UserRepository;
 import org.springframework.stereotype.Service;
@@ -175,8 +170,8 @@ public class UserService {
         }
     }
 
-    public String deleteUser(int id) {
+    public SuccessDTO deleteUser(int id) {
         userRepository.deleteById(id);
-        return "You have successfully deleted your account";
+        return new SuccessDTO("You have successfully deleted your account");
     }
 }
