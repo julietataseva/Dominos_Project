@@ -97,7 +97,7 @@ public class PizzaOrderDTO implements IProductDTO {
         if(!modifiedSize.equals("")){
             modifications.append(" ");
         }
-        
+
         modifications.append(this.getAdditionalIngredients());
 
         return modifications.toString();

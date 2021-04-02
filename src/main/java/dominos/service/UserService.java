@@ -1,13 +1,9 @@
 package dominos.service;
 
-import dominos.model.dto.EditRequestUserDTO;
-import dominos.model.dto.EditResponseUserDTO;
+import dominos.model.dto.*;
 import dominos.exceptions.AuthenticationException;
-import dominos.model.dto.LoginUserDTO;
-import dominos.model.dto.RegisterRequestUserDTO;
-import dominos.model.dto.RegisterResponseUserDTO;
+import dominos.model.dto.RegisterAndEditResponseUserDTO;
 import dominos.exceptions.BadRequestException;
-import dominos.model.dto.LoginResponseUserDTO;
 import dominos.model.pojo.User;
 import dominos.model.repository.UserRepository;
 import org.springframework.stereotype.Service;
@@ -24,7 +20,7 @@ public class UserService {
     private UserRepository userRepository;
     private static final int MIN_PASSWORD_LENGTH = 6;
 
-    public RegisterResponseUserDTO addUser(RegisterRequestUserDTO userDTO) {
+    public RegisterAndEditResponseUserDTO addUser(RegisterRequestUserDTO userDTO) {
         String email = userDTO.getEmail();
         this.validateEmail(email);
 
@@ -50,7 +46,7 @@ public class UserService {
 
         User user = new User(userDTO);
         user = userRepository.save(user);
-        RegisterResponseUserDTO responseUserDTO = new RegisterResponseUserDTO(user);
+        RegisterAndEditResponseUserDTO responseUserDTO = new RegisterAndEditResponseUserDTO(user);
         return responseUserDTO;
     }
 
@@ -83,7 +79,7 @@ public class UserService {
         }
     }
 
-    public EditResponseUserDTO editUser(EditRequestUserDTO userDTO, User loggedUser) {
+    public RegisterAndEditResponseUserDTO editUser(EditRequestUserDTO userDTO, User loggedUser) {
         String newFirstName = userDTO.getFirstName();
         this.validateNewFirstName(loggedUser, newFirstName);
 
@@ -91,14 +87,19 @@ public class UserService {
         this.validateNewLastName(loggedUser, newLastName);
 
         String newEmail = userDTO.getEmail();
-        this.validateEmail(newEmail);
-        loggedUser.setEmail(newEmail);
+        this.validateNewEmail(loggedUser, newEmail);
 
-        String currentPassword = userDTO.getCurrentPassword();
-        this.validateCurrentAndNewPassword(loggedUser, currentPassword, userDTO);
+        this.validateCurrentAndNewPassword(loggedUser, userDTO);
 
         loggedUser = userRepository.save(loggedUser);
-        return new EditResponseUserDTO(loggedUser);
+        return new RegisterAndEditResponseUserDTO(loggedUser);
+    }
+
+    private void validateNewEmail(User user, String newEmail) {
+        if (newEmail != null) {
+            this.validateEmail(newEmail);
+            user.setEmail(newEmail);
+        }
     }
 
     private void validateNewFirstName(User user, String firstName) {
@@ -125,17 +126,15 @@ public class UserService {
                 "(?:[a-zA-Z0-9-]+\\.)+[a-z" +
                 "A-Z]{2,7}$";
 
-        Pattern pat = Pattern.compile(emailRegex);
-        if (email == null) {
-            throw new BadRequestException("Invalid email!");
-        }
+        Pattern pattern = Pattern.compile(emailRegex);
 
-        if (!pat.matcher(email).matches()) {
+        if (email == null || !pattern.matcher(email).matches()) {
             throw new BadRequestException("Invalid email!");
         }
     }
 
-    private void validateCurrentAndNewPassword(User user, String currentPassword, EditRequestUserDTO userDTO) {
+    private void validateCurrentAndNewPassword(User user, EditRequestUserDTO userDTO) {
+        String currentPassword = userDTO.getCurrentPassword();
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         if (currentPassword != null) {
             if (!passwordEncoder.matches(currentPassword, user.getPassword())) {
@@ -143,18 +142,10 @@ public class UserService {
             }
 
             String newPassword = userDTO.getNewPassword();
-            if (newPassword == null || newPassword.equals("")) {
-                throw new BadRequestException("New password should not be empty!");
-            }
+            this.validatePassword(newPassword);
 
             String confirmPassword = userDTO.getConfirmPassword();
-            if (confirmPassword == null || confirmPassword.equals("")) {
-                throw new BadRequestException("Confirm password should not be empty!");
-            }
-
-            if (!newPassword.equals(confirmPassword)) {
-                throw new BadRequestException("Passwords don't match");
-            }
+            this.validateConfirmPassword(confirmPassword, newPassword);
 
             String encodedPassword = passwordEncoder.encode(newPassword);
             user.setPassword(encodedPassword);
