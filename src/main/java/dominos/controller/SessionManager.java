@@ -51,11 +51,11 @@ public class SessionManager {
         return (Map<IProductDTO, Integer>) session.getAttribute(USER_CART);
     }
 
-    public int getAddressAttribute(HttpSession session) {
-        return (int) session.getAttribute(CURRENT_ORDER_ADDRESS_ID);
+    public Integer getAddressIdAttribute(HttpSession session) {
+        return (Integer) session.getAttribute(CURRENT_ORDER_ADDRESS_ID);
     }
 
-    public void setAddressAttribute(HttpSession session, int addressId){
+    public void setAddressIdAttribute(HttpSession session, int addressId){
         session.setAttribute(CURRENT_ORDER_ADDRESS_ID, addressId);
     }
 

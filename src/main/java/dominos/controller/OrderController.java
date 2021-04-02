@@ -3,6 +3,7 @@ package dominos.controller;
 import dominos.exceptions.NotFoundException;
 import dominos.model.dto.RequestOrderDTO;
 import dominos.model.dto.IProductDTO;
+import dominos.model.dto.SuccessDTO;
 import dominos.model.pojo.User;
 import dominos.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,15 +33,15 @@ public class OrderController extends AbstractController {
     }
 
     @PostMapping("/checkout")
-    public ResponseEntity<String> payOrder(@RequestBody RequestOrderDTO requestOrderDTO, HttpSession session) {
+    public SuccessDTO payOrder(@RequestBody RequestOrderDTO requestOrderDTO, HttpSession session) {
         sessionManager.validateLogged(session);
         Map<IProductDTO, Integer> cart = sessionManager.getCartAttribute(session);
 
         User user = sessionManager.getLoggedUser(session);
-        if (session.getAttribute("CURRENT_ORDER_ADDRESS_ID") == null) {
+        if (sessionManager.getAddressIdAttribute(session) == null) {
             throw new NotFoundException("Please first choose an address for the order!");
         }
-        int addressId = sessionManager.getAddressAttribute(session);
+        int addressId = sessionManager.getAddressIdAttribute(session);
         orderService.payOrder(requestOrderDTO, addressId, cart, user);
 
         try {
@@ -50,6 +51,6 @@ public class OrderController extends AbstractController {
         }
 
         sessionManager.emptyCart(session);
-        return new ResponseEntity<>("Payment successful", HttpStatus.OK);
+        return new SuccessDTO("Payment successful");
     }
 }
