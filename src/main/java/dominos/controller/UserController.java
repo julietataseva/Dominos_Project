@@ -31,8 +31,10 @@ public class UserController extends AbstractController {
     }
 
     @PostMapping("/users/logout")
-    public void logout(HttpSession session) {
+    public SuccessDTO logout(HttpSession session) {
+        sessionManager.validateLogged(session);
         sessionManager.logoutUser(session);
+        return new SuccessDTO("Logging out successful");
     }
 
     @PostMapping("/users")
