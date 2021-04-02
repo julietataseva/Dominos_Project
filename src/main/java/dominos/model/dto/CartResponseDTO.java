@@ -13,10 +13,12 @@ public class CartResponseDTO {
     private String name;
     private int quantity;
     private double price;
+    private String modifications;
 
     public CartResponseDTO(IProductDTO product, int quantity) {
         this.name = product.getName();
         this.quantity = quantity;
         this.price = product.getPrice() * quantity;
+        this.modifications = product.getModifications();
     }
 }

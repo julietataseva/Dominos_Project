@@ -77,16 +77,29 @@ public class PizzaOrderDTO implements IProductDTO {
 
         StringBuilder additionalIngredients = new StringBuilder();
         for (IngredientWithPriceDTO ingredient : this.additionalIngredients) {
-            additionalIngredients.append(ingredient.getName() + " ");
+            additionalIngredients.append(ingredient.getName());
+            additionalIngredients.append(System.getProperty("line.separator"));
         }
         return additionalIngredients.toString();
     }
 
     public String getModifications() {
         StringBuilder modifications = new StringBuilder();
-        modifications.append(this.getModifiedDough() + " ");
-        modifications.append(this.getModifiedSize() + " ");
+
+        String modifiedDough = this.getModifiedDough();
+        modifications.append(modifiedDough);
+        if(!modifiedDough.equals("")){
+            modifications.append(" ");
+        }
+
+        String modifiedSize = this.getModifiedSize();
+        modifications.append(modifiedSize);
+        if(!modifiedSize.equals("")){
+            modifications.append(" ");
+        }
+        
         modifications.append(this.getAdditionalIngredients());
+
         return modifications.toString();
     }
 }

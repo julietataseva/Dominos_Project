@@ -5,4 +5,5 @@ public interface IProductDTO {
     double getPrice();
     int getId();
     boolean isPizza();
+    String getModifications();
 }
