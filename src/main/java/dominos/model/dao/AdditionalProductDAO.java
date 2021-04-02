@@ -28,10 +28,10 @@ public class AdditionalProductDAO {
                     "FROM orders_have_additional_products AS ohap\n" +
                     "GROUP BY ohap.additional_product_id\n" +
                     "HAVING quantity = (\n" +
-                    "\tSELECT SUM(a.quantity) FROM orders_have_additional_products AS a \n" +
+                    "\tSELECT SUM(a.quantity) AS quantity FROM orders_have_additional_products AS a \n" +
                     "\tGROUP BY a.additional_product_id \n" +
-                    "    LIMIT 1)\n" +
-                    "ORDER BY quantity DESC;";
+                    "    ORDER BY quantity DESC\n" +
+                    "    LIMIT 1);";
 
     public List<AdditionalProductDTO> getMostSoldAdditionalProducts() throws SQLException {
         List<AdditionalProductDTO> mostSoldAdditionalProducts = new ArrayList<>();
