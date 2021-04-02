@@ -85,68 +85,7 @@ public class CartService {
     }
 
     public PizzaOrderDTO addPizzaToCart(int pizzaId, RequestPizzaOrderDTO requestPizzaOrderDTO, Map<IProductDTO, Integer> cart) {
-        Optional<Pizza> pizzaOptional = pizzaRepository.findById(pizzaId);
-
-        if (pizzaOptional.isEmpty()) {
-            throw new BadRequestException("This pizza doesn't exist!");
-        }
-
-        PizzaAddedToCartDTO pizza = new PizzaAddedToCartDTO(pizzaOptional.get());
-
-        Integer doughTypeId = requestPizzaOrderDTO.getDoughTypeId();
-        Optional<Dough> doughOptional = null;
-        Dough dough = null;
-        if (doughTypeId != null) {
-            doughOptional = doughRepository.findById(doughTypeId);
-            if (doughOptional.isEmpty()) {
-                throw new BadRequestException("This dough doesn't exist!");
-            }
-            dough = doughOptional.get();
-        } else {
-            dough = new Dough();
-        }
-
-        DoughDTO doughDTO = new DoughDTO(dough);
-
-        Integer pizzaSizeId = requestPizzaOrderDTO.getPizzaSizeId();
-        Optional<PizzaSize> pizzaSizeOptional = null;
-        PizzaSize pizzaSize = null;
-        if (pizzaSizeId != null) {
-            pizzaSizeOptional = pizzaSizeRepository.findById(pizzaSizeId);
-            if (pizzaSizeOptional.isEmpty()) {
-                throw new BadRequestException("This pizza size doesn't exists!");
-            }
-            pizzaSize = pizzaSizeOptional.get();
-        } else {
-            pizzaSize = new PizzaSize();
-        }
-
-        PizzaSizeDTO pizzaSizeDTO = new PizzaSizeDTO(pizzaSize);
-
-        List<Ingredient> additionalIngredients = new ArrayList<>();
-        List<Integer> additionalIngredientsIds = requestPizzaOrderDTO.getAdditionalIngredientsIds();
-        if (additionalIngredientsIds != null) {
-            for (Integer ingredientId : additionalIngredientsIds) {
-                Optional<Ingredient> ingredientOptional = ingredientRepository.findById(ingredientId);
-                if (ingredientOptional.isEmpty()) {
-                    throw new BadRequestException("This ingredient doesn't exist!");
-                }
-                Ingredient ingredient = ingredientOptional.get();
-                additionalIngredients.add(ingredient);
-            }
-        }
-
-        List<IngredientWithPriceDTO> additionalIngredientsWithPrice = new ArrayList<>();
-        for (Ingredient ingredient : additionalIngredients) {
-            additionalIngredientsWithPrice.add(new IngredientWithPriceDTO(ingredient));
-        }
-
-        PizzaOrderDTO pizzaOrderDTO = new PizzaOrderDTO();
-        pizzaOrderDTO.setId(pizza.getId());
-        pizzaOrderDTO.setPizza(pizza);
-        pizzaOrderDTO.setDough(doughDTO);
-        pizzaOrderDTO.setPizzaSize(pizzaSizeDTO);
-        pizzaOrderDTO.setAdditionalIngredients(additionalIngredientsWithPrice);
+        PizzaOrderDTO pizzaOrderDTO = this.getPizzaOrderDTO(pizzaId, requestPizzaOrderDTO);
 
         if (!cart.containsKey(pizzaOrderDTO)) {
             cart.put(pizzaOrderDTO, 1);
@@ -160,68 +99,7 @@ public class CartService {
     public PizzaOrderDTO removePizzaFromCart(int pizzaId, RequestPizzaOrderDTO requestPizzaOrderDTO, Map<IProductDTO, Integer> cart) {
         this.checkIfCartIsEmpty(cart);
 
-        Optional<Pizza> pizzaOptional = pizzaRepository.findById(pizzaId);
-
-        if (pizzaOptional.isEmpty()) {
-            throw new BadRequestException("This pizza doesn't exist!");
-        }
-
-        PizzaAddedToCartDTO pizza = new PizzaAddedToCartDTO(pizzaOptional.get());
-
-        Integer doughTypeId = requestPizzaOrderDTO.getDoughTypeId();
-        Optional<Dough> doughOptional = null;
-        Dough dough = null;
-        if (doughTypeId != null) {
-            doughOptional = doughRepository.findById(doughTypeId);
-            if (doughOptional.isEmpty()) {
-                throw new BadRequestException("This dough doesn't exist!");
-            }
-            dough = doughOptional.get();
-        } else {
-            dough = new Dough();
-        }
-
-        DoughDTO doughDTO = new DoughDTO(dough);
-
-        Integer pizzaSizeId = requestPizzaOrderDTO.getPizzaSizeId();
-        Optional<PizzaSize> pizzaSizeOptional = null;
-        PizzaSize pizzaSize = null;
-        if (pizzaSizeId != null) {
-            pizzaSizeOptional = pizzaSizeRepository.findById(pizzaSizeId);
-            if (pizzaSizeOptional.isEmpty()) {
-                throw new BadRequestException("This pizza size doesn't exists!");
-            }
-            pizzaSize = pizzaSizeOptional.get();
-        } else {
-            pizzaSize = new PizzaSize();
-        }
-
-        PizzaSizeDTO pizzaSizeDTO = new PizzaSizeDTO(pizzaSize);
-
-        List<Ingredient> additionalIngredients = new ArrayList<>();
-        List<Integer> additionalIngredientsIds = requestPizzaOrderDTO.getAdditionalIngredientsIds();
-        if (additionalIngredientsIds != null) {
-            for (Integer ingredientId : additionalIngredientsIds) {
-                Optional<Ingredient> ingredientOptional = ingredientRepository.findById(ingredientId);
-                if (ingredientOptional.isEmpty()) {
-                    throw new BadRequestException("This ingredient doesn't exist!");
-                }
-                Ingredient ingredient = ingredientOptional.get();
-                additionalIngredients.add(ingredient);
-            }
-        }
-
-        List<IngredientWithPriceDTO> additionalIngredientsWithPrice = new ArrayList<>();
-        for (Ingredient ingredient : additionalIngredients) {
-            additionalIngredientsWithPrice.add(new IngredientWithPriceDTO(ingredient));
-        }
-
-        PizzaOrderDTO pizzaOrderDTO = new PizzaOrderDTO();
-        pizzaOrderDTO.setId(pizza.getId());
-        pizzaOrderDTO.setPizza(pizza);
-        pizzaOrderDTO.setDough(doughDTO);
-        pizzaOrderDTO.setPizzaSize(pizzaSizeDTO);
-        pizzaOrderDTO.setAdditionalIngredients(additionalIngredientsWithPrice);
+        PizzaOrderDTO pizzaOrderDTO = this.getPizzaOrderDTO(pizzaId, requestPizzaOrderDTO);
 
         if (!cart.containsKey(pizzaOrderDTO)) {
             throw new NotFoundException("No such pizza in cart");
@@ -250,5 +128,71 @@ public class CartService {
         } else {
             return additionalProduct;
         }
+    }
+
+    private PizzaOrderDTO getPizzaOrderDTO(int pizzaId, RequestPizzaOrderDTO requestPizzaOrderDTO){
+        Optional<Pizza> pizzaOptional = pizzaRepository.findById(pizzaId);
+
+        if (pizzaOptional.isEmpty()) {
+            throw new BadRequestException("This pizza doesn't exist!");
+        }
+
+        PizzaAddedToCartDTO pizza = new PizzaAddedToCartDTO(pizzaOptional.get());
+
+        Integer doughTypeId = requestPizzaOrderDTO.getDoughTypeId();
+        Optional<Dough> doughOptional = null;
+        Dough dough = null;
+        if (doughTypeId != null) {
+            doughOptional = doughRepository.findById(doughTypeId);
+            if (doughOptional.isEmpty()) {
+                throw new BadRequestException("This dough doesn't exist!");
+            }
+            dough = doughOptional.get();
+        } else {
+            dough = new Dough();
+        }
+
+        DoughDTO doughDTO = new DoughDTO(dough);
+
+        Integer pizzaSizeId = requestPizzaOrderDTO.getPizzaSizeId();
+        Optional<PizzaSize> pizzaSizeOptional = null;
+        PizzaSize pizzaSize = null;
+        if (pizzaSizeId != null) {
+            pizzaSizeOptional = pizzaSizeRepository.findById(pizzaSizeId);
+            if (pizzaSizeOptional.isEmpty()) {
+                throw new BadRequestException("This pizza size doesn't exists!");
+            }
+            pizzaSize = pizzaSizeOptional.get();
+        } else {
+            pizzaSize = new PizzaSize();
+        }
+
+        PizzaSizeDTO pizzaSizeDTO = new PizzaSizeDTO(pizzaSize);
+
+        List<Ingredient> additionalIngredients = new ArrayList<>();
+        List<Integer> additionalIngredientsIds = requestPizzaOrderDTO.getAdditionalIngredientsIds();
+        if (additionalIngredientsIds != null) {
+            for (Integer ingredientId : additionalIngredientsIds) {
+                Optional<Ingredient> ingredientOptional = ingredientRepository.findById(ingredientId);
+                if (ingredientOptional.isEmpty()) {
+                    throw new BadRequestException("This ingredient doesn't exist!");
+                }
+                Ingredient ingredient = ingredientOptional.get();
+                additionalIngredients.add(ingredient);
+            }
+        }
+
+        List<IngredientWithPriceDTO> additionalIngredientsWithPrice = new ArrayList<>();
+        for (Ingredient ingredient : additionalIngredients) {
+            additionalIngredientsWithPrice.add(new IngredientWithPriceDTO(ingredient));
+        }
+
+        PizzaOrderDTO pizzaOrderDTO = new PizzaOrderDTO();
+        pizzaOrderDTO.setId(pizza.getId());
+        pizzaOrderDTO.setPizza(pizza);
+        pizzaOrderDTO.setDough(doughDTO);
+        pizzaOrderDTO.setPizzaSize(pizzaSizeDTO);
+        pizzaOrderDTO.setAdditionalIngredients(additionalIngredientsWithPrice);
+        return pizzaOrderDTO;
     }
 }
