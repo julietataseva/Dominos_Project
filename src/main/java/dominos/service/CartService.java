@@ -235,29 +235,6 @@ public class CartService {
         }
 
         return pizzaOrderDTO;
-        /*
-        boolean pizzaExistsInCart = false;
-        for (Map.Entry<IProductDTO, Integer> entry : cart.entrySet()) {
-            IProductDTO pizzaOrder = entry.getKey();
-            if (pizzaOrder.getId() == pizza.getId()) {
-                pizzaExistsInCart = true;
-                int quantity = entry.getValue();
-                if (quantity > 1) {
-                    cart.put(pizzaOrder, quantity - 1);
-                } else {
-                    cart.remove(pizzaOrder);
-                }
-                break;
-            }
-        }
-
-        if (!pizzaExistsInCart) {
-            throw new NotFoundException("No such pizza in cart!");
-        }
-
-        return "Pizza " + pizza.getName() + " removed from cart.";
-
-         */
     }
 
     private void checkIfCartIsEmpty(Map<IProductDTO, Integer> cart) {

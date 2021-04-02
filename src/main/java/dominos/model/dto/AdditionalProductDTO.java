@@ -36,4 +36,5 @@ public class AdditionalProductDTO implements IProductDTO {
     public boolean isPizza() {
         return false;
     }
+
 }
