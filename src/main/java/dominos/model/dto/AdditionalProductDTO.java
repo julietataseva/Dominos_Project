@@ -37,4 +37,9 @@ public class AdditionalProductDTO implements IProductDTO {
         return false;
     }
 
+    @Override
+    public String getModifications() {
+        return "";
+    }
+
 }
