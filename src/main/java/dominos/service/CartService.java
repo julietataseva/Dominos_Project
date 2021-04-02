@@ -7,7 +7,6 @@ import dominos.model.pojo.*;
 import dominos.model.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,8 +31,8 @@ public class CartService {
     IngredientRepository ingredientRepository;
 
     public AdditionalProductDTO addAdditionalProductToCart(int productId, Map<IProductDTO, Integer> cart) {
-        Optional<AdditionalProduct> additionalProduct = getAdditionalProduct(productId);
-        AdditionalProductDTO additionalProductDTO = new AdditionalProductDTO(additionalProduct.get());
+        AdditionalProduct additionalProduct = getAdditionalProduct(productId);
+        AdditionalProductDTO additionalProductDTO = new AdditionalProductDTO(additionalProduct);
 
         if (!cart.containsKey(additionalProductDTO)) {
             cart.put(additionalProductDTO, 1);
@@ -46,8 +45,8 @@ public class CartService {
 
     public AdditionalProductDTO decreaseAdditionalProductQuantityInCart(int productId, Map<IProductDTO, Integer> cart) {
         this.checkIfCartIsEmpty(cart);
-        Optional<AdditionalProduct> additionalProduct = getAdditionalProduct(productId);
-        AdditionalProductDTO additionalProductDTO = new AdditionalProductDTO(additionalProduct.get());
+        AdditionalProduct additionalProduct = getAdditionalProduct(productId);
+        AdditionalProductDTO additionalProductDTO = new AdditionalProductDTO(additionalProduct);
 
         if (!cart.containsKey(additionalProductDTO)) {
             throw new NotFoundException("No such product in cart");
@@ -64,8 +63,8 @@ public class CartService {
 
     public AdditionalProductDTO deleteAdditionalProductFromCart(int productId, Map<IProductDTO, Integer> cart) {
         this.checkIfCartIsEmpty(cart);
-        Optional<AdditionalProduct> additionalProduct = getAdditionalProduct(productId);
-        AdditionalProductDTO additionalProductDTO = new AdditionalProductDTO(additionalProduct.get());
+        AdditionalProduct additionalProduct = getAdditionalProduct(productId);
+        AdditionalProductDTO additionalProductDTO = new AdditionalProductDTO(additionalProduct);
 
         if (!cart.containsKey(additionalProductDTO)) {
             throw new NotFoundException("No such product in cart");
@@ -131,12 +130,12 @@ public class CartService {
         }
     }
 
-    private Optional<AdditionalProduct> getAdditionalProduct(int productId) {
+    private AdditionalProduct getAdditionalProduct(int productId) {
         Optional<AdditionalProduct> additionalProduct = additionalProductRepository.findById(productId);
         if (additionalProduct.isEmpty()) {
             throw new NotFoundException("No such product");
         } else {
-            return additionalProduct;
+            return additionalProduct.get();
         }
     }
 
