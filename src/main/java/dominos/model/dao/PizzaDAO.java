@@ -34,10 +34,10 @@ public class PizzaDAO {
                     "FROM orders_have_pizzas AS ohp\n" +
                     "GROUP BY ohp.pizza_id\n" +
                     "HAVING quantity = (\n" +
-                    "\tSELECT SUM(p.quantity) FROM orders_have_pizzas AS p \n" +
+                    "\tSELECT SUM(p.quantity) AS quantity FROM orders_have_pizzas AS p \n" +
                     "\tGROUP BY p.pizza_id \n" +
-                    "    LIMIT 1)\n" +
-                    "ORDER BY quantity DESC;";
+                    "    ORDER BY quantity DESC\n" +
+                    "    LIMIT 1);";
 
     private static final String GET_USER_WITH_MOST_PIZZA_ORDERS =
             "SELECT u.id, u.first_name, u.last_name, COUNT(owner_id) as orders_count, SUM(price) as sum\n" +
