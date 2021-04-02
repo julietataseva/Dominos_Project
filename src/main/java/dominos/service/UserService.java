@@ -152,14 +152,14 @@ public class UserService {
         }
     }
 
-    public LoginResponseUserDTO login(LoginUserDTO loginUserDTO) {
+    public ResponseUserDTO login(LoginUserDTO loginUserDTO) {
         User user = userRepository.findByEmail(loginUserDTO.getEmail());
         if (user == null) {
             throw new AuthenticationException("Wrong credentials");
         } else {
             PasswordEncoder encoder = new BCryptPasswordEncoder();
             if (encoder.matches(loginUserDTO.getPassword(), user.getPassword())) {
-                return new LoginResponseUserDTO(user);
+                return new ResponseUserDTO(user);
             } else {
                 throw new AuthenticationException("Wrong credentials");
             }

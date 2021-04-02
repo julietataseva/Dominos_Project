@@ -8,12 +8,12 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class LoginResponseUserDTO {
+public class ResponseUserDTO {
     private int id;
     private String firstName;
     private String lastName;
 
-    public LoginResponseUserDTO(User user) {
+    public ResponseUserDTO(User user) {
         this.id = user.getId();
         this.firstName = user.getFirstName();
         this.lastName = user.getLastName();
