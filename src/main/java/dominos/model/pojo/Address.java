@@ -1,6 +1,6 @@
 package dominos.model.pojo;
 
-import dominos.model.dto.AddressRequestDTO;
+import dominos.model.dto.address_dto.AddressRequestDTO;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

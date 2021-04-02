@@ -1,4 +1,4 @@
-package dominos.model.dto;
+package dominos.model.dto.order_dto;
 
 import dominos.model.pojo.Address;
 import dominos.model.pojo.User;

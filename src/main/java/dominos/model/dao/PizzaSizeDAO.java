@@ -1,8 +1,6 @@
 package dominos.model.dao;
 
-import dominos.model.dto.DoughDTO;
-import dominos.model.dto.PizzaSizeDTO;
-import dominos.model.pojo.Dough;
+import dominos.model.dto.pizza_dto.PizzaSizeDTO;
 import dominos.model.pojo.PizzaSize;
 import dominos.model.repository.PizzaSizeRepository;
 import org.springframework.beans.factory.annotation.Autowired;

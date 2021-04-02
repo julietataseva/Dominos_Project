@@ -2,7 +2,7 @@ package dominos.service;
 
 import dominos.exceptions.NotFoundException;
 import dominos.model.dao.AdditionalProductDAO;
-import dominos.model.dto.AdditionalProductDTO;
+import dominos.model.dto.additional_product_dto.AdditionalProductDTO;
 import dominos.model.pojo.AdditionalProduct;
 import dominos.model.repository.AdditionalProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;

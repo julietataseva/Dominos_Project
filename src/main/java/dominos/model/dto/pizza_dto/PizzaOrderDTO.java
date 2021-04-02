@@ -1,5 +1,8 @@
-package dominos.model.dto;
+package dominos.model.dto.pizza_dto;
 
+import dominos.model.dto.DoughDTO;
+import dominos.model.dto.IProductDTO;
+import dominos.model.dto.ingredient_dto.IngredientWithPriceDTO;
 import dominos.model.pojo.*;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -8,7 +11,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 @EqualsAndHashCode
 @Getter

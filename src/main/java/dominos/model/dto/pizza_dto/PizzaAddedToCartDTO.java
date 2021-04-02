@@ -1,5 +1,6 @@
-package dominos.model.dto;
+package dominos.model.dto.pizza_dto;
 
+import dominos.model.dto.ingredient_dto.IngredientDTO;
 import dominos.model.pojo.Ingredient;
 import dominos.model.pojo.Pizza;
 import lombok.EqualsAndHashCode;

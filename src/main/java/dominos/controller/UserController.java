@@ -1,7 +1,10 @@
 package dominos.controller;
 
 import dominos.model.dto.*;
-import dominos.model.dto.ResponseUserDTO;
+import dominos.model.dto.user_dto.EditRequestUserDTO;
+import dominos.model.dto.user_dto.LoginUserDTO;
+import dominos.model.dto.user_dto.ResponseUserDTO;
+import dominos.model.dto.user_dto.RegisterRequestUserDTO;
 import dominos.model.pojo.User;
 import dominos.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;

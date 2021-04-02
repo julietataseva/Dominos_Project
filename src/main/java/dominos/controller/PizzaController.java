@@ -1,6 +1,10 @@
 package dominos.controller;
 
 import dominos.model.dto.*;
+import dominos.model.dto.pizza_dto.PizzaResponseDTO;
+import dominos.model.dto.pizza_dto.PizzaResponseDetailedDTO;
+import dominos.model.dto.pizza_dto.PizzaSizeDTO;
+import dominos.model.dto.user_dto.ResponseUserDTO;
 import dominos.service.PizzaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;

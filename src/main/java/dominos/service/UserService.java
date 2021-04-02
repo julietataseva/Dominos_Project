@@ -2,8 +2,11 @@ package dominos.service;
 
 import dominos.model.dto.*;
 import dominos.exceptions.AuthenticationException;
-import dominos.model.dto.ResponseUserDTO;
+import dominos.model.dto.user_dto.EditRequestUserDTO;
+import dominos.model.dto.user_dto.LoginUserDTO;
+import dominos.model.dto.user_dto.ResponseUserDTO;
 import dominos.exceptions.BadRequestException;
+import dominos.model.dto.user_dto.RegisterRequestUserDTO;
 import dominos.model.pojo.User;
 import dominos.model.repository.UserRepository;
 import org.springframework.stereotype.Service;

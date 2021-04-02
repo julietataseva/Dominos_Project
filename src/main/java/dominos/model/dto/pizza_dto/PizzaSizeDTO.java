@@ -1,4 +1,4 @@
-package dominos.model.dto;
+package dominos.model.dto.pizza_dto;
 
 import dominos.model.pojo.PizzaSize;
 import lombok.EqualsAndHashCode;

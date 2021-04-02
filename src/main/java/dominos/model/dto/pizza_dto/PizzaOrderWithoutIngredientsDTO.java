@@ -1,5 +1,6 @@
-package dominos.model.dto;
+package dominos.model.dto.pizza_dto;
 
+import dominos.model.dto.DoughDTO;
 import dominos.model.pojo.*;
 import lombok.Getter;
 import lombok.Setter;

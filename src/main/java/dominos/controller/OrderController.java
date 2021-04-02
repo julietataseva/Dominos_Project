@@ -1,14 +1,12 @@
 package dominos.controller;
 
 import dominos.exceptions.NotFoundException;
-import dominos.model.dto.RequestOrderDTO;
+import dominos.model.dto.order_dto.RequestOrderDTO;
 import dominos.model.dto.IProductDTO;
 import dominos.model.dto.SuccessDTO;
 import dominos.model.pojo.User;
 import dominos.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;

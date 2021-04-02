@@ -1,4 +1,4 @@
-package dominos.model.dto;
+package dominos.model.dto.address_dto;
 
 import dominos.model.pojo.Address;
 import lombok.Getter;

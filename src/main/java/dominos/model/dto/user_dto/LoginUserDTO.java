@@ -1,4 +1,4 @@
-package dominos.model.dto;
+package dominos.model.dto.user_dto;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 @Getter
 @Setter
 @Component
-public class RequestOrderDTO {
-    private String comment;
+public class LoginUserDTO {
+    private String email;
+    private String password;
 }

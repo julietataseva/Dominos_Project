@@ -1,7 +1,7 @@
 package dominos.controller;
 
-import dominos.model.dto.AddressRequestDTO;
-import dominos.model.dto.AddressWithoutUserDTO;
+import dominos.model.dto.address_dto.AddressRequestDTO;
+import dominos.model.dto.address_dto.AddressWithoutUserDTO;
 import dominos.model.pojo.User;
 import dominos.service.AddressService;
 import org.springframework.beans.factory.annotation.Autowired;

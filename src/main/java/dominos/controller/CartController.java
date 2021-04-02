@@ -1,10 +1,10 @@
 package dominos.controller;
 
 import dominos.exceptions.NotFoundException;
-import dominos.model.dto.AdditionalProductDTO;
+import dominos.model.dto.additional_product_dto.AdditionalProductDTO;
 import dominos.model.dto.CartResponseDTO;
-import dominos.model.dto.PizzaOrderDTO;
-import dominos.model.dto.RequestPizzaOrderDTO;
+import dominos.model.dto.pizza_dto.PizzaOrderDTO;
+import dominos.model.dto.pizza_dto.RequestPizzaOrderDTO;
 import dominos.model.dto.IProductDTO;
 import dominos.service.CartService;
 import org.springframework.beans.factory.annotation.Autowired;

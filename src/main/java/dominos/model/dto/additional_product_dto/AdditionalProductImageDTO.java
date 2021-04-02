@@ -1,4 +1,4 @@
-package dominos.model.dto;
+package dominos.model.dto.additional_product_dto;
 
 
 import dominos.model.pojo.AdditionalProductImage;

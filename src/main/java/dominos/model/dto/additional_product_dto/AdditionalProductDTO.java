@@ -1,5 +1,6 @@
-package dominos.model.dto;
+package dominos.model.dto.additional_product_dto;
 
+import dominos.model.dto.IProductDTO;
 import dominos.model.pojo.AdditionalProduct;
 import dominos.model.pojo.AdditionalProductImage;
 import lombok.EqualsAndHashCode;

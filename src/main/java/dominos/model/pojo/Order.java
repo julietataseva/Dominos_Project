@@ -1,6 +1,6 @@
 package dominos.model.pojo;
 
-import dominos.model.dto.OrderDTO;
+import dominos.model.dto.order_dto.OrderDTO;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

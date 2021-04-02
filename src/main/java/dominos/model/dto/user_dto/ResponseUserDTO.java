@@ -1,4 +1,4 @@
-package dominos.model.dto;
+package dominos.model.dto.user_dto;
 
 import dominos.model.pojo.User;
 import lombok.Getter;

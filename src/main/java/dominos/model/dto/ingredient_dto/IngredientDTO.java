@@ -1,4 +1,4 @@
-package dominos.model.dto;
+package dominos.model.dto.ingredient_dto;
 
 import dominos.model.pojo.Ingredient;
 import lombok.EqualsAndHashCode;

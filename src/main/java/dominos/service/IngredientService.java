@@ -1,6 +1,6 @@
 package dominos.service;
 
-import dominos.model.dto.IngredientDTO;
+import dominos.model.dto.ingredient_dto.IngredientDTO;
 import dominos.model.pojo.Ingredient;
 import dominos.model.repository.IngredientRepository;
 import org.springframework.beans.factory.annotation.Autowired;

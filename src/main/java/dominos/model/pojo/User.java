@@ -1,6 +1,6 @@
 package dominos.model.pojo;
 
-import dominos.model.dto.RegisterRequestUserDTO;
+import dominos.model.dto.user_dto.RegisterRequestUserDTO;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

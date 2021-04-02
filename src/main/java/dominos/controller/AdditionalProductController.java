@@ -1,6 +1,6 @@
 package dominos.controller;
 
-import dominos.model.dto.AdditionalProductDTO;
+import dominos.model.dto.additional_product_dto.AdditionalProductDTO;
 import dominos.service.AdditionalProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;

@@ -1,7 +1,7 @@
 package dominos.model.dao;
 
-import dominos.model.dto.PizzaResponseDTO;
-import dominos.model.dto.ResponseUserDTO;
+import dominos.model.dto.pizza_dto.PizzaResponseDTO;
+import dominos.model.dto.user_dto.ResponseUserDTO;
 import dominos.model.pojo.Pizza;
 import dominos.model.pojo.User;
 import dominos.model.repository.PizzaRepository;

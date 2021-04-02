@@ -1,9 +1,8 @@
 package dominos.model.pojo;
 
-import dominos.model.dto.IngredientDTO;
-import dominos.model.dto.PizzaAddedToCartDTO;
+import dominos.model.dto.ingredient_dto.IngredientDTO;
+import dominos.model.dto.pizza_dto.PizzaAddedToCartDTO;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.stereotype.Component;
 import javax.persistence.*;
