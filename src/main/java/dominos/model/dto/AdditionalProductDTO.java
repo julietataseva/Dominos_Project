@@ -2,6 +2,7 @@ package dominos.model.dto;
 
 import dominos.model.pojo.AdditionalProduct;
 import dominos.model.pojo.AdditionalProductImage;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -9,19 +10,19 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
+@EqualsAndHashCode
 @NoArgsConstructor
 @Getter
 @Setter
 @Component
-public class AdditionalProductDTODTO implements IProductDTO {
+public class AdditionalProductDTO implements IProductDTO {
     private int id;
     private String name;
     private double price;
     private List<AdditionalProductImageDTO> additionalProductImages;
 
-    public AdditionalProductDTODTO(AdditionalProduct additionalProduct) {
+    public AdditionalProductDTO(AdditionalProduct additionalProduct) {
         this.id = additionalProduct.getId();
         this.name = additionalProduct.getName();
         this.price = additionalProduct.getPrice();
@@ -34,18 +35,5 @@ public class AdditionalProductDTODTO implements IProductDTO {
     @Override
     public boolean isPizza() {
         return false;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        AdditionalProductDTODTO that = (AdditionalProductDTODTO) o;
-        return id == that.id;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
     }
 }

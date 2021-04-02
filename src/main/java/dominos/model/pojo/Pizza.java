@@ -3,13 +3,14 @@ package dominos.model.pojo;
 import dominos.model.dto.IngredientDTO;
 import dominos.model.dto.PizzaAddedToCartDTO;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.stereotype.Component;
-
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+//@NoArgsConstructor
 @Component
 @Getter
 @Setter

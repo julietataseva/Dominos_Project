@@ -1,6 +1,7 @@
 package dominos.model.dto;
 
 import dominos.model.pojo.*;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.stereotype.Component;
@@ -9,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+@EqualsAndHashCode
 @Getter
 @Setter
 @Component
@@ -52,19 +54,6 @@ public class PizzaOrderDTO implements IProductDTO {
     @Override
     public boolean isPizza() {
         return true;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        PizzaOrderDTO that = (PizzaOrderDTO) o;
-        return id == that.id;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
     }
 
     private String getModifiedDough() {

@@ -1,6 +1,6 @@
 package dominos.controller;
 
-import dominos.model.dto.AdditionalProductDTODTO;
+import dominos.model.dto.AdditionalProductDTO;
 import dominos.service.AdditionalProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,19 +21,19 @@ public class AdditionalProductController extends AbstractController {
     private SessionManager sessionManager;
 
     @GetMapping("/menu/products/{productId}")
-    public AdditionalProductDTODTO getAdditionalProductById(@PathVariable int productId, HttpSession session) {
+    public AdditionalProductDTO getAdditionalProductById(@PathVariable int productId, HttpSession session) {
         sessionManager.validateLogged(session);
         return additionalProductService.getAdditionalProductById(productId);
     }
 
     @GetMapping("/menu/products")
-    public List<AdditionalProductDTODTO> getAdditionalProductsMenu(HttpSession session) {
+    public List<AdditionalProductDTO> getAdditionalProductsMenu(HttpSession session) {
         sessionManager.validateLogged(session);
         return additionalProductService.getAdditionalProductMenu();
     }
 
     @GetMapping("/menu/products/top")
-    public List<AdditionalProductDTODTO> getMostSoldAdditionalProducts(HttpSession session) throws SQLException {
+    public List<AdditionalProductDTO> getMostSoldAdditionalProducts(HttpSession session) throws SQLException {
         sessionManager.validateLogged(session);
         return additionalProductService.getMostSoldAdditionalProducts();
     }

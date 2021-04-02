@@ -1,12 +1,10 @@
 package dominos.model.pojo;
 
-import dominos.model.dto.AdditionalProductDTODTO;
+import dominos.model.dto.AdditionalProductDTO;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
 
 @NoArgsConstructor
@@ -25,10 +23,10 @@ public class AdditionalProduct {
     @OneToMany(mappedBy = "additionalProduct")
     private List<AdditionalProductImage> additionalProductImages;
 
-    public AdditionalProduct(AdditionalProductDTODTO additionalProductDTO) {
+    public AdditionalProduct(AdditionalProductDTO additionalProductDTO) {
         this.id = additionalProductDTO.getId();
         this.name = additionalProductDTO.getName();
         this.price = additionalProductDTO.getPrice();
-        this.additionalProductImages = new ArrayList<>();
+        //this.additionalProductImages = new ArrayList<>();
     }
 }

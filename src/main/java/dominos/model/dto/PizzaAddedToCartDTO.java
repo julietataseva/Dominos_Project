@@ -2,6 +2,7 @@ package dominos.model.dto;
 
 import dominos.model.pojo.Ingredient;
 import dominos.model.pojo.Pizza;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.stereotype.Component;
@@ -9,14 +10,15 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 
+@EqualsAndHashCode
 @Getter
 @Setter
 @Component
 public class PizzaAddedToCartDTO {
     private int id;
     private String name;
-    private List<IngredientDTO> ingredients;
     private double price;
+    private List<IngredientDTO> ingredients;
 
     public PizzaAddedToCartDTO(Pizza pizza) {
         this.id = pizza.getId();

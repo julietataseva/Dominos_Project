@@ -4,7 +4,6 @@ import dominos.model.dto.IngredientDTO;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +25,6 @@ public class Ingredient {
     public Ingredient(IngredientDTO ingredientDTO) {
         this.id = ingredientDTO.getId();
         this.name = ingredientDTO.getName();
-        this.pizzas = new ArrayList<>();
+        //this.pizzas = new ArrayList<>();
     }
 }

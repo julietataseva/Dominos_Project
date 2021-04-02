@@ -1,11 +1,13 @@
 package dominos.model.dto;
 
 import dominos.model.pojo.PizzaSize;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.stereotype.Component;
 
+@EqualsAndHashCode
 @Getter
 @Setter
 @NoArgsConstructor
