@@ -76,7 +76,7 @@ public class OrderService {
                 pizzaOrderRepository.save(pizzaOrder);
             } else {
                 AdditionalProductOrderDTO additionalProductOrderDTO =
-                        new AdditionalProductOrderDTO(order, (AdditionalProductDTODTO) product.getKey(),
+                        new AdditionalProductOrderDTO(order, (AdditionalProductDTO) product.getKey(),
                                 product.getKey().getPrice(), product.getValue());
 
                 AdditionalProductOrder additionalProductOrder =

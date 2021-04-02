@@ -1,7 +1,7 @@
 package dominos.controller;
 
 import dominos.exceptions.NotFoundException;
-import dominos.model.dto.AdditionalProductDTODTO;
+import dominos.model.dto.AdditionalProductDTO;
 import dominos.model.dto.CartResponseDTO;
 import dominos.model.dto.PizzaOrderDTO;
 import dominos.model.dto.RequestPizzaOrderDTO;
@@ -25,21 +25,21 @@ public class CartController extends AbstractController {
     private SessionManager sessionManager;
 
     @PutMapping("/menu/products/{productId}")
-    public AdditionalProductDTODTO addAdditionalProductToCart(@PathVariable int productId, HttpSession session) {
+    public AdditionalProductDTO addAdditionalProductToCart(@PathVariable int productId, HttpSession session) {
         sessionManager.validateLogged(session);
         Map<IProductDTO, Integer> cart = sessionManager.getCartAttribute(session);
         return cartService.addAdditionalProductToCart(productId, cart);
     }
 
     @PutMapping("/cart/products/decrease/{productId}")
-    public AdditionalProductDTODTO decreaseAdditionalProductQuantityInCart(@PathVariable int productId, HttpSession session) {
+    public AdditionalProductDTO decreaseAdditionalProductQuantityInCart(@PathVariable int productId, HttpSession session) {
         sessionManager.validateLogged(session);
         Map<IProductDTO, Integer> cart = sessionManager.getCartAttribute(session);
         return cartService.decreaseAdditionalProductQuantityInCart(productId, cart);
     }
 
     @DeleteMapping("/cart/products/delete/{productId}")
-    public AdditionalProductDTODTO deleteAdditionalProductFromCart(@PathVariable int productId, HttpSession session) {
+    public AdditionalProductDTO deleteAdditionalProductFromCart(@PathVariable int productId, HttpSession session) {
         sessionManager.validateLogged(session);
         Map<IProductDTO, Integer> cart = sessionManager.getCartAttribute(session);
         return cartService.deleteAdditionalProductFromCart(productId, cart);

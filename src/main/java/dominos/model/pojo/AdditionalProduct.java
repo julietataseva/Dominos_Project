@@ -1,6 +1,6 @@
 package dominos.model.pojo;
 
-import dominos.model.dto.AdditionalProductDTODTO;
+import dominos.model.dto.AdditionalProductDTO;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -25,7 +25,7 @@ public class AdditionalProduct {
     @OneToMany(mappedBy = "additionalProduct")
     private List<AdditionalProductImage> additionalProductImages;
 
-    public AdditionalProduct(AdditionalProductDTODTO additionalProductDTO) {
+    public AdditionalProduct(AdditionalProductDTO additionalProductDTO) {
         this.id = additionalProductDTO.getId();
         this.name = additionalProductDTO.getName();
         this.price = additionalProductDTO.getPrice();

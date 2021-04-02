@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class AdditionalProductOrderDTO {
     private Order order;
-    private AdditionalProductDTODTO additionalProductDTO;
+    private AdditionalProductDTO additionalProductDTO;
     private double price;
     private int quantity;
 }

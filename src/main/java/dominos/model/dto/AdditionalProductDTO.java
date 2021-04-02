@@ -15,13 +15,13 @@ import java.util.Objects;
 @Getter
 @Setter
 @Component
-public class AdditionalProductDTODTO implements IProductDTO {
+public class AdditionalProductDTO implements IProductDTO {
     private int id;
     private String name;
     private double price;
     private List<AdditionalProductImageDTO> additionalProductImages;
 
-    public AdditionalProductDTODTO(AdditionalProduct additionalProduct) {
+    public AdditionalProductDTO(AdditionalProduct additionalProduct) {
         this.id = additionalProduct.getId();
         this.name = additionalProduct.getName();
         this.price = additionalProduct.getPrice();
@@ -40,7 +40,7 @@ public class AdditionalProductDTODTO implements IProductDTO {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        AdditionalProductDTODTO that = (AdditionalProductDTODTO) o;
+        AdditionalProductDTO that = (AdditionalProductDTO) o;
         return id == that.id;
     }
 

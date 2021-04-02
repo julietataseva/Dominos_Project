@@ -30,9 +30,9 @@ public class CartService {
     @Autowired
     IngredientRepository ingredientRepository;
 
-    public AdditionalProductDTODTO addAdditionalProductToCart(int productId, Map<IProductDTO, Integer> cart) {
+    public AdditionalProductDTO addAdditionalProductToCart(int productId, Map<IProductDTO, Integer> cart) {
         Optional<AdditionalProduct> additionalProduct = getAdditionalProduct(productId);
-        AdditionalProductDTODTO additionalProductDTO = new AdditionalProductDTODTO(additionalProduct.get());
+        AdditionalProductDTO additionalProductDTO = new AdditionalProductDTO(additionalProduct.get());
 
         if (!cart.containsKey(additionalProductDTO)) {
             cart.put(additionalProductDTO, 1);
@@ -43,10 +43,10 @@ public class CartService {
         return additionalProductDTO;
     }
 
-    public AdditionalProductDTODTO decreaseAdditionalProductQuantityInCart(int productId, Map<IProductDTO, Integer> cart) {
+    public AdditionalProductDTO decreaseAdditionalProductQuantityInCart(int productId, Map<IProductDTO, Integer> cart) {
         checkIfCartIsEmpty(cart);
         Optional<AdditionalProduct> additionalProduct = getAdditionalProduct(productId);
-        AdditionalProductDTODTO additionalProductDTO = new AdditionalProductDTODTO(additionalProduct.get());
+        AdditionalProductDTO additionalProductDTO = new AdditionalProductDTO(additionalProduct.get());
 
         if (!cart.containsKey(additionalProductDTO)) {
             throw new NotFoundException("No such product in cart");
@@ -61,10 +61,10 @@ public class CartService {
         return additionalProductDTO;
     }
 
-    public AdditionalProductDTODTO deleteAdditionalProductFromCart(int productId, Map<IProductDTO, Integer> cart) {
+    public AdditionalProductDTO deleteAdditionalProductFromCart(int productId, Map<IProductDTO, Integer> cart) {
         checkIfCartIsEmpty(cart);
         Optional<AdditionalProduct> additionalProduct = getAdditionalProduct(productId);
-        AdditionalProductDTODTO additionalProductDTO = new AdditionalProductDTODTO(additionalProduct.get());
+        AdditionalProductDTO additionalProductDTO = new AdditionalProductDTO(additionalProduct.get());
 
         if (!cart.containsKey(additionalProductDTO)) {
             throw new NotFoundException("No such product in cart");
