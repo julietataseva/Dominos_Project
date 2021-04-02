@@ -3,6 +3,10 @@
 2021-04-02 18:21:22,904 INFO org.springframework.boot.SpringApplication [restartedMain] No active profile set, falling back to default profiles: default
 2021-04-02 18:21:27,958 INFO org.springframework.boot.StartupInfoLogger [restartedMain] Started DominosApplication in 5.348 seconds (JVM running for 6.012)
 2021-04-02 18:36:59,399 ERROR dominos.controller.AbstractController [http-nio-8888-exec-7] Please first choose an address for the order!
+2021-04-02 20:02:40,110 INFO org.springframework.boot.StartupInfoLogger [restartedMain] Starting DominosApplication using Java 15.0.2 on DESKTOP-CID28UU with PID 21956 (C:\Users\julie\OneDrive\Desktop\ITTalents\Dominos_Project\target\classes started by julie in C:\Users\julie\OneDrive\Desktop\ITTalents\Dominos_Project)
+2021-04-02 20:02:40,114 DEBUG org.springframework.boot.StartupInfoLogger [restartedMain] Running with Spring Boot v2.4.4, Spring v5.3.5
+2021-04-02 20:02:40,114 INFO org.springframework.boot.SpringApplication [restartedMain] No active profile set, falling back to default profiles: default
+2021-04-02 20:02:45,392 INFO org.springframework.boot.StartupInfoLogger [restartedMain] Started DominosApplication in 5.523 seconds (JVM running for 6.26)
 2021-04-02 19:06:40,261 INFO org.springframework.boot.StartupInfoLogger [restartedMain] Starting DominosApplication using Java 15.0.1 on DESKTOP-8R3OL4O with PID 12072 (C:\Users\Acer\IdeaProjects\Dominos_Project\target\classes started by Acer in C:\Users\Acer\IdeaProjects\Dominos_Project)
 2021-04-02 19:06:40,263 DEBUG org.springframework.boot.StartupInfoLogger [restartedMain] Running with Spring Boot v2.4.4, Spring v5.3.5
 2021-04-02 19:06:40,263 INFO org.springframework.boot.SpringApplication [restartedMain] No active profile set, falling back to default profiles: default
