@@ -27,3 +27,7 @@
 2021-04-02 22:02:10,555 DEBUG org.springframework.boot.StartupInfoLogger [restartedMain] Running with Spring Boot v2.4.4, Spring v5.3.5
 2021-04-02 22:02:10,556 INFO org.springframework.boot.SpringApplication [restartedMain] No active profile set, falling back to default profiles: default
 2021-04-02 22:02:15,655 INFO org.springframework.boot.StartupInfoLogger [restartedMain] Started DominosApplication in 5.369 seconds (JVM running for 6.046)
+2021-04-02 22:47:57,820 INFO org.springframework.boot.StartupInfoLogger [restartedMain] Starting DominosApplication using Java 15.0.1 on DESKTOP-8R3OL4O with PID 12916 (C:\Users\Acer\IdeaProjects\Dominos_Project\target\classes started by Acer in C:\Users\Acer\IdeaProjects\Dominos_Project)
+2021-04-02 22:47:57,820 DEBUG org.springframework.boot.StartupInfoLogger [restartedMain] Running with Spring Boot v2.4.4, Spring v5.3.5
+2021-04-02 22:47:57,820 INFO org.springframework.boot.SpringApplication [restartedMain] No active profile set, falling back to default profiles: default
+2021-04-02 22:48:02,885 INFO org.springframework.boot.StartupInfoLogger [restartedMain] Started DominosApplication in 5.393 seconds (JVM running for 6.035)

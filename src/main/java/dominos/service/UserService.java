@@ -2,7 +2,7 @@ package dominos.service;
 
 import dominos.model.dto.*;
 import dominos.exceptions.AuthenticationException;
-import dominos.model.dto.RegisterAndEditResponseUserDTO;
+import dominos.model.dto.ResponseUserDTO;
 import dominos.exceptions.BadRequestException;
 import dominos.model.pojo.User;
 import dominos.model.repository.UserRepository;
@@ -20,7 +20,7 @@ public class UserService {
     private UserRepository userRepository;
     private static final int MIN_PASSWORD_LENGTH = 6;
 
-    public RegisterAndEditResponseUserDTO addUser(RegisterRequestUserDTO userDTO) {
+    public ResponseUserDTO addUser(RegisterRequestUserDTO userDTO) {
         String email = userDTO.getEmail();
         this.validateEmail(email);
 
@@ -46,7 +46,7 @@ public class UserService {
 
         User user = new User(userDTO);
         user = userRepository.save(user);
-        RegisterAndEditResponseUserDTO responseUserDTO = new RegisterAndEditResponseUserDTO(user);
+        ResponseUserDTO responseUserDTO = new ResponseUserDTO(user);
         return responseUserDTO;
     }
 
@@ -79,7 +79,7 @@ public class UserService {
         }
     }
 
-    public RegisterAndEditResponseUserDTO editUser(EditRequestUserDTO userDTO, User loggedUser) {
+    public ResponseUserDTO editUser(EditRequestUserDTO userDTO, User loggedUser) {
         String newFirstName = userDTO.getFirstName();
         this.validateNewFirstName(loggedUser, newFirstName);
 
@@ -92,7 +92,7 @@ public class UserService {
         this.validateCurrentAndNewPassword(loggedUser, userDTO);
 
         loggedUser = userRepository.save(loggedUser);
-        return new RegisterAndEditResponseUserDTO(loggedUser);
+        return new ResponseUserDTO(loggedUser);
     }
 
     private void validateNewEmail(User user, String newEmail) {
