@@ -11,8 +11,8 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
-@EqualsAndHashCode
 @NoArgsConstructor
 @Getter
 @Setter
@@ -41,5 +41,18 @@ public class AdditionalProductDTO implements IProductDTO {
     @Override
     public String getModifications() {
         return "";
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        AdditionalProductDTO that = (AdditionalProductDTO) o;
+        return id == that.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }
