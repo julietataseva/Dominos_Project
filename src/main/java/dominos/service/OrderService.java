@@ -72,7 +72,8 @@ public class OrderService {
                 Pizza pizza = pizzaRepository.findById(pizzaOrderDTO.getPizza().getId()).get();
                 pizzaOrder.setPizza(pizza);
                 pizzaOrder.setQuantity(quantity);
-                pizzaOrder.setPrice(pizzaOrderDTO.getPrice());
+                double fullPrice = pizzaOrderDTO.getPrice()*quantity;
+                pizzaOrder.setPrice(fullPrice);
                 Dough dough = doughRepository.findById(pizzaOrderDTO.getDough().getId()).get();
                 pizzaOrder.setDough(dough);
                 PizzaSize pizzaSize = pizzaSizeRepository.findById(pizzaOrderDTO.getPizzaSize().getId()).get();
