@@ -146,6 +146,19 @@ public class CartService {
     }
 
     private PizzaOrderDTO getPizzaOrderDTO(RequestPizzaOrderDTO requestPizzaOrderDTO){
+        PizzaAddedToCartDTO pizzaAddedToCartDTO = this.getPizzaAddedToCartDTO(requestPizzaOrderDTO);
+        DoughDTO doughDTO = this.getDoughDTO(requestPizzaOrderDTO);
+        PizzaSizeDTO pizzaSizeDTO = this.getPizzaSizeDTO(requestPizzaOrderDTO);
+        List<IngredientWithPriceDTO> additionalIngredientsWithPrice = this.getIngredientWithPriceDTOs(requestPizzaOrderDTO);
+        int pizzaId = pizzaAddedToCartDTO.getId();
+
+        PizzaOrderDTO pizzaOrderDTO = new PizzaOrderDTO(pizzaId, pizzaAddedToCartDTO, doughDTO,
+                                                        pizzaSizeDTO, additionalIngredientsWithPrice);
+
+        return pizzaOrderDTO;
+    }
+
+    private PizzaAddedToCartDTO getPizzaAddedToCartDTO(RequestPizzaOrderDTO requestPizzaOrderDTO) {
         int pizzaId = requestPizzaOrderDTO.getPizzaId();
         Optional<Pizza> pizzaOptional = pizzaRepository.findById(pizzaId);
 
@@ -154,7 +167,10 @@ public class CartService {
         }
 
         PizzaAddedToCartDTO pizza = new PizzaAddedToCartDTO(pizzaOptional.get());
+        return pizza;
+    }
 
+    private DoughDTO getDoughDTO(RequestPizzaOrderDTO requestPizzaOrderDTO) {
         Integer doughTypeId = requestPizzaOrderDTO.getDoughTypeId();
         Optional<Dough> doughOptional = null;
         Dough dough = null;
@@ -169,7 +185,10 @@ public class CartService {
         }
 
         DoughDTO doughDTO = new DoughDTO(dough);
+        return doughDTO;
+    }
 
+    private PizzaSizeDTO getPizzaSizeDTO(RequestPizzaOrderDTO requestPizzaOrderDTO) {
         Integer pizzaSizeId = requestPizzaOrderDTO.getPizzaSizeId();
         Optional<PizzaSize> pizzaSizeOptional = null;
         PizzaSize pizzaSize = null;
@@ -184,7 +203,10 @@ public class CartService {
         }
 
         PizzaSizeDTO pizzaSizeDTO = new PizzaSizeDTO(pizzaSize);
+        return pizzaSizeDTO;
+    }
 
+    private List<IngredientWithPriceDTO> getIngredientWithPriceDTOs(RequestPizzaOrderDTO requestPizzaOrderDTO) {
         List<Ingredient> additionalIngredients = new ArrayList<>();
         List<Integer> additionalIngredientsIds = requestPizzaOrderDTO.getAdditionalIngredientsIds();
         if (additionalIngredientsIds != null) {
@@ -203,12 +225,6 @@ public class CartService {
             additionalIngredientsWithPrice.add(new IngredientWithPriceDTO(ingredient));
         }
 
-        PizzaOrderDTO pizzaOrderDTO = new PizzaOrderDTO();
-        pizzaOrderDTO.setId(pizza.getId());
-        pizzaOrderDTO.setPizza(pizza);
-        pizzaOrderDTO.setDough(doughDTO);
-        pizzaOrderDTO.setPizzaSize(pizzaSizeDTO);
-        pizzaOrderDTO.setAdditionalIngredients(additionalIngredientsWithPrice);
-        return pizzaOrderDTO;
+        return additionalIngredientsWithPrice;
     }
 }

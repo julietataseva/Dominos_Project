@@ -25,6 +25,18 @@ public class PizzaOrderDTO implements IProductDTO {
     private List<IngredientWithPriceDTO> additionalIngredients;
     private static final int priceDifference = 3;
 
+    public PizzaOrderDTO(int id, PizzaAddedToCartDTO pizza, DoughDTO doughDTO, PizzaSizeDTO pizzaSizeDTO,
+                         List<IngredientWithPriceDTO> additionalIngredients){
+        this.id = id;
+        this.pizza = pizza;
+        this.dough = doughDTO;
+        this.pizzaSize = pizzaSizeDTO;
+        this.additionalIngredients = new ArrayList<>();
+        for(IngredientWithPriceDTO ingredient : additionalIngredients){
+            this.additionalIngredients.add(ingredient);
+        }
+    }
+
     public PizzaOrderDTO() {
         this.additionalIngredients = new ArrayList<>();
     }
