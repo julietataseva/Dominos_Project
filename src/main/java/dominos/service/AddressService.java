@@ -8,6 +8,7 @@ import dominos.model.dto.address_dto.AddressWithoutUserDTO;
 import dominos.model.pojo.Address;
 import dominos.model.pojo.User;
 import dominos.model.repository.AddressRepository;
+import dominos.utils.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,16 +24,16 @@ public class AddressService {
 
     public AddressWithoutUserDTO addAddress(AddressRequestDTO addressRequestDTO, User loggedUser) {
         String phoneNumber = addressRequestDTO.getPhoneNumber();
-        this.validatePhoneNumber(phoneNumber);
+        Validator.validatePhoneNumber(phoneNumber);
 
         String latitude = addressRequestDTO.getLatitude();
-        this.validateLatitude(latitude);
+        Validator.validateLatitude(latitude);
 
         String longitude = addressRequestDTO.getLongitude();
-        this.validateLongitude(longitude);
+        Validator.validateLongitude(longitude);
 
         String description = addressRequestDTO.getDescription();
-        this.validateDescription(description);
+        Validator.validateDescription(description);
 
         Address address = new Address(addressRequestDTO);
         address.setUser(loggedUser);
@@ -63,64 +64,35 @@ public class AddressService {
         Address address = optionalAddress.get();
         List<Address> userAddresses = loggedUser.getAddresses();
         if (!userAddresses.contains(address)) {
-            throw new BadRequestException("You cannot edit address that is not yours!");
+            throw new BadRequestException("This address doesn't exits!");
         }
 
         String newPhoneNumber = addressRequestDTO.getPhoneNumber();
         if (newPhoneNumber != null) {
-            this.validatePhoneNumber(newPhoneNumber);
+            Validator.validatePhoneNumber(newPhoneNumber);
             address.setPhoneNumber(newPhoneNumber);
         }
 
         String newLatitude = addressRequestDTO.getLatitude();
         if (newLatitude != null) {
-            this.validateLatitude(newLatitude);
+            Validator.validateLatitude(newLatitude);
             address.setLatitude(newLatitude);
         }
 
         String newLongitude = addressRequestDTO.getLongitude();
         if (newLongitude != null) {
-            this.validateLongitude(newLongitude);
+            Validator.validateLongitude(newLongitude);
             address.setLongitude(newLongitude);
         }
 
         String newDescription = addressRequestDTO.getDescription();
         if (newDescription != null) {
-            this.validateDescription(newDescription);
+            Validator.validateDescription(newDescription);
             address.setDescription(newDescription);
         }
 
         address = addressRepository.save(address);
         return new AddressWithoutUserDTO(address);
-    }
-
-    private void validatePhoneNumber(String phoneNumber) {
-        String validatePhoneNumber = "^([+]?359)|0?(|-| )8[789]\\d{1}(|-| )\\d{3}(|-| )\\d{3}$";
-        if (phoneNumber == null || !phoneNumber.matches(validatePhoneNumber)) {
-            throw new BadRequestException("Invalid phone number!");
-        }
-    }
-
-    private void validateLatitude(String latitude) {
-        String latitudeMatch = "((?:[0-9]|[1-8][0-9])\\.([0-9]{0,6}))|((?:90)\\.([0]{0,6}))";
-
-        if (latitude == null || !Pattern.matches(latitudeMatch, latitude)) {
-            throw new BadRequestException("Invalid latitude!");
-        }
-    }
-
-    private void validateLongitude(String longitude) {
-        String longitudeMatch = "((?:[0-9]|[1-9][0-9]|1[0-7][0-9])\\.([0-9]{0,6}))|((?:180)\\.([0]{0,6}))";
-
-        if (longitude == null || !Pattern.matches(longitudeMatch, longitude)) {
-            throw new BadRequestException("Invalid longitude!");
-        }
-    }
-
-    private void validateDescription(String description) {
-        if (description == null || description.isEmpty()) {
-            throw new BadRequestException("Invalid description!");
-        }
     }
 
     public AddressWithoutUserDTO deleteAddress(int addressId, User loggedUser) {

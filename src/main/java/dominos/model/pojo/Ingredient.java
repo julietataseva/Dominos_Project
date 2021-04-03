@@ -24,6 +24,5 @@ public class Ingredient {
     public Ingredient(IngredientDTO ingredientDTO) {
         this.id = ingredientDTO.getId();
         this.name = ingredientDTO.getName();
-        //this.pizzas = new ArrayList<>();
     }
 }

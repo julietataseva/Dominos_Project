@@ -27,6 +27,5 @@ public class AdditionalProduct {
         this.id = additionalProductDTO.getId();
         this.name = additionalProductDTO.getName();
         this.price = additionalProductDTO.getPrice();
-        //this.additionalProductImages = new ArrayList<>();
     }
 }
