@@ -41,13 +41,13 @@ public class PizzaController extends AbstractController {
         return pizzaService.getMostSoldPizzas();
     }
 
-    @GetMapping("/menu/pizzas/dough")
+    @GetMapping("/menu/pizzas/top-doughs")
     public List<DoughDTO> getMostPreferredDoughs(HttpSession session) throws SQLException {
         sessionManager.validateLogged(session);
         return pizzaService.getMostPreferredDoughs();
     }
 
-    @GetMapping("/menu/pizzas/size")
+    @GetMapping("/menu/pizzas/top-sizes")
     public List<PizzaSizeDTO> getMostPreferredPizzaSizes(HttpSession session) throws SQLException {
         sessionManager.validateLogged(session);
         return pizzaService.getMostPreferredPizzaSizes();
