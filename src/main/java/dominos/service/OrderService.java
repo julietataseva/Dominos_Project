@@ -81,9 +81,11 @@ public class OrderService {
                 pizzaOrder.setModifications(pizzaOrderDTO.getModifications());
                 pizzaOrderRepository.save(pizzaOrder);
             } else {
+                int quantity = product.getValue();
+                double fullPrice = product.getKey().getPrice()*quantity;
                 AdditionalProductOrderDTO additionalProductOrderDTO =
                         new AdditionalProductOrderDTO(order, (AdditionalProductDTO) product.getKey(),
-                                product.getKey().getPrice(), product.getValue());
+                                fullPrice, quantity);
 
                 AdditionalProductOrder additionalProductOrder =
                         new AdditionalProductOrder(additionalProductOrderDTO);
