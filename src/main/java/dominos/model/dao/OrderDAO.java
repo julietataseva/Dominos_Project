@@ -9,10 +9,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Component
 public class OrderDAO {
@@ -35,7 +32,7 @@ public class OrderDAO {
                     "ORDER BY created_at DESC;";
 
     public Map<Integer, Map<LocalDate, List<String>>> getAllMadeOrdersForLoggedUser(int userId) throws SQLException {
-        Map<Integer, Map<LocalDate, List<String>>> result = new HashMap<>();
+        Map<Integer, Map<LocalDate, List<String>>> orders = new TreeMap<>(Collections.reverseOrder());
 
         try (Connection connection = jdbcTemplate.getDataSource().getConnection();
              PreparedStatement statement = connection.prepareStatement(GET_ALL_MADE_ORDERS_BY_USER_ID)) {
@@ -47,17 +44,17 @@ public class OrderDAO {
                 LocalDate orderDate = resultSet.getTimestamp("created_at").toLocalDateTime().toLocalDate();
                 String productName = resultSet.getString("name");
 
-                if (!result.containsKey(orderId)) {
-                    result.put(orderId, new HashMap<>());
+                if (!orders.containsKey(orderId)) {
+                    orders.put(orderId, new HashMap<>());
                 }
 
-                if (!result.get(orderId).containsKey(orderDate)) {
-                    result.get(orderId).put(orderDate, new ArrayList<>());
+                if (!orders.get(orderId).containsKey(orderDate)) {
+                    orders.get(orderId).put(orderDate, new ArrayList<>());
                 }
 
-                result.get(orderId).get(orderDate).add(productName);
+                orders.get(orderId).get(orderDate).add(productName);
             }
         }
-        return result;
+        return orders;
     }
 }
