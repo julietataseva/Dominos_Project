@@ -4,6 +4,7 @@ import dominos.model.dto.DoughDTO;
 import dominos.model.dto.IProductDTO;
 import dominos.model.dto.ingredient_dto.IngredientWithPriceDTO;
 import dominos.model.pojo.*;
+import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;

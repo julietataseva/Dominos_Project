@@ -67,18 +67,12 @@ public class OrderService {
 
                 PizzaOrderDTO pizzaOrderDTO = (PizzaOrderDTO) product.getKey();
                 int quantity = product.getValue();
-                PizzaOrder pizzaOrder = new PizzaOrder();
-                pizzaOrder.setOrder(order);
                 Pizza pizza = pizzaRepository.findById(pizzaOrderDTO.getPizza().getId()).get();
-                pizzaOrder.setPizza(pizza);
-                pizzaOrder.setQuantity(quantity);
                 double fullPrice = pizzaOrderDTO.getPrice()*quantity;
-                pizzaOrder.setPrice(fullPrice);
                 Dough dough = doughRepository.findById(pizzaOrderDTO.getDough().getId()).get();
-                pizzaOrder.setDough(dough);
                 PizzaSize pizzaSize = pizzaSizeRepository.findById(pizzaOrderDTO.getPizzaSize().getId()).get();
-                pizzaOrder.setSize(pizzaSize);
-                pizzaOrder.setModifications(pizzaOrderDTO.getModifications());
+                String modifications = pizzaOrderDTO.getModifications();
+                PizzaOrder pizzaOrder = new PizzaOrder(order, pizza, quantity, fullPrice, modifications, dough, pizzaSize);
                 pizzaOrderRepository.save(pizzaOrder);
             } else {
                 int quantity = product.getValue();

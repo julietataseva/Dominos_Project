@@ -1,5 +1,6 @@
 package dominos.model.pojo;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -8,6 +9,7 @@ import javax.persistence.*;
 
 @Component
 @NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
 @Entity
@@ -31,4 +33,14 @@ public class PizzaOrder {
     @ManyToOne
     @JoinColumn(name = "size_id")
     private PizzaSize size;
+
+    public PizzaOrder(Order order, Pizza pizza, int quantity, double price, String modifications, Dough dough, PizzaSize size){
+        this.order = order;
+        this.pizza = pizza;
+        this.quantity = quantity;
+        this.price = price;
+        this.modifications = modifications;
+        this.dough = dough;
+        this.size = size;
+    }
 }
