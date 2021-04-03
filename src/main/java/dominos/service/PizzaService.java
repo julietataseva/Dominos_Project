@@ -47,7 +47,7 @@ public class PizzaService {
         return returnPizzas;
     }
 
-    public PizzaResponseDetailedDTO getById(int pizzaId) {
+    public PizzaResponseDetailedDTO getPizzaById(int pizzaId) {
         Optional<Pizza> optionalPizza = pizzaRepository.findById(pizzaId);
         if (optionalPizza.isEmpty()) {
             throw new BadRequestException("This pizza doesn't exist.");

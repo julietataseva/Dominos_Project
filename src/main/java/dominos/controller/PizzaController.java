@@ -32,7 +32,7 @@ public class PizzaController extends AbstractController {
     @GetMapping("menu/pizzas/{pizzaId}")
     public PizzaResponseDetailedDTO getPizzaById(@PathVariable int pizzaId, HttpSession session) {
         sessionManager.validateLogged(session);
-        return pizzaService.getById(pizzaId);
+        return pizzaService.getPizzaById(pizzaId);
     }
 
     @GetMapping("/menu/pizzas/top")
