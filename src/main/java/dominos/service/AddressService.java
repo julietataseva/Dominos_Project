@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.regex.Pattern;
@@ -35,6 +36,16 @@ public class AddressService {
         String description = addressRequestDTO.getDescription();
         Validator.validateDescription(description);
 
+        List<Address> userAddresses = loggedUser.getAddresses();
+        HashSet<AddressRequestDTO> addressRequestDTOs = new HashSet<>();
+        for(Address userAddress : userAddresses){
+            addressRequestDTOs.add(new AddressRequestDTO(userAddress));
+        }
+
+        if(addressRequestDTOs.contains(addressRequestDTO)){
+            throw new BadRequestException("This address already exists!");
+        }
+        
         Address address = new Address(addressRequestDTO);
         address.setUser(loggedUser);
         address = addressRepository.save(address);
@@ -55,8 +66,7 @@ public class AddressService {
         return returnAddresses;
     }
 
-    public AddressWithoutUserDTO editAddress(AddressRequestDTO addressRequestDTO, User loggedUser) {
-        int addressId = addressRequestDTO.getId();
+    public AddressWithoutUserDTO editAddress(int addressId, AddressRequestDTO addressRequestDTO, User loggedUser) {
         Optional<Address> optionalAddress = addressRepository.findById(addressId);
         if (optionalAddress.isEmpty()) {
             throw new BadRequestException("This address doesn't exits!");
