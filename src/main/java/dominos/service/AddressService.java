@@ -55,7 +55,8 @@ public class AddressService {
         return returnAddresses;
     }
 
-    public AddressWithoutUserDTO editAddress(AddressRequestDTO addressRequestDTO, User loggedUser, int addressId) {
+    public AddressWithoutUserDTO editAddress(AddressRequestDTO addressRequestDTO, User loggedUser) {
+        int addressId = addressRequestDTO.getId();
         Optional<Address> optionalAddress = addressRepository.findById(addressId);
         if (optionalAddress.isEmpty()) {
             throw new BadRequestException("This address doesn't exits!");

@@ -39,13 +39,12 @@ public class AddressController extends AbstractController {
         return addressService.getAllAddressesOfUser(loggedUser);
     }
 
-    @PostMapping("/addresses/{addressId}")
-    public AddressWithoutUserDTO editAddress(@RequestBody AddressRequestDTO addressRequestDTO, HttpSession session,
-                                             @PathVariable int addressId) {
+    @PostMapping("/addresses")
+    public AddressWithoutUserDTO editAddress(@RequestBody AddressRequestDTO addressRequestDTO, HttpSession session) {
 
         sessionManager.validateLogged(session);
         User loggedUser = sessionManager.getLoggedUser(session);
-        return addressService.editAddress(addressRequestDTO, loggedUser, addressId);
+        return addressService.editAddress(addressRequestDTO, loggedUser);
     }
 
     @PutMapping("/addresses/{addressId}")
