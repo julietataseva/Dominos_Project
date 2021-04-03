@@ -54,8 +54,8 @@ public class PizzaController extends AbstractController {
     }
 
     @GetMapping("/menu/pizzas/top-fan")
-    public ResponseUserDTO getUserWithMostPizzaOrders(HttpSession session) throws SQLException{
+    public List<ResponseUserDTO> getUsersWithMostPizzaOrders(HttpSession session) throws SQLException{
         sessionManager.validateLogged(session);
-        return pizzaService.getUserWithMostPizzaOrders();
+        return pizzaService.getUsersWithMostPizzaOrders();
     }
 }

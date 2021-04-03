@@ -40,14 +40,20 @@ public class PizzaDAO {
                     "    LIMIT 1);";
 
     private static final String GET_USER_WITH_MOST_PIZZA_ORDERS =
-            "SELECT u.id, u.first_name, u.last_name, COUNT(owner_id) as orders_count, SUM(price) as sum\n" +
-                    "FROM users u\n" +
-                    "JOIN orders o\n" +
-                    "ON u.id = o.owner_id\n" +
-                    "JOIN orders_have_pizzas ohp\n" +
-                    "ON o.id = ohp.order_id\n" +
-                    "GROUP BY owner_id\n" +
-                    "ORDER BY orders_count DESC, sum DESC;";
+            "\n" +
+                    "SELECT u.id, u.first_name, u.last_name, COUNT(u.id) as orders_count\n" +
+                    "                    FROM users u\n" +
+                    "                    JOIN orders o\n" +
+                    "                    ON u.id = o.owner_id\n" +
+                    "                    JOIN orders_have_pizzas ohp\n" +
+                    "                    ON o.id = ohp.order_id\n" +
+                    "                    GROUP BY u.id\n" +
+                    "                   HAVING orders_count = (SELECT COUNT(owner_id) AS count\n" +
+                    "\t\t\t\t\t\t\t\t\t\t\tFROM orders o JOIN orders_have_pizzas ohp\n" +
+                    "                                            ON o.id = ohp.order_id\n" +
+                    "                                            GROUP BY owner_id \n" +
+                    "                                            ORDER BY count DESC\n" +
+                    "                                            LIMIT 1);";
 
     public List<PizzaResponseDTO> getMostSoldPizzas() throws SQLException {
         List<PizzaResponseDTO> mostSoldPizzas = new ArrayList<>();
@@ -66,18 +72,21 @@ public class PizzaDAO {
         return mostSoldPizzas;
     }
 
-    public ResponseUserDTO getUserWithMostPizzaOrders() throws SQLException {
-        ResponseUserDTO topFan = null;
+    public List<ResponseUserDTO> getUsersWithMostPizzaOrders() throws SQLException {
+        List<ResponseUserDTO> topFans = new ArrayList<>();
         try (Connection connection = jdbcTemplate.getDataSource().getConnection();
              PreparedStatement statement = connection.prepareStatement(GET_USER_WITH_MOST_PIZZA_ORDERS)) {
 
             ResultSet rows = statement.executeQuery();
-            rows.next();
-            int topFanId = rows.getInt(1);
-            Optional<User> userOptional = userRepository.findById(topFanId);
-            topFan = new ResponseUserDTO(userOptional.get());
+            while (rows.next()){
+                int topFanId = rows.getInt(1);
+                Optional<User> userOptional = userRepository.findById(topFanId);
+                ResponseUserDTO topFan = new ResponseUserDTO(userOptional.get());
+                topFans.add(topFan);
+            }
+
         }
 
-        return topFan;
+        return topFans;
     }
 }
