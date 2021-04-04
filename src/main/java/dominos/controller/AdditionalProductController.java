@@ -11,7 +11,6 @@ import javax.servlet.http.HttpSession;
 import java.sql.SQLException;
 import java.util.List;
 
-
 @RestController
 public class AdditionalProductController extends AbstractController {
     @Autowired
