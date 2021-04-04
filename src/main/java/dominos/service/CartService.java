@@ -207,6 +207,7 @@ public class CartService {
     private List<IngredientWithPriceDTO> getIngredientWithPriceDTOs(RequestPizzaOrderDTO requestPizzaOrderDTO) {
         List<Ingredient> additionalIngredients = new ArrayList<>();
         List<Integer> additionalIngredientsIds = requestPizzaOrderDTO.getAdditionalIngredientsIds();
+        List<IngredientWithPriceDTO> additionalIngredientsWithPrice = new ArrayList<>();
         if (additionalIngredientsIds != null) {
             for (Integer ingredientId : additionalIngredientsIds) {
                 Optional<Ingredient> ingredientOptional = ingredientRepository.findById(ingredientId);
@@ -216,13 +217,12 @@ public class CartService {
                 Ingredient ingredient = ingredientOptional.get();
                 additionalIngredients.add(ingredient);
             }
-        }
 
-        List<IngredientWithPriceDTO> additionalIngredientsWithPrice = new ArrayList<>();
-        for (Ingredient ingredient : additionalIngredients) {
-            additionalIngredientsWithPrice.add(new IngredientWithPriceDTO(ingredient));
+            for (Ingredient ingredient : additionalIngredients) {
+                additionalIngredientsWithPrice.add(new IngredientWithPriceDTO(ingredient));
+            }
         }
-
+        
         return additionalIngredientsWithPrice;
     }
 }
