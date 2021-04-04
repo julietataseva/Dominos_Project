@@ -22,6 +22,7 @@ public class OrderDAO {
                     "ON o.id = ohp.order_id\n" +
                     "JOIN pizzas AS p\n" +
                     "ON ohp.pizza_id = p.id\n" +
+                    "WHERE o.owner_id = ?\n" +
                     "UNION\n" +
                     "SELECT o.id, o.created_at, ap.name FROM orders AS o\n" +
                     "JOIN orders_have_additional_products AS ohap\n" +
@@ -29,7 +30,7 @@ public class OrderDAO {
                     "JOIN additional_products AS ap\n" +
                     "ON ohap.additional_product_id = ap.id\n" +
                     "WHERE o.owner_id = ?\n" +
-                    "ORDER BY created_at DESC;";
+                    "ORDER BY created_at DESC;\n";
 
     public Map<Integer, Map<LocalDate, List<String>>> getAllMadeOrdersForLoggedUser(int userId) throws SQLException {
         Map<Integer, Map<LocalDate, List<String>>> orders = new TreeMap<>(Collections.reverseOrder());
@@ -37,6 +38,7 @@ public class OrderDAO {
         try (Connection connection = jdbcTemplate.getDataSource().getConnection();
              PreparedStatement statement = connection.prepareStatement(GET_ALL_MADE_ORDERS_BY_USER_ID)) {
             statement.setInt(1, userId);
+            statement.setInt(2, userId);
             ResultSet resultSet = statement.executeQuery();
 
             while (resultSet.next()) {
