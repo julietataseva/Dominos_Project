@@ -24,7 +24,7 @@ public class PizzaImageService {
 
         PizzaImage pizzaImage = imageOptional.get();
         String url = pizzaImage.getUrl();
-        File pFile = new File(url);
-        return Files.readAllBytes(pFile.toPath());
+        File physicalFile = new File(url);
+        return Files.readAllBytes(physicalFile.toPath());
     }
 }

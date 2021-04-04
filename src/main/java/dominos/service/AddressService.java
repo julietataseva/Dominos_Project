@@ -45,7 +45,7 @@ public class AddressService {
         if(addressRequestDTOs.contains(addressRequestDTO)){
             throw new BadRequestException("This address already exists!");
         }
-        
+
         Address address = new Address(addressRequestDTO);
         address.setUser(loggedUser);
         address = addressRepository.save(address);

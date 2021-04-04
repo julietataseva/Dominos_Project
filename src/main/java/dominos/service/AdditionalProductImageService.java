@@ -1,11 +1,8 @@
 package dominos.service;
 
 import dominos.exceptions.BadRequestException;
-import dominos.model.pojo.AdditionalProduct;
 import dominos.model.pojo.AdditionalProductImage;
-import dominos.model.pojo.PizzaImage;
 import dominos.model.repository.AdditionalProductImageRepository;
-import dominos.model.repository.AdditionalProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,7 +24,7 @@ public class AdditionalProductImageService {
 
         AdditionalProductImage additionalProductImage = imageOptional.get();
         String url = additionalProductImage.getUrl();
-        File pFile = new File(url);
-        return Files.readAllBytes(pFile.toPath());
+        File physicalFile = new File(url);
+        return Files.readAllBytes(physicalFile.toPath());
     }
 }
