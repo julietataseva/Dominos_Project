@@ -25,10 +25,7 @@ public class PizzaDAO {
 
     @Autowired
     private PizzaRepository pizzaRepository;
-
-    @Autowired
-    private UserRepository userRepository;
-
+    
     private static final String GET_MOST_SOLD_PIZZAS =
             "SELECT ohp.pizza_id AS most_sold_pizzas, SUM(ohp.quantity) AS quantity \n" +
                     "FROM orders_have_pizzas AS ohp\n" +
