@@ -55,7 +55,7 @@ public class AddressService {
     public List<AddressWithoutUserDTO> getAllAddressesOfUser(User loggedUser) {
         List<Address> addresses = loggedUser.getAddresses();
         if (addresses.size() == 0) {
-            throw new NotFoundException("You don't have any addresses added.");
+            return new ArrayList<>();
         }
 
         List<AddressWithoutUserDTO> returnAddresses = new ArrayList<>();
