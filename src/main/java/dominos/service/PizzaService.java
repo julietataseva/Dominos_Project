@@ -36,7 +36,7 @@ public class PizzaService {
 
     public List<PizzaResponseDTO> getMenu() {
         List<Pizza> pizzas = pizzaRepository.findAll();
-        
+
         List<PizzaResponseDTO> returnPizzas = new ArrayList<>();
         for (Pizza pizza : pizzas) {
             returnPizzas.add(new PizzaResponseDTO(pizza));
