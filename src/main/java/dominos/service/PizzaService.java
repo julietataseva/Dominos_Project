@@ -65,8 +65,4 @@ public class PizzaService {
     public List<PizzaSizeDTO> getMostPreferredPizzaSizes() throws SQLException {
         return pizzaSizeDAO.getMostPreferredPizzaSizes();
     }
-
-    public List<ResponseUserDTO> getUsersWithMostPizzaOrders() throws SQLException{
-        return pizzaDAO.getUsersWithMostPizzaOrders();
-    }
 }
