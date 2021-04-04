@@ -91,8 +91,7 @@ public class PizzaOrderDTO implements IProductDTO {
 
         StringBuilder additionalIngredients = new StringBuilder();
         for (IngredientWithPriceDTO ingredient : this.additionalIngredients) {
-            additionalIngredients.append(ingredient.getName());
-            additionalIngredients.append(System.getProperty("line.separator"));
+            additionalIngredients.append(ingredient.getName() + " ");
         }
         return additionalIngredients.toString();
     }
