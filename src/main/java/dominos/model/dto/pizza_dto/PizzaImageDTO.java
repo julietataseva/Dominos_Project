@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 public class PizzaImageDTO {
     private int id;
 
-    public PizzaImageDTO(PizzaImage pizzaImage){
+    public PizzaImageDTO(PizzaImage pizzaImage) {
         this.id = pizzaImage.getId();
     }
 }

@@ -18,7 +18,7 @@ public class PizzaImageService {
 
     public byte[] download(int imageId) throws IOException {
         Optional<PizzaImage> imageOptional = pizzaImageRepository.findById(imageId);
-        if(imageOptional.isEmpty()){
+        if (imageOptional.isEmpty()) {
             throw new BadRequestException("This image doesn't exist!");
         }
 

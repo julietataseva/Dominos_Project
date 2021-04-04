@@ -55,7 +55,7 @@ public class SessionManager {
         return (Integer) session.getAttribute(CURRENT_ORDER_ADDRESS_ID);
     }
 
-    public void setAddressIdAttribute(HttpSession session, int addressId){
+    public void setAddressIdAttribute(HttpSession session, int addressId) {
         session.setAttribute(CURRENT_ORDER_ADDRESS_ID, addressId);
     }
 

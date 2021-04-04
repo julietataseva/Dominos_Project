@@ -1,7 +1,6 @@
 package dominos.service;
 
 import dominos.exceptions.BadRequestException;
-import dominos.exceptions.NotFoundException;
 import dominos.model.dto.*;
 import dominos.model.dto.additional_product_dto.AdditionalProductDTO;
 import dominos.model.dto.ingredient_dto.IngredientWithPriceDTO;
@@ -55,7 +54,7 @@ public class CartService {
         AdditionalProductDTO additionalProductDTO = new AdditionalProductDTO(additionalProduct);
 
         if (!cart.containsKey(additionalProductDTO)) {
-            throw new NotFoundException("No such product in cart");
+            throw new BadRequestException("No such product in cart");
         } else {
             cart.put(additionalProductDTO, cart.get(additionalProductDTO) - 1);
         }
@@ -73,7 +72,7 @@ public class CartService {
         AdditionalProductDTO additionalProductDTO = new AdditionalProductDTO(additionalProduct);
 
         if (!cart.containsKey(additionalProductDTO)) {
-            throw new NotFoundException("No such product in cart");
+            throw new BadRequestException("No such product in cart");
         }
 
         cart.remove(additionalProductDTO);
@@ -105,12 +104,11 @@ public class CartService {
         this.checkIfCartIsEmpty(cart);
         PizzaOrderDTO pizzaOrderDTO = this.getPizzaOrderDTO(requestPizzaOrderDTO);
         if (!cart.containsKey(pizzaOrderDTO)) {
-            throw new NotFoundException("No such pizza in cart");
+            throw new BadRequestException("No such pizza in cart");
         } else {
-            if(cart.get(pizzaOrderDTO) > 1) {
+            if (cart.get(pizzaOrderDTO) > 1) {
                 cart.put(pizzaOrderDTO, cart.get(pizzaOrderDTO) - 1);
-            }
-            else{
+            } else {
                 cart.remove(pizzaOrderDTO);
             }
         }
@@ -123,7 +121,7 @@ public class CartService {
         PizzaOrderDTO pizzaOrderDTO = this.getPizzaOrderDTO(requestPizzaOrderDTO);
 
         if (!cart.containsKey(pizzaOrderDTO)) {
-            throw new NotFoundException("No such product in cart");
+            throw new BadRequestException("No such product in cart");
         }
 
         cart.remove(pizzaOrderDTO);
@@ -139,13 +137,13 @@ public class CartService {
     private AdditionalProduct getAdditionalProduct(int productId) {
         Optional<AdditionalProduct> additionalProduct = additionalProductRepository.findById(productId);
         if (additionalProduct.isEmpty()) {
-            throw new NotFoundException("No such product");
+            throw new BadRequestException("No such product");
         } else {
             return additionalProduct.get();
         }
     }
 
-    private PizzaOrderDTO getPizzaOrderDTO(RequestPizzaOrderDTO requestPizzaOrderDTO){
+    private PizzaOrderDTO getPizzaOrderDTO(RequestPizzaOrderDTO requestPizzaOrderDTO) {
         PizzaAddedToCartDTO pizzaAddedToCartDTO = this.getPizzaAddedToCartDTO(requestPizzaOrderDTO);
         DoughDTO doughDTO = this.getDoughDTO(requestPizzaOrderDTO);
         PizzaSizeDTO pizzaSizeDTO = this.getPizzaSizeDTO(requestPizzaOrderDTO);
@@ -153,7 +151,7 @@ public class CartService {
         int pizzaId = pizzaAddedToCartDTO.getId();
 
         PizzaOrderDTO pizzaOrderDTO = new PizzaOrderDTO(pizzaId, pizzaAddedToCartDTO, doughDTO,
-                                                        pizzaSizeDTO, additionalIngredientsWithPrice);
+                pizzaSizeDTO, additionalIngredientsWithPrice);
 
         return pizzaOrderDTO;
     }

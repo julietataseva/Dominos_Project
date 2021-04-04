@@ -52,14 +52,14 @@ public class CartController extends AbstractController {
     }
 
     @PutMapping("/cart/pizzas/decrease")
-    public PizzaOrderDTO decreasePizzaQuantityInCart(@RequestBody RequestPizzaOrderDTO requestPizzaOrderDTO, HttpSession session){
+    public PizzaOrderDTO decreasePizzaQuantityInCart(@RequestBody RequestPizzaOrderDTO requestPizzaOrderDTO, HttpSession session) {
         sessionManager.validateLogged(session);
         Map<IProductDTO, Integer> cart = sessionManager.getCartAttribute(session);
         return cartService.decreasePizzaQuantityInCart(requestPizzaOrderDTO, cart);
     }
 
     @DeleteMapping("/cart/pizzas/delete")
-    public PizzaOrderDTO deletePizzaFromCart(@RequestBody RequestPizzaOrderDTO requestPizzaOrderDTO, HttpSession session){
+    public PizzaOrderDTO deletePizzaFromCart(@RequestBody RequestPizzaOrderDTO requestPizzaOrderDTO, HttpSession session) {
         sessionManager.validateLogged(session);
         Map<IProductDTO, Integer> cart = sessionManager.getCartAttribute(session);
         return cartService.deletePizzaFromCart(requestPizzaOrderDTO, cart);
