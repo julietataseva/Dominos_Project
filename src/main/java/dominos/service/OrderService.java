@@ -64,29 +64,36 @@ public class OrderService {
 
         for (Map.Entry<IProductDTO, Integer> product : cart.entrySet()) {
             if (product.getKey().isPizza()) {
-
-                PizzaOrderDTO pizzaOrderDTO = (PizzaOrderDTO) product.getKey();
-                int quantity = product.getValue();
-                Pizza pizza = pizzaRepository.findById(pizzaOrderDTO.getPizza().getId()).get();
-                double fullPrice = pizzaOrderDTO.getPrice()*quantity;
-                Dough dough = doughRepository.findById(pizzaOrderDTO.getDough().getId()).get();
-                PizzaSize pizzaSize = pizzaSizeRepository.findById(pizzaOrderDTO.getPizzaSize().getId()).get();
-                String modifications = pizzaOrderDTO.getModifications();
-                PizzaOrder pizzaOrder = new PizzaOrder(order, pizza, quantity, fullPrice, modifications, dough, pizzaSize);
-                pizzaOrderRepository.save(pizzaOrder);
+                this.savePizzaOrderToDB(product, order);
             } else {
-                int quantity = product.getValue();
-                double fullPrice = product.getKey().getPrice()*quantity;
-                AdditionalProductOrderDTO additionalProductOrderDTO =
-                        new AdditionalProductOrderDTO(order, (AdditionalProductDTO) product.getKey(),
-                                fullPrice, quantity);
-
-                AdditionalProductOrder additionalProductOrder =
-                        new AdditionalProductOrder(additionalProductOrderDTO);
-
-                additionalProductOrderRepository.save(additionalProductOrder);
+                this.saveAdditionalProductOrderToDB(product, order);
             }
         }
+    }
+
+    private void savePizzaOrderToDB(Map.Entry<IProductDTO, Integer> product, Order order){
+        PizzaOrderDTO pizzaOrderDTO = (PizzaOrderDTO) product.getKey();
+        int quantity = product.getValue();
+        Pizza pizza = pizzaRepository.findById(pizzaOrderDTO.getPizza().getId()).get();
+        double fullPrice = pizzaOrderDTO.getPrice()*quantity;
+        Dough dough = doughRepository.findById(pizzaOrderDTO.getDough().getId()).get();
+        PizzaSize pizzaSize = pizzaSizeRepository.findById(pizzaOrderDTO.getPizzaSize().getId()).get();
+        String modifications = pizzaOrderDTO.getModifications();
+        PizzaOrder pizzaOrder = new PizzaOrder(order, pizza, quantity, fullPrice, modifications, dough, pizzaSize);
+        pizzaOrderRepository.save(pizzaOrder);
+    }
+
+    private void saveAdditionalProductOrderToDB(Map.Entry<IProductDTO, Integer> product, Order order){
+        int quantity = product.getValue();
+        double fullPrice = product.getKey().getPrice()*quantity;
+        AdditionalProductOrderDTO additionalProductOrderDTO =
+                new AdditionalProductOrderDTO(order, (AdditionalProductDTO) product.getKey(),
+                        fullPrice, quantity);
+
+        AdditionalProductOrder additionalProductOrder =
+                new AdditionalProductOrder(additionalProductOrderDTO);
+
+        additionalProductOrderRepository.save(additionalProductOrder);
     }
 
     public Map<Integer, Map<LocalDate, List<String>>> getAllMadeOrdersForLoggedUser(int userId) throws SQLException {
