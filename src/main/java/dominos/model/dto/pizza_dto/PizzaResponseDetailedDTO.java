@@ -34,7 +34,7 @@ public class PizzaResponseDetailedDTO {
         this.dough = new DoughDTO(1, Dough.DoughType.TRADITIONAL);
         this.pizzaSize = new PizzaSizeDTO(2, PizzaSize.Size.LARGE);
         this.pizzaImages = new ArrayList<>();
-        for(PizzaImage pizzaImage : pizza.getPizzaImages()){
+        for (PizzaImage pizzaImage : pizza.getPizzaImages()) {
             this.pizzaImages.add(new PizzaImageDTO(pizzaImage));
         }
     }

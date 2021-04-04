@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.stereotype.Component;
 
-import java.util.Objects;
 
 @EqualsAndHashCode
 @NoArgsConstructor
@@ -20,7 +19,7 @@ public class AddressRequestDTO {
     private String longitude;
     private String description;
 
-    public AddressRequestDTO(Address address){
+    public AddressRequestDTO(Address address) {
         this.phoneNumber = address.getPhoneNumber();
         this.latitude = address.getLatitude();
         this.longitude = address.getLongitude();

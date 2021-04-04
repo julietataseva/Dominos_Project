@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.io.IOException;
 
 @RestController
-public class PizzaImageController extends AbstractController{
+public class PizzaImageController extends AbstractController {
     @Autowired
     private PizzaImageService imageService;
 

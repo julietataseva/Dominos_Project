@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.stereotype.Component;
+
 import javax.persistence.*;
 
 @Component
@@ -34,7 +35,7 @@ public class PizzaOrder {
     @JoinColumn(name = "size_id")
     private PizzaSize size;
 
-    public PizzaOrder(Order order, Pizza pizza, int quantity, double price, String modifications, Dough dough, PizzaSize size){
+    public PizzaOrder(Order order, Pizza pizza, int quantity, double price, String modifications, Dough dough, PizzaSize size) {
         this.order = order;
         this.pizza = pizza;
         this.quantity = quantity;

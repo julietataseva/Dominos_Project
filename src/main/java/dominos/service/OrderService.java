@@ -1,7 +1,6 @@
 package dominos.service;
 
 import dominos.exceptions.BadRequestException;
-import dominos.exceptions.NotFoundException;
 import dominos.model.dao.OrderDAO;
 import dominos.model.dto.*;
 import dominos.model.dto.additional_product_dto.AdditionalProductDTO;
@@ -55,7 +54,7 @@ public class OrderService {
 
         Optional<Address> address = addressRepository.findById(addressId);
         if (address.isEmpty()) {
-            throw new NotFoundException("Address doesn't exist!");
+            throw new BadRequestException("Address doesn't exist!");
         }
 
         OrderDTO orderDTO = new OrderDTO(user, address.get(), requestOrderDTO.getComment());
@@ -71,11 +70,11 @@ public class OrderService {
         }
     }
 
-    private void savePizzaOrderToDB(Map.Entry<IProductDTO, Integer> product, Order order){
+    private void savePizzaOrderToDB(Map.Entry<IProductDTO, Integer> product, Order order) {
         PizzaOrderDTO pizzaOrderDTO = (PizzaOrderDTO) product.getKey();
         int quantity = product.getValue();
         Pizza pizza = pizzaRepository.findById(pizzaOrderDTO.getPizza().getId()).get();
-        double fullPrice = pizzaOrderDTO.getPrice()*quantity;
+        double fullPrice = pizzaOrderDTO.getPrice() * quantity;
         Dough dough = doughRepository.findById(pizzaOrderDTO.getDough().getId()).get();
         PizzaSize pizzaSize = pizzaSizeRepository.findById(pizzaOrderDTO.getPizzaSize().getId()).get();
         String modifications = pizzaOrderDTO.getModifications();
@@ -83,9 +82,9 @@ public class OrderService {
         pizzaOrderRepository.save(pizzaOrder);
     }
 
-    private void saveAdditionalProductOrderToDB(Map.Entry<IProductDTO, Integer> product, Order order){
+    private void saveAdditionalProductOrderToDB(Map.Entry<IProductDTO, Integer> product, Order order) {
         int quantity = product.getValue();
-        double fullPrice = product.getKey().getPrice()*quantity;
+        double fullPrice = product.getKey().getPrice() * quantity;
         AdditionalProductOrderDTO additionalProductOrderDTO =
                 new AdditionalProductOrderDTO(order, (AdditionalProductDTO) product.getKey(),
                         fullPrice, quantity);

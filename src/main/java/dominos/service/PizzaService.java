@@ -1,7 +1,6 @@
 package dominos.service;
 
 import dominos.exceptions.BadRequestException;
-import dominos.exceptions.NotFoundException;
 import dominos.model.dao.DoughDAO;
 import dominos.model.dao.PizzaDAO;
 import dominos.model.dao.PizzaSizeDAO;
@@ -9,7 +8,6 @@ import dominos.model.dto.*;
 import dominos.model.dto.pizza_dto.PizzaResponseDTO;
 import dominos.model.dto.pizza_dto.PizzaResponseDetailedDTO;
 import dominos.model.dto.pizza_dto.PizzaSizeDTO;
-import dominos.model.dto.user_dto.ResponseUserDTO;
 import dominos.model.pojo.Pizza;
 import dominos.model.repository.PizzaRepository;
 import org.springframework.beans.factory.annotation.Autowired;

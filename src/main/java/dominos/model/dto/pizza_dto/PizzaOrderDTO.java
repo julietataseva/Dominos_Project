@@ -4,7 +4,6 @@ import dominos.model.dto.DoughDTO;
 import dominos.model.dto.IProductDTO;
 import dominos.model.dto.ingredient_dto.IngredientWithPriceDTO;
 import dominos.model.pojo.*;
-import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -26,13 +25,13 @@ public class PizzaOrderDTO implements IProductDTO {
     private static final int priceDifference = 3;
 
     public PizzaOrderDTO(int id, PizzaAddedToCartDTO pizza, DoughDTO doughDTO, PizzaSizeDTO pizzaSizeDTO,
-                         List<IngredientWithPriceDTO> additionalIngredients){
+                         List<IngredientWithPriceDTO> additionalIngredients) {
         this.id = id;
         this.pizza = pizza;
         this.dough = doughDTO;
         this.pizzaSize = pizzaSizeDTO;
         this.additionalIngredients = new ArrayList<>();
-        for(IngredientWithPriceDTO ingredient : additionalIngredients){
+        for (IngredientWithPriceDTO ingredient : additionalIngredients) {
             this.additionalIngredients.add(ingredient);
         }
     }
@@ -103,13 +102,13 @@ public class PizzaOrderDTO implements IProductDTO {
 
         String modifiedDough = this.getModifiedDough();
         modifications.append(modifiedDough);
-        if(!modifiedDough.equals("")){
+        if (!modifiedDough.equals("")) {
             modifications.append(" ");
         }
 
         String modifiedSize = this.getModifiedSize();
         modifications.append(modifiedSize);
-        if(!modifiedSize.equals("")){
+        if (!modifiedSize.equals("")) {
             modifications.append(" ");
         }
 

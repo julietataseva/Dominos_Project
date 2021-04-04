@@ -4,6 +4,7 @@ import dominos.model.dto.ingredient_dto.IngredientDTO;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
 import javax.persistence.*;
 import java.util.List;
 

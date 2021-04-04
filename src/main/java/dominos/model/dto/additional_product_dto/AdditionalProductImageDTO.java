@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 public class AdditionalProductImageDTO {
     private int id;
 
-    public AdditionalProductImageDTO(AdditionalProductImage additionalProductImage){
+    public AdditionalProductImageDTO(AdditionalProductImage additionalProductImage) {
         this.id = additionalProductImage.getId();
     }
 }

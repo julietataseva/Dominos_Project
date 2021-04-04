@@ -3,7 +3,6 @@ package dominos.model.dto.additional_product_dto;
 import dominos.model.dto.IProductDTO;
 import dominos.model.pojo.AdditionalProduct;
 import dominos.model.pojo.AdditionalProductImage;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -28,7 +27,7 @@ public class AdditionalProductDTO implements IProductDTO {
         this.name = additionalProduct.getName();
         this.price = additionalProduct.getPrice();
         this.additionalProductImages = new ArrayList<>();
-        for(AdditionalProductImage additionalProductImage : additionalProduct.getAdditionalProductImages()){
+        for (AdditionalProductImage additionalProductImage : additionalProduct.getAdditionalProductImages()) {
             this.additionalProductImages.add(new AdditionalProductImageDTO(additionalProductImage));
         }
     }

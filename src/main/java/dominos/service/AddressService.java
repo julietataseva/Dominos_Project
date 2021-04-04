@@ -1,6 +1,5 @@
 package dominos.service;
 
-import dominos.exceptions.AuthenticationException;
 import dominos.exceptions.BadRequestException;
 import dominos.exceptions.NotFoundException;
 import dominos.model.dto.address_dto.AddressRequestDTO;
@@ -16,7 +15,6 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
-import java.util.regex.Pattern;
 
 @Service
 public class AddressService {
@@ -38,11 +36,11 @@ public class AddressService {
 
         List<Address> userAddresses = loggedUser.getAddresses();
         HashSet<AddressRequestDTO> addressRequestDTOs = new HashSet<>();
-        for(Address userAddress : userAddresses){
+        for (Address userAddress : userAddresses) {
             addressRequestDTOs.add(new AddressRequestDTO(userAddress));
         }
 
-        if(addressRequestDTOs.contains(addressRequestDTO)){
+        if (addressRequestDTOs.contains(addressRequestDTO)) {
             throw new BadRequestException("This address already exists!");
         }
 
@@ -110,14 +108,14 @@ public class AddressService {
         Optional<Address> address = addressRepository.findById(addressId);
 
         if (address.isEmpty()) {
-            throw new NotFoundException("Address does not exist!");
+            throw new NotFoundException("This address doesn't exist!");
         }
 
         AddressWithoutUserDTO addressWithoutUserDTO = new AddressWithoutUserDTO(address.get());
         int addressUserId = address.get().getUser().getId();
 
         if (addressUserId != loggedUser.getId()) {
-            throw new AuthenticationException("You can not delete this address");
+            throw new BadRequestException("This address doesn't exist!");
         }
 
         addressRepository.deleteById(addressId);

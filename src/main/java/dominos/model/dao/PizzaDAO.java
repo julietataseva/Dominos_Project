@@ -1,11 +1,8 @@
 package dominos.model.dao;
 
 import dominos.model.dto.pizza_dto.PizzaResponseDTO;
-import dominos.model.dto.user_dto.ResponseUserDTO;
 import dominos.model.pojo.Pizza;
-import dominos.model.pojo.User;
 import dominos.model.repository.PizzaRepository;
-import dominos.model.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
@@ -25,9 +22,6 @@ public class PizzaDAO {
 
     @Autowired
     private PizzaRepository pizzaRepository;
-
-    @Autowired
-    private UserRepository userRepository;
 
     private static final String GET_MOST_SOLD_PIZZAS =
             "SELECT ohp.pizza_id AS most_sold_pizzas, SUM(ohp.quantity) AS quantity \n" +

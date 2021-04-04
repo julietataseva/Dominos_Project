@@ -18,7 +18,7 @@ public class AdditionalProductImageService {
 
     public byte[] download(int imageId) throws IOException {
         Optional<AdditionalProductImage> imageOptional = additionalProductImageRepository.findById(imageId);
-        if(imageOptional.isEmpty()){
+        if (imageOptional.isEmpty()) {
             throw new BadRequestException("This image doesn't exist!");
         }
 

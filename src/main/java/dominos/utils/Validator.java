@@ -35,7 +35,7 @@ public abstract class Validator {
         }
     }
 
-    public static  void validateDescription(String description) {
+    public static void validateDescription(String description) {
         if (description == null || description.isEmpty()) {
             throw new BadRequestException("Invalid description!");
         }
@@ -82,6 +82,7 @@ public abstract class Validator {
             throw new BadRequestException("Invalid email!");
         }
     }
+
     public static void validateNewEmail(User user, String newEmail) {
         if (newEmail != null) {
             validateEmail(newEmail);
