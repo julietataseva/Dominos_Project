@@ -36,10 +36,7 @@ public class PizzaService {
 
     public List<PizzaResponseDTO> getMenu() {
         List<Pizza> pizzas = pizzaRepository.findAll();
-        if (pizzas == null || pizzas.isEmpty()) {
-            throw new NotFoundException("The menu is empty.");
-        }
-
+        
         List<PizzaResponseDTO> returnPizzas = new ArrayList<>();
         for (Pizza pizza : pizzas) {
             returnPizzas.add(new PizzaResponseDTO(pizza));
