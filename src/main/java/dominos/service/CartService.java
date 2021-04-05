@@ -148,9 +148,8 @@ public class CartService {
         DoughDTO doughDTO = this.getDoughDTO(requestPizzaOrderDTO);
         PizzaSizeDTO pizzaSizeDTO = this.getPizzaSizeDTO(requestPizzaOrderDTO);
         List<IngredientWithPriceDTO> additionalIngredientsWithPrice = this.getIngredientWithPriceDTOs(requestPizzaOrderDTO);
-        int pizzaId = pizzaAddedToCartDTO.getId();
 
-        PizzaOrderDTO pizzaOrderDTO = new PizzaOrderDTO(pizzaId, pizzaAddedToCartDTO, doughDTO,
+        PizzaOrderDTO pizzaOrderDTO = new PizzaOrderDTO(pizzaAddedToCartDTO, doughDTO,
                 pizzaSizeDTO, additionalIngredientsWithPrice);
 
         return pizzaOrderDTO;
