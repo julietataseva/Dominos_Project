@@ -53,13 +53,22 @@ public class UserService {
 
     public ResponseUserDTO editUser(EditRequestUserDTO userDTO, User loggedUser) {
         String newFirstName = userDTO.getFirstName();
-        Validator.validateNewFirstName(loggedUser, newFirstName);
+        if (newFirstName != null) {
+            Validator.validateName(newFirstName);
+            loggedUser.setFirstName(newFirstName);
+        }
 
         String newLastName = userDTO.getLastName();
-        Validator.validateNewLastName(loggedUser, newLastName);
+        if (newLastName != null) {
+            Validator.validateName(newLastName);
+            loggedUser.setLastName(newLastName);
+        }
 
         String newEmail = userDTO.getEmail();
-        Validator.validateNewEmail(loggedUser, newEmail);
+        if(newEmail != null){
+            Validator.validateEmail(newEmail);
+            loggedUser.setEmail(newEmail);
+        }
 
         String currentPassword = userDTO.getCurrentPassword();
         if(currentPassword != null) {

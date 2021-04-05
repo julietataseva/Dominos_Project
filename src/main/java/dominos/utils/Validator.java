@@ -81,32 +81,7 @@ public abstract class Validator {
             throw new BadRequestException("Invalid email!");
         }
     }
-
-    public static void validateNewEmail(User user, String newEmail) {
-        if (newEmail != null) {
-            validateEmail(newEmail);
-            user.setEmail(newEmail);
-        }
-    }
-
-    public static void validateNewFirstName(User user, String firstName) {
-        if (firstName != null) {
-            if (firstName.isEmpty() || containsOnlySpaces(firstName)) {
-                throw new BadRequestException("First name should not be empty!");
-            }
-            user.setFirstName(firstName);
-        }
-    }
-
-    public static void validateNewLastName(User user, String lastName) {
-        if (lastName != null) {
-            if (lastName.isEmpty() || containsOnlySpaces(lastName)) {
-                throw new BadRequestException("Last name should not be empty!");
-            }
-            user.setLastName(lastName);
-        }
-    }
-
+    
     public static void validateEnteredAndActualPasswords(String password, User loggedUser) {
         PasswordEncoder encoder = new BCryptPasswordEncoder();
         if (!encoder.matches(password, loggedUser.getPassword())) {
