@@ -81,7 +81,7 @@ public abstract class Validator {
             throw new BadRequestException("Invalid email!");
         }
     }
-    
+
     public static void validateEnteredAndActualPasswords(String password, User loggedUser) {
         PasswordEncoder encoder = new BCryptPasswordEncoder();
         if (!encoder.matches(password, loggedUser.getPassword())) {
