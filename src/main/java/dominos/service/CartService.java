@@ -222,7 +222,7 @@ public class CartService {
                 additionalIngredientsWithPrice.add(new IngredientWithPriceDTO(ingredient));
             }
         }
-        
+
         return additionalIngredientsWithPrice;
     }
 }
