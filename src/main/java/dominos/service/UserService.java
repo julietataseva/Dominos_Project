@@ -67,6 +67,10 @@ public class UserService {
         String newEmail = userDTO.getEmail();
         if(newEmail != null){
             Validator.validateEmail(newEmail);
+            User user = userRepository.findByEmail(newEmail);
+            if (user != null){
+                throw new BadRequestException("Email already exists!");
+            }
             loggedUser.setEmail(newEmail);
         }
 
