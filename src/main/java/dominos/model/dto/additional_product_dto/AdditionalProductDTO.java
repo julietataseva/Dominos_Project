@@ -1,5 +1,6 @@
 package dominos.model.dto.additional_product_dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import dominos.model.dto.IProductDTO;
 import dominos.model.pojo.AdditionalProduct;
 import dominos.model.pojo.AdditionalProductImage;
@@ -33,11 +34,13 @@ public class AdditionalProductDTO implements IProductDTO {
     }
 
     @Override
+    @JsonIgnore
     public boolean isPizza() {
         return false;
     }
 
     @Override
+    @JsonIgnore
     public String getModifications() {
         return "";
     }
