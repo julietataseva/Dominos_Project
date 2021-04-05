@@ -127,6 +127,7 @@ public abstract class Validator {
         }
     }
 
-    public static void validateEnteredAndHashedPasswords(String password) {
+    public static void validateEnteredAndHashedPasswords(String password, User loggedUser) {
+        PasswordEncoder passwordEncoder =
     }
 }

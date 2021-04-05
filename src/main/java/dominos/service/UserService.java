@@ -63,7 +63,7 @@ public class UserService {
 
         String currentPassword = userDTO.getCurrentPassword();
         if(currentPassword != null) {
-            Validator.validatePassword(currentPassword);
+            Validator.validateEnteredAndHashedPasswords(currentPassword, loggedUser);
         }
 
 
