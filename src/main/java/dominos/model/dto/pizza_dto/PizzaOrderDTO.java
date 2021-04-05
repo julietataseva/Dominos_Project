@@ -1,5 +1,6 @@
 package dominos.model.dto.pizza_dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import dominos.model.dto.DoughDTO;
 import dominos.model.dto.IProductDTO;
 import dominos.model.dto.ingredient_dto.IngredientWithPriceDTO;
@@ -17,16 +18,14 @@ import java.util.List;
 @Setter
 @Component
 public class PizzaOrderDTO implements IProductDTO {
-    private int id;
     private PizzaAddedToCartDTO pizza;
     private DoughDTO dough;
     private PizzaSizeDTO pizzaSize;
     private List<IngredientWithPriceDTO> additionalIngredients;
     private static final int priceDifference = 3;
 
-    public PizzaOrderDTO(int id, PizzaAddedToCartDTO pizza, DoughDTO doughDTO, PizzaSizeDTO pizzaSizeDTO,
+    public PizzaOrderDTO(PizzaAddedToCartDTO pizza, DoughDTO doughDTO, PizzaSizeDTO pizzaSizeDTO,
                          List<IngredientWithPriceDTO> additionalIngredients) {
-        this.id = id;
         this.pizza = pizza;
         this.dough = doughDTO;
         this.pizzaSize = pizzaSizeDTO;
@@ -41,6 +40,7 @@ public class PizzaOrderDTO implements IProductDTO {
     }
 
     @Override
+    @JsonIgnore
     public String getName() {
         return pizza.getName();
     }
@@ -63,6 +63,12 @@ public class PizzaOrderDTO implements IProductDTO {
         }
 
         return price;
+    }
+
+    @Override
+    @JsonIgnore
+    public int getId() {
+        return 0;
     }
 
     @Override
