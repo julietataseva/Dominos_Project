@@ -36,7 +36,7 @@ public abstract class Validator {
     }
 
     public static void validateDescription(String description) {
-        if (description == null || description.isEmpty()) {
+        if (description == null || description.isEmpty() || containsOnlySpaces(description)) {
             throw new BadRequestException("Invalid description!");
         }
     }
@@ -65,7 +65,7 @@ public abstract class Validator {
     }
 
     public static void validateName(String name) {
-        if (name == null || name.isEmpty() || Validator.containsOnlySpaces(name)) {
+        if (name == null || name.isEmpty() || containsOnlySpaces(name)) {
             throw new BadRequestException("Invalid name!");
         }
     }
@@ -92,7 +92,7 @@ public abstract class Validator {
 
     public static void validateNewFirstName(User user, String firstName) {
         if (firstName != null) {
-            if (firstName.isEmpty() || Validator.containsOnlySpaces(firstName)) {
+            if (firstName.isEmpty() || containsOnlySpaces(firstName)) {
                 throw new BadRequestException("First name should not be empty!");
             }
             user.setFirstName(firstName);
@@ -101,7 +101,7 @@ public abstract class Validator {
 
     public static void validateNewLastName(User user, String lastName) {
         if (lastName != null) {
-            if (lastName.isEmpty() || Validator.containsOnlySpaces(lastName)) {
+            if (lastName.isEmpty() || containsOnlySpaces(lastName)) {
                 throw new BadRequestException("Last name should not be empty!");
             }
             user.setLastName(lastName);
