@@ -24,18 +24,14 @@ public class PizzaSizeDAO {
     private PizzaSizeRepository pizzaSizeRepository;
 
     private static final String GET_MOST_PREFERRED_PIZZA_SIZE =
-
-            "SELECT ps.id AS most_preferred, SUM(ohp.quantity) AS quantity\n" +
-                    "FROM pizza_sizes ps\n" +
-                    "JOIN orders_have_pizzas ohp\n" +
-                    "ON ps.id = ohp.size_id\n" +
-                    "GROUP BY ps.id\n" +
+            "SELECT ohp.size_id AS most_preferred, SUM(ohp.quantity) AS quantity\n" +
+                    "FROM orders_have_pizzas AS ohp\n" +
+                    "GROUP BY ohp.size_id\n" +
                     "HAVING quantity = (SELECT SUM(quantity) AS quantity\n" +
-                    "\t\t\tFROM orders_have_pizzas\n" +
-                    "      GROUP BY size_id\n" +
-                    "      ORDER BY quantity DESC\n" +
-                    "      LIMIT 1);";
-
+                    "                    FROM orders_have_pizzas\n" +
+                    "                    GROUP BY size_id\n" +
+                    "                    ORDER BY quantity DESC\n" +
+                    "                    LIMIT 1)";
 
     public List<PizzaSizeDTO> getMostPreferredPizzaSizes() throws SQLException {
         List<PizzaSizeDTO> mostPreferredPizzaSizes = new ArrayList<>();

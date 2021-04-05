@@ -24,17 +24,14 @@ public class DoughDAO {
     private DoughRepository doughRepository;
 
     private static final String GET_MOST_PREFERRED_DOUGH =
-            "SELECT dt.id AS most_preferred, SUM(ohp.quantity) AS quantity\n" +
-                    "FROM dough_types dt\n" +
-                    "JOIN orders_have_pizzas ohp\n" +
-                    "ON dt.id = ohp.dough_type_id\n" +
-                    "GROUP BY dt.id\n" +
+            "SELECT ohp.dough_type_id AS most_preferred, SUM(ohp.quantity) AS quantity \n" +
+                    "FROM orders_have_pizzas ohp\n" +
+                    "GROUP BY ohp.dough_type_id\n" +
                     "HAVING quantity = (SELECT SUM(quantity) AS quantity\n" +
                     "\t\t\t\t\tFROM orders_have_pizzas\n" +
-                    "          GROUP BY dough_type_id\n" +
-                    "          ORDER BY quantity DESC\n" +
-                    "          LIMIT 1);";
-
+                    "                    GROUP BY dough_type_id\n" +
+                    "                    ORDER BY quantity DESC\n" +
+                    "                    LIMIT 1);";
 
     public List<DoughDTO> getMostPreferredDoughs() throws SQLException {
         List<DoughDTO> mostPreferredDoughs = new ArrayList<>();
