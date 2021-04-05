@@ -60,7 +60,7 @@ public abstract class Validator {
 
     public static void validateConfirmPassword(String confirmPassword, String initialPassword) {
         if (!initialPassword.equals(confirmPassword)) {
-            throw new BadRequestException("Passwords don't match!");
+            throw new BadRequestException("Confirm password doesn't match!");
         }
     }
 
@@ -108,6 +108,7 @@ public abstract class Validator {
         }
     }
 
+    /*
     public static void validateCurrentAndNewPassword(User user, EditRequestUserDTO userDTO) {
         String currentPassword = userDTO.getCurrentPassword();
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
@@ -127,7 +128,26 @@ public abstract class Validator {
         }
     }
 
-    public static void validateEnteredAndHashedPasswords(String password, User loggedUser) {
-        PasswordEncoder passwordEncoder =
+     */
+
+    public static void validateEnteredAndActualPasswords(String password, User loggedUser) {
+        PasswordEncoder encoder = new BCryptPasswordEncoder();
+        if (!encoder.matches(password, loggedUser.getPassword())) {
+            throw new AuthenticationException("Wrong credentials!");
+        }
+    }
+
+    public static void validateNewAndConfirmPassword(String newPassword, String enteredCurrentPassword,
+                                           String confirmPassword, User loggedUser){
+        if(newPassword != null){
+            if(enteredCurrentPassword == null){
+                throw new BadRequestException("You should first enter your current password!");
+            }
+
+            validateEnteredAndActualPasswords(enteredCurrentPassword, loggedUser);
+            validatePassword(newPassword);
+            validateConfirmPassword(confirmPassword, newPassword);
+            loggedUser.setPassword(newPassword);
+        }
     }
 }

@@ -63,13 +63,14 @@ public class UserService {
 
         String currentPassword = userDTO.getCurrentPassword();
         if(currentPassword != null) {
-            Validator.validateEnteredAndHashedPasswords(currentPassword, loggedUser);
+            Validator.validateEnteredAndActualPasswords(currentPassword, loggedUser);
         }
 
+        String newPassword = userDTO.getNewPassword();
+        String confirmPassword = userDTO.getConfirmPassword();
+        Validator.validateNewAndConfirmPassword(newPassword, currentPassword, confirmPassword, loggedUser);
 
-
-
-        Validator.validateCurrentAndNewPassword(loggedUser, userDTO);
+        //Validator.validateCurrentAndNewPassword(loggedUser, userDTO);
 
         loggedUser = userRepository.save(loggedUser);
         return new ResponseUserDTO(loggedUser);
@@ -82,9 +83,14 @@ public class UserService {
 
         User user = userRepository.findByEmail(loginUserDTO.getEmail());
         if (user == null) {
-            throw new AuthenticationException("Wrong credentials");
+            throw new AuthenticationException("Wrong credentials!");
         } else {
-            Validator.validateEnteredAndHashedPasswords(loginUserDTO.getPassword(), user.getPassword());
+            PasswordEncoder encoder = new BCryptPasswordEncoder();
+            if (encoder.matches(loginUserDTO.getPassword(), user.getPassword())) {
+                return new ResponseUserDTO(user);
+            } else {
+                throw new AuthenticationException("Wrong credentials!");
+            }
         }
     }
 
