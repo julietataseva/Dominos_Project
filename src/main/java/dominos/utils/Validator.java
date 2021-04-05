@@ -2,7 +2,6 @@ package dominos.utils;
 
 import dominos.exceptions.AuthenticationException;
 import dominos.exceptions.BadRequestException;
-import dominos.model.dto.user_dto.EditRequestUserDTO;
 import dominos.model.pojo.User;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -107,28 +106,6 @@ public abstract class Validator {
             user.setLastName(lastName);
         }
     }
-
-    /*
-    public static void validateCurrentAndNewPassword(User user, EditRequestUserDTO userDTO) {
-        String currentPassword = userDTO.getCurrentPassword();
-        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        if (currentPassword != null) {
-            if (!passwordEncoder.matches(currentPassword, user.getPassword())) {
-                throw new AuthenticationException("Wrong credentials!");
-            }
-
-            String newPassword = userDTO.getNewPassword();
-            Validator.validatePassword(newPassword);
-
-            String confirmPassword = userDTO.getConfirmPassword();
-            validateConfirmPassword(confirmPassword, newPassword);
-
-            String encodedPassword = passwordEncoder.encode(newPassword);
-            user.setPassword(encodedPassword);
-        }
-    }
-
-     */
 
     public static void validateEnteredAndActualPasswords(String password, User loggedUser) {
         PasswordEncoder encoder = new BCryptPasswordEncoder();

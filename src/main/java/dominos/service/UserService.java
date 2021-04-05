@@ -70,8 +70,6 @@ public class UserService {
         String confirmPassword = userDTO.getConfirmPassword();
         Validator.validateNewAndConfirmPassword(newPassword, currentPassword, confirmPassword, loggedUser);
 
-        //Validator.validateCurrentAndNewPassword(loggedUser, userDTO);
-
         loggedUser = userRepository.save(loggedUser);
         return new ResponseUserDTO(loggedUser);
     }
