@@ -2,7 +2,6 @@ package dominos.utils;
 
 import dominos.exceptions.AuthenticationException;
 import dominos.exceptions.BadRequestException;
-import dominos.model.dto.user_dto.EditRequestUserDTO;
 import dominos.model.pojo.User;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -60,7 +59,7 @@ public abstract class Validator {
 
     public static void validateConfirmPassword(String confirmPassword, String initialPassword) {
         if (!initialPassword.equals(confirmPassword)) {
-            throw new BadRequestException("Passwords don't match!");
+            throw new BadRequestException("Confirm password doesn't match!");
         }
     }
 
@@ -82,48 +81,25 @@ public abstract class Validator {
             throw new BadRequestException("Invalid email!");
         }
     }
-
-    public static void validateNewEmail(User user, String newEmail) {
-        if (newEmail != null) {
-            validateEmail(newEmail);
-            user.setEmail(newEmail);
+    
+    public static void validateEnteredAndActualPasswords(String password, User loggedUser) {
+        PasswordEncoder encoder = new BCryptPasswordEncoder();
+        if (!encoder.matches(password, loggedUser.getPassword())) {
+            throw new AuthenticationException("Wrong credentials!");
         }
     }
 
-    public static void validateNewFirstName(User user, String firstName) {
-        if (firstName != null) {
-            if (firstName.isEmpty() || containsOnlySpaces(firstName)) {
-                throw new BadRequestException("First name should not be empty!");
-            }
-            user.setFirstName(firstName);
-        }
-    }
-
-    public static void validateNewLastName(User user, String lastName) {
-        if (lastName != null) {
-            if (lastName.isEmpty() || containsOnlySpaces(lastName)) {
-                throw new BadRequestException("Last name should not be empty!");
-            }
-            user.setLastName(lastName);
-        }
-    }
-
-    public static void validateCurrentAndNewPassword(User user, EditRequestUserDTO userDTO) {
-        String currentPassword = userDTO.getCurrentPassword();
-        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        if (currentPassword != null) {
-            if (!passwordEncoder.matches(currentPassword, user.getPassword())) {
-                throw new AuthenticationException("Wrong credentials!");
+    public static void validateNewAndConfirmPassword(String newPassword, String enteredCurrentPassword,
+                                           String confirmPassword, User loggedUser){
+        if(newPassword != null){
+            if(enteredCurrentPassword == null){
+                throw new BadRequestException("You should first enter your current password!");
             }
 
-            String newPassword = userDTO.getNewPassword();
-            Validator.validatePassword(newPassword);
-
-            String confirmPassword = userDTO.getConfirmPassword();
+            validateEnteredAndActualPasswords(enteredCurrentPassword, loggedUser);
+            validatePassword(newPassword);
             validateConfirmPassword(confirmPassword, newPassword);
-
-            String encodedPassword = passwordEncoder.encode(newPassword);
-            user.setPassword(encodedPassword);
+            loggedUser.setPassword(newPassword);
         }
     }
 }

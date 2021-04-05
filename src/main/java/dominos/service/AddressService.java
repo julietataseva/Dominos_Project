@@ -77,7 +77,7 @@ public class AddressService {
         }
 
         String newPhoneNumber = addressRequestDTO.getPhoneNumber();
-        if (newPhoneNumber != null) {
+        if(newPhoneNumber != null){
             Validator.validatePhoneNumber(newPhoneNumber);
             address.setPhoneNumber(newPhoneNumber);
         }
