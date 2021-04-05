@@ -68,11 +68,7 @@ public class CartController extends AbstractController {
     @GetMapping("/cart")
     public List<CartResponseDTO> getCart(HttpSession session) {
         sessionManager.validateLogged(session);
-
-        if (sessionManager.getCartAttribute(session) == null) {
-            throw new NotFoundException("Cart is empty!");
-        }
-
+        
         Map<IProductDTO, Integer> cartAttribute = sessionManager.getCartAttribute(session);
         return cartService.getCart(cartAttribute);
     }
