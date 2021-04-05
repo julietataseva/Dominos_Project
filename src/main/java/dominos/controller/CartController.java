@@ -68,7 +68,7 @@ public class CartController extends AbstractController {
     @GetMapping("/cart")
     public List<CartResponseDTO> getCart(HttpSession session) {
         sessionManager.validateLogged(session);
-        
+
         Map<IProductDTO, Integer> cartAttribute = sessionManager.getCartAttribute(session);
         return cartService.getCart(cartAttribute);
     }
