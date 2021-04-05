@@ -70,7 +70,6 @@ public class UserService {
     public ResponseUserDTO login(LoginUserDTO loginUserDTO) {
         if (loginUserDTO.getEmail() == null || loginUserDTO.getPassword() == null){
             throw new AuthenticationException("Wrong credentials!");
-
         }
         User user = userRepository.findByEmail(loginUserDTO.getEmail());
         if (user == null) {
