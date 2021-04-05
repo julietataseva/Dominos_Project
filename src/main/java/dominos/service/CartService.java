@@ -157,7 +157,11 @@ public class CartService {
     }
 
     private PizzaAddedToCartDTO getPizzaAddedToCartDTO(RequestPizzaOrderDTO requestPizzaOrderDTO) {
-        int pizzaId = requestPizzaOrderDTO.getPizzaId();
+        Integer pizzaId = requestPizzaOrderDTO.getPizzaId();
+        if(pizzaId == null){
+            throw new BadRequestException("This pizza doesn't exist!");
+        }
+
         Optional<Pizza> pizzaOptional = pizzaRepository.findById(pizzaId);
 
         if (pizzaOptional.isEmpty()) {
