@@ -61,6 +61,14 @@ public class UserService {
         String newEmail = userDTO.getEmail();
         Validator.validateNewEmail(loggedUser, newEmail);
 
+        String currentPassword = userDTO.getCurrentPassword();
+        if(currentPassword != null) {
+            Validator.validatePassword(currentPassword);
+        }
+
+
+
+
         Validator.validateCurrentAndNewPassword(loggedUser, userDTO);
 
         loggedUser = userRepository.save(loggedUser);
@@ -68,16 +76,15 @@ public class UserService {
     }
 
     public ResponseUserDTO login(LoginUserDTO loginUserDTO) {
+        if(loginUserDTO.getEmail() == null || loginUserDTO.getPassword() == null){
+            throw new AuthenticationException("Wrong credentials!");
+        }
+
         User user = userRepository.findByEmail(loginUserDTO.getEmail());
         if (user == null) {
             throw new AuthenticationException("Wrong credentials");
         } else {
-            PasswordEncoder encoder = new BCryptPasswordEncoder();
-            if (encoder.matches(loginUserDTO.getPassword(), user.getPassword())) {
-                return new ResponseUserDTO(user);
-            } else {
-                throw new AuthenticationException("Wrong credentials");
-            }
+            Validator.validateEnteredAndHashedPasswords(loginUserDTO.getPassword(), user.getPassword());
         }
     }
 

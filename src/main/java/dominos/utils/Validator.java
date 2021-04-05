@@ -126,4 +126,7 @@ public abstract class Validator {
             user.setPassword(encodedPassword);
         }
     }
+
+    public static void validateEnteredAndHashedPasswords(String password) {
+    }
 }
